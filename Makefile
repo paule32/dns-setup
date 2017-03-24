@@ -12,10 +12,10 @@ MAKEFILE      = Makefile
 
 CC            = gcc
 CXX           = g++
-DEFINES       = -DBUILDTIME=\"23:19:05\" -DBUILDDATE=\"2017-03-23\" -DQT_NO_DEBUG -DQT_HELP_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_CORE_LIB
+DEFINES       = -DBUILDTIME=\"20:57:46\" -DBUILDDATE=\"2017-03-24\" -DQT_NO_DEBUG -DQT_HELP_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_CORE_LIB
 CFLAGS        = -pipe -O2 -Wall -W -D_REENTRANT -fPIC $(DEFINES)
-CXXFLAGS      = -pipe -std=c++11 -ggdb -Wno-unused-parameter -Wno-unused-variable -Wno-unused-local-typedefs -Wno-unused-but-set-variable -Wno-write-strings -Wno-switch -Wno-extra -Wno-reorder -Wno-multichar -Wno-sign-compare -Wunused-function -Woverloaded-virtual -fpermissive -ftemplate-depth=516 -frtti -fexceptions -I/usr/local/include -I/usr/local/include/boost -I/home/jens/Projekte/dns. -I/home/jens/Projekte/dns/src -I/home/jens/Projekte/dns/src/inc -D__BYTE_ORDER=__LITTLE_ENDIAN -DQT_DEPRECATED -DQT_DISABLE_DEPRECATED_BEFORE -O2 -Wall -W -D_REENTRANT -fPIC $(DEFINES)
-INCPATH       = -I. -I/usr/local/include -I/home/jens/Projekte/dns/.uic -Isrc -I/home/jens/Projekte/dns/src/inc -I/usr/include -I/opt/qt5/5.5/gcc_64/include -I/opt/qt5/5.5/gcc_64/include/QtHelp -I/opt/qt5/5.5/gcc_64/include/QtWidgets -I/opt/qt5/5.5/gcc_64/include/QtGui -I/opt/qt5/5.5/gcc_64/include/QtNetwork -I/opt/qt5/5.5/gcc_64/include/QtCore -I.moc -I/opt/qt5/5.5/gcc_64/mkspecs/linux-g++
+CXXFLAGS      = -pipe -std=c++1y -Wno-unused-parameter -Wno-unused-variable -Wno-unused-local-typedefs -Wno-unused-but-set-variable -Wno-write-strings -Wno-switch -Wno-extra -Wno-reorder -Wno-multichar -Wno-sign-compare -Wunused-function -Woverloaded-virtual -fpermissive -ftemplate-depth=516 -frtti -fexceptions -I/usr/local/include -I/usr/local/include/boost -I/home/jens/Projekte/dns-setup. -I/home/jens/Projekte/dns-setup/src -I/home/jens/Projekte/dns-setup/src/inc -D__BYTE_ORDER=__LITTLE_ENDIAN -DQT_DEPRECATED -DQT_DISABLE_DEPRECATED_BEFORE -O2 -Wall -W -D_REENTRANT -fPIC $(DEFINES)
+INCPATH       = -I. -I/usr/local/include -I/home/jens/Projekte/dns-setup/.uic -Isrc -I/home/jens/Projekte/dns-setup/src/inc -I/usr/include -I/opt/qt5/5.5/gcc_64/include -I/opt/qt5/5.5/gcc_64/include/QtHelp -I/opt/qt5/5.5/gcc_64/include/QtWidgets -I/opt/qt5/5.5/gcc_64/include/QtGui -I/opt/qt5/5.5/gcc_64/include/QtNetwork -I/opt/qt5/5.5/gcc_64/include/QtCore -I.moc -I/opt/qt5/5.5/gcc_64/mkspecs/linux-g++
 QMAKE         = /opt/qt5/5.5/gcc_64/bin/qmake
 DEL_FILE      = rm -f
 CHK_DIR_EXISTS= test -d
@@ -33,7 +33,7 @@ MOVE          = mv -f
 TAR           = tar -cf
 COMPRESS      = gzip -9f
 DISTNAME      = dns-setup1.0.0
-DISTDIR = /home/jens/Projekte/dns/.tmp/dns-setup1.0.0
+DISTDIR = /home/jens/Projekte/dns-setup/.tmp/dns-setup1.0.0
 LINK          = g++
 LFLAGS        = -Wl,-O1 -Wl,-rpath,/opt/Qt5/5.5/gcc_64 -Wl,-rpath,/opt/Qt5/5.5/gcc_64/lib -Wl,-rpath-link,/opt/qt5/5.5/gcc_64/lib
 LIBS          = $(SUBLIBS) -L/usr/local/lib64 -lstdc++ -L/opt/qt5/5.5/gcc_64/lib -lQt5Help -L/usr/lib64 -lQt5Widgets -lQt5Gui -lQt5Network -lQt5Core -lGL -lpthread 
@@ -48,8 +48,19 @@ OBJECTS_DIR   = ./
 
 ####### Files
 
-SOURCES       = src/main.cc 
-OBJECTS       = main.o
+SOURCES       = src/main.cc \
+		src/mainwindow.cc \
+		src/thread.cc \
+		src/rmiserver.cc .moc/moc_mainwindow.cpp \
+		.moc/moc_thread.cpp \
+		.moc/moc_rmiserver.cpp
+OBJECTS       = main.o \
+		mainwindow.o \
+		thread.o \
+		rmiserver.o \
+		moc_mainwindow.o \
+		moc_thread.o \
+		moc_rmiserver.o
 DIST          = /opt/qt5/5.5/gcc_64/mkspecs/features/spec_pre.prf \
 		/opt/qt5/5.5/gcc_64/mkspecs/common/unix.conf \
 		/opt/qt5/5.5/gcc_64/mkspecs/common/linux.conf \
@@ -180,7 +191,12 @@ DIST          = /opt/qt5/5.5/gcc_64/mkspecs/features/spec_pre.prf \
 		/opt/qt5/5.5/gcc_64/mkspecs/features/exceptions.prf \
 		/opt/qt5/5.5/gcc_64/mkspecs/features/yacc.prf \
 		/opt/qt5/5.5/gcc_64/mkspecs/features/lex.prf \
-		dns-setup.pro  src/main.cc
+		dns-setup.pro src/mainwindow.h \
+		src/thread.h \
+		src/rmiserver.h src/main.cc \
+		src/mainwindow.cc \
+		src/thread.cc \
+		src/rmiserver.cc
 QMAKE_TARGET  = dns-setup
 DESTDIR       = #avoid trailing-slash linebreak
 TARGET        = dns-setup
@@ -498,7 +514,8 @@ dist: distdir FORCE
 distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
-	$(COPY_FILE) --parents src/main.cc $(DISTDIR)/
+	$(COPY_FILE) --parents src/mainwindow.h src/thread.h src/rmiserver.h $(DISTDIR)/
+	$(COPY_FILE) --parents src/main.cc src/mainwindow.cc src/thread.cc src/rmiserver.cc $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -521,8 +538,323 @@ check: first
 
 compiler_rcc_make_all:
 compiler_rcc_clean:
-compiler_moc_header_make_all:
+compiler_moc_header_make_all: .moc/moc_mainwindow.cpp .moc/moc_thread.cpp .moc/moc_rmiserver.cpp
 compiler_moc_header_clean:
+	-$(DEL_FILE) .moc/moc_mainwindow.cpp .moc/moc_thread.cpp .moc/moc_rmiserver.cpp
+.moc/moc_mainwindow.cpp: /opt/qt5/5.5/gcc_64/include/QtWidgets/QApplication \
+		/opt/qt5/5.5/gcc_64/include/QtWidgets/qapplication.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qcoreapplication.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qglobal.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qconfig.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qfeatures.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qsystemdetection.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qprocessordetection.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qcompilerdetection.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qtypeinfo.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qtypetraits.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qsysinfo.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qlogging.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qflags.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qatomic.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qbasicatomic.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qgenericatomic.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qatomic_gcc.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qatomic_msvc.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qatomic_armv7.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qatomic_armv6.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qatomic_armv5.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qatomic_ia64.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qatomic_mips.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qatomic_x86.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qatomic_unix.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qglobalstatic.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qmutex.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qnumeric.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qstring.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qchar.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qbytearray.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qrefcount.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qnamespace.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qarraydata.h \
+		/usr/include/string.h \
+		/usr/include/features.h \
+		/usr/include/stdc-predef.h \
+		/usr/include/xlocale.h \
+		/usr/include/stdlib.h \
+		/usr/include/alloca.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qstringbuilder.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qobject.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qobjectdefs.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qlist.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qalgorithms.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qiterator.h \
+		/usr/include/limits.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qbytearraylist.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qstringlist.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qregexp.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qstringmatcher.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qcoreevent.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qscopedpointer.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qmetatype.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qvarlengtharray.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qcontainerfwd.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qisenum.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qobject_impl.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qeventloop.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qwindowdefs.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qwindowdefs_win.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qpoint.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qsize.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qcursor.h \
+		/opt/qt5/5.5/gcc_64/include/QtWidgets/qdesktopwidget.h \
+		/opt/qt5/5.5/gcc_64/include/QtWidgets/qwidget.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qmargins.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qpaintdevice.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qrect.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qpalette.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qcolor.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qrgb.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qbrush.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qpair.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qvector.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qmatrix.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qpolygon.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qregion.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qdatastream.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qiodevice.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qline.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qtransform.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qpainterpath.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qimage.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qpixelformat.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qpixmap.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qsharedpointer.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qshareddata.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qhash.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qfont.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qfontmetrics.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qfontinfo.h \
+		/opt/qt5/5.5/gcc_64/include/QtWidgets/qsizepolicy.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qkeysequence.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qevent.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qvariant.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qmap.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qdebug.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qtextstream.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qlocale.h \
+		/usr/include/stdio.h \
+		/usr/include/libio.h \
+		/usr/include/_G_config.h \
+		/usr/include/wchar.h \
+		/usr/include/wctype.h \
+		/usr/include/endian.h \
+		/usr/include/gconv.h \
+		/usr/include/getopt.h \
+		/usr/include/ctype.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qset.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qcontiguouscache.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qurl.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qurlquery.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qfile.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qfiledevice.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qvector2d.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qtouchdevice.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qguiapplication.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qinputmethod.h \
+		/opt/qt5/5.5/gcc_64/include/QtWidgets/QWidget \
+		/opt/qt5/5.5/gcc_64/include/QtWidgets/QMainWindow \
+		/opt/qt5/5.5/gcc_64/include/QtWidgets/qmainwindow.h \
+		/opt/qt5/5.5/gcc_64/include/QtWidgets/qtabwidget.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qicon.h \
+		src/rmiserver.h \
+		/opt/qt5/5.5/gcc_64/include/QtNetwork/QTcpServer \
+		/opt/qt5/5.5/gcc_64/include/QtNetwork/qtcpserver.h \
+		/opt/qt5/5.5/gcc_64/include/QtNetwork/qabstractsocket.h \
+		/opt/qt5/5.5/gcc_64/include/QtNetwork/qhostaddress.h \
+		src/mainwindow.h
+	/opt/qt5/5.5/gcc_64/bin/moc $(DEFINES) -I/opt/qt5/5.5/gcc_64/mkspecs/linux-g++ -I/home/jens/Projekte/dns-setup -I/usr/local/include -I/home/jens/Projekte/dns-setup/.uic -I/home/jens/Projekte/dns-setup/src -I/home/jens/Projekte/dns-setup/src/inc -I/usr/include -I/opt/qt5/5.5/gcc_64/include -I/opt/qt5/5.5/gcc_64/include/QtHelp -I/opt/qt5/5.5/gcc_64/include/QtWidgets -I/opt/qt5/5.5/gcc_64/include/QtGui -I/opt/qt5/5.5/gcc_64/include/QtNetwork -I/opt/qt5/5.5/gcc_64/include/QtCore src/mainwindow.h -o .moc/moc_mainwindow.cpp
+
+.moc/moc_thread.cpp: /opt/qt5/5.5/gcc_64/include/QtCore/QThread \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qthread.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qobject.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qobjectdefs.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qnamespace.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qglobal.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qconfig.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qfeatures.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qsystemdetection.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qprocessordetection.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qcompilerdetection.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qtypeinfo.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qtypetraits.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qsysinfo.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qlogging.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qflags.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qatomic.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qbasicatomic.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qgenericatomic.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qatomic_gcc.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qatomic_msvc.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qatomic_armv7.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qatomic_armv6.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qatomic_armv5.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qatomic_ia64.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qatomic_mips.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qatomic_x86.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qatomic_unix.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qglobalstatic.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qmutex.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qnumeric.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qstring.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qchar.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qbytearray.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qrefcount.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qarraydata.h \
+		/usr/include/string.h \
+		/usr/include/features.h \
+		/usr/include/stdc-predef.h \
+		/usr/include/xlocale.h \
+		/usr/include/stdlib.h \
+		/usr/include/alloca.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qstringbuilder.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qlist.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qalgorithms.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qiterator.h \
+		/usr/include/limits.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qbytearraylist.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qstringlist.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qregexp.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qstringmatcher.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qcoreevent.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qscopedpointer.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qmetatype.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qvarlengtharray.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qcontainerfwd.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qisenum.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qobject_impl.h \
+		/opt/qt5/5.5/gcc_64/include/QtNetwork/QTcpSocket \
+		/opt/qt5/5.5/gcc_64/include/QtNetwork/qtcpsocket.h \
+		/opt/qt5/5.5/gcc_64/include/QtNetwork/qabstractsocket.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qiodevice.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qdebug.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qhash.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qpair.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qmap.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qtextstream.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qlocale.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qvariant.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qshareddata.h \
+		/usr/include/stdio.h \
+		/usr/include/libio.h \
+		/usr/include/_G_config.h \
+		/usr/include/wchar.h \
+		/usr/include/wctype.h \
+		/usr/include/endian.h \
+		/usr/include/gconv.h \
+		/usr/include/getopt.h \
+		/usr/include/ctype.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qvector.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qpoint.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qset.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qcontiguouscache.h \
+		src/thread.h
+	/opt/qt5/5.5/gcc_64/bin/moc $(DEFINES) -I/opt/qt5/5.5/gcc_64/mkspecs/linux-g++ -I/home/jens/Projekte/dns-setup -I/usr/local/include -I/home/jens/Projekte/dns-setup/.uic -I/home/jens/Projekte/dns-setup/src -I/home/jens/Projekte/dns-setup/src/inc -I/usr/include -I/opt/qt5/5.5/gcc_64/include -I/opt/qt5/5.5/gcc_64/include/QtHelp -I/opt/qt5/5.5/gcc_64/include/QtWidgets -I/opt/qt5/5.5/gcc_64/include/QtGui -I/opt/qt5/5.5/gcc_64/include/QtNetwork -I/opt/qt5/5.5/gcc_64/include/QtCore src/thread.h -o .moc/moc_thread.cpp
+
+.moc/moc_rmiserver.cpp: /opt/qt5/5.5/gcc_64/include/QtNetwork/QTcpServer \
+		/opt/qt5/5.5/gcc_64/include/QtNetwork/qtcpserver.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qobject.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qobjectdefs.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qnamespace.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qglobal.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qconfig.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qfeatures.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qsystemdetection.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qprocessordetection.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qcompilerdetection.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qtypeinfo.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qtypetraits.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qsysinfo.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qlogging.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qflags.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qatomic.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qbasicatomic.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qgenericatomic.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qatomic_gcc.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qatomic_msvc.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qatomic_armv7.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qatomic_armv6.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qatomic_armv5.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qatomic_ia64.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qatomic_mips.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qatomic_x86.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qatomic_unix.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qglobalstatic.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qmutex.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qnumeric.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qstring.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qchar.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qbytearray.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qrefcount.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qarraydata.h \
+		/usr/include/string.h \
+		/usr/include/features.h \
+		/usr/include/stdc-predef.h \
+		/usr/include/xlocale.h \
+		/usr/include/stdlib.h \
+		/usr/include/alloca.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qstringbuilder.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qlist.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qalgorithms.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qiterator.h \
+		/usr/include/limits.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qbytearraylist.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qstringlist.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qregexp.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qstringmatcher.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qcoreevent.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qscopedpointer.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qmetatype.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qvarlengtharray.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qcontainerfwd.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qisenum.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qobject_impl.h \
+		/opt/qt5/5.5/gcc_64/include/QtNetwork/qabstractsocket.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qiodevice.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qdebug.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qhash.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qpair.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qmap.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qtextstream.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qlocale.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qvariant.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qshareddata.h \
+		/usr/include/stdio.h \
+		/usr/include/libio.h \
+		/usr/include/_G_config.h \
+		/usr/include/wchar.h \
+		/usr/include/wctype.h \
+		/usr/include/endian.h \
+		/usr/include/gconv.h \
+		/usr/include/getopt.h \
+		/usr/include/ctype.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qvector.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qpoint.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qset.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qcontiguouscache.h \
+		/opt/qt5/5.5/gcc_64/include/QtNetwork/qhostaddress.h \
+		src/rmiserver.h
+	/opt/qt5/5.5/gcc_64/bin/moc $(DEFINES) -I/opt/qt5/5.5/gcc_64/mkspecs/linux-g++ -I/home/jens/Projekte/dns-setup -I/usr/local/include -I/home/jens/Projekte/dns-setup/.uic -I/home/jens/Projekte/dns-setup/src -I/home/jens/Projekte/dns-setup/src/inc -I/usr/include -I/opt/qt5/5.5/gcc_64/include -I/opt/qt5/5.5/gcc_64/include/QtHelp -I/opt/qt5/5.5/gcc_64/include/QtWidgets -I/opt/qt5/5.5/gcc_64/include/QtGui -I/opt/qt5/5.5/gcc_64/include/QtNetwork -I/opt/qt5/5.5/gcc_64/include/QtCore src/rmiserver.h -o .moc/moc_rmiserver.cpp
+
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
 compiler_uic_make_all:
@@ -533,12 +865,480 @@ compiler_yacc_impl_make_all:
 compiler_yacc_impl_clean:
 compiler_lex_make_all:
 compiler_lex_clean:
-compiler_clean: 
+compiler_clean: compiler_moc_header_clean 
 
 ####### Compile
 
-main.o: src/main.cc 
+main.o: src/main.cc /opt/qt5/5.5/gcc_64/include/QtWidgets/QApplication \
+		/opt/qt5/5.5/gcc_64/include/QtWidgets/qapplication.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qcoreapplication.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qglobal.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qconfig.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qfeatures.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qsystemdetection.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qprocessordetection.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qcompilerdetection.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qtypeinfo.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qtypetraits.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qsysinfo.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qlogging.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qflags.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qatomic.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qbasicatomic.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qgenericatomic.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qatomic_gcc.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qatomic_msvc.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qatomic_armv7.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qatomic_armv6.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qatomic_armv5.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qatomic_ia64.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qatomic_mips.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qatomic_x86.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qatomic_unix.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qglobalstatic.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qmutex.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qnumeric.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qstring.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qchar.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qbytearray.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qrefcount.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qnamespace.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qarraydata.h \
+		/usr/include/string.h \
+		/usr/include/features.h \
+		/usr/include/stdc-predef.h \
+		/usr/include/xlocale.h \
+		/usr/include/stdlib.h \
+		/usr/include/alloca.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qstringbuilder.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qobject.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qobjectdefs.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qlist.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qalgorithms.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qiterator.h \
+		/usr/include/limits.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qbytearraylist.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qstringlist.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qregexp.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qstringmatcher.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qcoreevent.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qscopedpointer.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qmetatype.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qvarlengtharray.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qcontainerfwd.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qisenum.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qobject_impl.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qeventloop.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qwindowdefs.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qwindowdefs_win.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qpoint.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qsize.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qcursor.h \
+		/opt/qt5/5.5/gcc_64/include/QtWidgets/qdesktopwidget.h \
+		/opt/qt5/5.5/gcc_64/include/QtWidgets/qwidget.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qmargins.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qpaintdevice.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qrect.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qpalette.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qcolor.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qrgb.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qbrush.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qpair.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qvector.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qmatrix.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qpolygon.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qregion.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qdatastream.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qiodevice.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qline.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qtransform.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qpainterpath.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qimage.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qpixelformat.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qpixmap.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qsharedpointer.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qshareddata.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qhash.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qfont.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qfontmetrics.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qfontinfo.h \
+		/opt/qt5/5.5/gcc_64/include/QtWidgets/qsizepolicy.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qkeysequence.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qevent.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qvariant.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qmap.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qdebug.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qtextstream.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qlocale.h \
+		/usr/include/stdio.h \
+		/usr/include/libio.h \
+		/usr/include/_G_config.h \
+		/usr/include/wchar.h \
+		/usr/include/wctype.h \
+		/usr/include/endian.h \
+		/usr/include/gconv.h \
+		/usr/include/getopt.h \
+		/usr/include/ctype.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qset.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qcontiguouscache.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qurl.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qurlquery.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qfile.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qfiledevice.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qvector2d.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qtouchdevice.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qguiapplication.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qinputmethod.h \
+		src/mainwindow.h \
+		/opt/qt5/5.5/gcc_64/include/QtWidgets/QWidget \
+		/opt/qt5/5.5/gcc_64/include/QtWidgets/QMainWindow \
+		/opt/qt5/5.5/gcc_64/include/QtWidgets/qmainwindow.h \
+		/opt/qt5/5.5/gcc_64/include/QtWidgets/qtabwidget.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qicon.h \
+		src/rmiserver.h \
+		/opt/qt5/5.5/gcc_64/include/QtNetwork/QTcpServer \
+		/opt/qt5/5.5/gcc_64/include/QtNetwork/qtcpserver.h \
+		/opt/qt5/5.5/gcc_64/include/QtNetwork/qabstractsocket.h \
+		/opt/qt5/5.5/gcc_64/include/QtNetwork/qhostaddress.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o src/main.cc
+
+mainwindow.o: src/mainwindow.cc /opt/qt5/5.5/gcc_64/include/QtWidgets/QApplication \
+		/opt/qt5/5.5/gcc_64/include/QtWidgets/qapplication.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qcoreapplication.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qglobal.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qconfig.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qfeatures.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qsystemdetection.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qprocessordetection.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qcompilerdetection.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qtypeinfo.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qtypetraits.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qsysinfo.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qlogging.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qflags.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qatomic.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qbasicatomic.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qgenericatomic.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qatomic_gcc.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qatomic_msvc.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qatomic_armv7.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qatomic_armv6.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qatomic_armv5.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qatomic_ia64.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qatomic_mips.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qatomic_x86.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qatomic_unix.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qglobalstatic.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qmutex.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qnumeric.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qstring.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qchar.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qbytearray.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qrefcount.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qnamespace.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qarraydata.h \
+		/usr/include/string.h \
+		/usr/include/features.h \
+		/usr/include/stdc-predef.h \
+		/usr/include/xlocale.h \
+		/usr/include/stdlib.h \
+		/usr/include/alloca.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qstringbuilder.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qobject.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qobjectdefs.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qlist.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qalgorithms.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qiterator.h \
+		/usr/include/limits.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qbytearraylist.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qstringlist.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qregexp.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qstringmatcher.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qcoreevent.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qscopedpointer.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qmetatype.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qvarlengtharray.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qcontainerfwd.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qisenum.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qobject_impl.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qeventloop.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qwindowdefs.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qwindowdefs_win.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qpoint.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qsize.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qcursor.h \
+		/opt/qt5/5.5/gcc_64/include/QtWidgets/qdesktopwidget.h \
+		/opt/qt5/5.5/gcc_64/include/QtWidgets/qwidget.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qmargins.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qpaintdevice.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qrect.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qpalette.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qcolor.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qrgb.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qbrush.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qpair.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qvector.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qmatrix.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qpolygon.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qregion.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qdatastream.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qiodevice.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qline.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qtransform.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qpainterpath.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qimage.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qpixelformat.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qpixmap.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qsharedpointer.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qshareddata.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qhash.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qfont.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qfontmetrics.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qfontinfo.h \
+		/opt/qt5/5.5/gcc_64/include/QtWidgets/qsizepolicy.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qkeysequence.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qevent.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qvariant.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qmap.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qdebug.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qtextstream.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qlocale.h \
+		/usr/include/stdio.h \
+		/usr/include/libio.h \
+		/usr/include/_G_config.h \
+		/usr/include/wchar.h \
+		/usr/include/wctype.h \
+		/usr/include/endian.h \
+		/usr/include/gconv.h \
+		/usr/include/getopt.h \
+		/usr/include/ctype.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qset.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qcontiguouscache.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qurl.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qurlquery.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qfile.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qfiledevice.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qvector2d.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qtouchdevice.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qguiapplication.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qinputmethod.h \
+		/opt/qt5/5.5/gcc_64/include/QtWidgets/QWidget \
+		/opt/qt5/5.5/gcc_64/include/QtWidgets/QMenuBar \
+		/opt/qt5/5.5/gcc_64/include/QtWidgets/qmenubar.h \
+		/opt/qt5/5.5/gcc_64/include/QtWidgets/qmenu.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qicon.h \
+		/opt/qt5/5.5/gcc_64/include/QtWidgets/qaction.h \
+		/opt/qt5/5.5/gcc_64/include/QtWidgets/qactiongroup.h \
+		/opt/qt5/5.5/gcc_64/include/QtWidgets/QAction \
+		src/mainwindow.h \
+		/opt/qt5/5.5/gcc_64/include/QtWidgets/QMainWindow \
+		/opt/qt5/5.5/gcc_64/include/QtWidgets/qmainwindow.h \
+		/opt/qt5/5.5/gcc_64/include/QtWidgets/qtabwidget.h \
+		src/rmiserver.h \
+		/opt/qt5/5.5/gcc_64/include/QtNetwork/QTcpServer \
+		/opt/qt5/5.5/gcc_64/include/QtNetwork/qtcpserver.h \
+		/opt/qt5/5.5/gcc_64/include/QtNetwork/qabstractsocket.h \
+		/opt/qt5/5.5/gcc_64/include/QtNetwork/qhostaddress.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o src/mainwindow.cc
+
+thread.o: src/thread.cc src/thread.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/QThread \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qthread.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qobject.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qobjectdefs.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qnamespace.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qglobal.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qconfig.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qfeatures.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qsystemdetection.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qprocessordetection.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qcompilerdetection.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qtypeinfo.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qtypetraits.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qsysinfo.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qlogging.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qflags.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qatomic.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qbasicatomic.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qgenericatomic.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qatomic_gcc.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qatomic_msvc.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qatomic_armv7.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qatomic_armv6.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qatomic_armv5.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qatomic_ia64.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qatomic_mips.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qatomic_x86.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qatomic_unix.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qglobalstatic.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qmutex.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qnumeric.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qstring.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qchar.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qbytearray.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qrefcount.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qarraydata.h \
+		/usr/include/string.h \
+		/usr/include/features.h \
+		/usr/include/stdc-predef.h \
+		/usr/include/xlocale.h \
+		/usr/include/stdlib.h \
+		/usr/include/alloca.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qstringbuilder.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qlist.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qalgorithms.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qiterator.h \
+		/usr/include/limits.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qbytearraylist.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qstringlist.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qregexp.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qstringmatcher.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qcoreevent.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qscopedpointer.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qmetatype.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qvarlengtharray.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qcontainerfwd.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qisenum.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qobject_impl.h \
+		/opt/qt5/5.5/gcc_64/include/QtNetwork/QTcpSocket \
+		/opt/qt5/5.5/gcc_64/include/QtNetwork/qtcpsocket.h \
+		/opt/qt5/5.5/gcc_64/include/QtNetwork/qabstractsocket.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qiodevice.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qdebug.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qhash.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qpair.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qmap.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qtextstream.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qlocale.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qvariant.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qshareddata.h \
+		/usr/include/stdio.h \
+		/usr/include/libio.h \
+		/usr/include/_G_config.h \
+		/usr/include/wchar.h \
+		/usr/include/wctype.h \
+		/usr/include/endian.h \
+		/usr/include/gconv.h \
+		/usr/include/getopt.h \
+		/usr/include/ctype.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qvector.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qpoint.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qset.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qcontiguouscache.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o thread.o src/thread.cc
+
+rmiserver.o: src/rmiserver.cc src/rmiserver.h \
+		/opt/qt5/5.5/gcc_64/include/QtNetwork/QTcpServer \
+		/opt/qt5/5.5/gcc_64/include/QtNetwork/qtcpserver.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qobject.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qobjectdefs.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qnamespace.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qglobal.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qconfig.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qfeatures.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qsystemdetection.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qprocessordetection.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qcompilerdetection.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qtypeinfo.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qtypetraits.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qsysinfo.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qlogging.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qflags.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qatomic.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qbasicatomic.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qgenericatomic.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qatomic_gcc.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qatomic_msvc.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qatomic_armv7.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qatomic_armv6.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qatomic_armv5.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qatomic_ia64.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qatomic_mips.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qatomic_x86.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qatomic_unix.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qglobalstatic.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qmutex.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qnumeric.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qstring.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qchar.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qbytearray.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qrefcount.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qarraydata.h \
+		/usr/include/string.h \
+		/usr/include/features.h \
+		/usr/include/stdc-predef.h \
+		/usr/include/xlocale.h \
+		/usr/include/stdlib.h \
+		/usr/include/alloca.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qstringbuilder.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qlist.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qalgorithms.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qiterator.h \
+		/usr/include/limits.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qbytearraylist.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qstringlist.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qregexp.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qstringmatcher.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qcoreevent.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qscopedpointer.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qmetatype.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qvarlengtharray.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qcontainerfwd.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qisenum.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qobject_impl.h \
+		/opt/qt5/5.5/gcc_64/include/QtNetwork/qabstractsocket.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qiodevice.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qdebug.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qhash.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qpair.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qmap.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qtextstream.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qlocale.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qvariant.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qshareddata.h \
+		/usr/include/stdio.h \
+		/usr/include/libio.h \
+		/usr/include/_G_config.h \
+		/usr/include/wchar.h \
+		/usr/include/wctype.h \
+		/usr/include/endian.h \
+		/usr/include/gconv.h \
+		/usr/include/getopt.h \
+		/usr/include/ctype.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qvector.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qpoint.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qset.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qcontiguouscache.h \
+		/opt/qt5/5.5/gcc_64/include/QtNetwork/qhostaddress.h \
+		src/thread.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/QThread \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qthread.h \
+		/opt/qt5/5.5/gcc_64/include/QtNetwork/QTcpSocket \
+		/opt/qt5/5.5/gcc_64/include/QtNetwork/qtcpsocket.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o rmiserver.o src/rmiserver.cc
+
+moc_mainwindow.o: .moc/moc_mainwindow.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_mainwindow.o .moc/moc_mainwindow.cpp
+
+moc_thread.o: .moc/moc_thread.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_thread.o .moc/moc_thread.cpp
+
+moc_rmiserver.o: .moc/moc_rmiserver.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_rmiserver.o .moc/moc_rmiserver.cpp
 
 ####### Install
 

@@ -32,7 +32,7 @@ DEFINES += BUILDDATE=\\\"$$system(date '+%Y-%m-%d')\\\"
 # if you would not use pch - pre-compiled-header, just remove -H block
 #----------------------------------------------------------------------
 QMAKE_CXXFLAGS += \
-    -std=c++11 -ggdb \
+    -std=c++1y  \
     -Wno-unused-parameter \
     -Wno-unused-variable \
     -Wno-unused-local-typedefs \
@@ -68,9 +68,15 @@ INCLUDEPATH += \
     /usr/include
 
 SOURCES += \
-    $${SRCDIR}/main.cc
+    $${SRCDIR}/main.cc \
+    $${SRCDIR}/mainwindow.cc \
+    $${SRCDIR}/thread.cc \
+    $${SRCDIR}/rmiserver.cc
 
-#HEADERS += \
+HEADERS += \
+    $${SRCDIR}/mainwindow.h \
+    $${SRCDIR}/thread.h \
+    $${SRCDIR}/rmiserver.h
 
 #FORMS   += \
 
