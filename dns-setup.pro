@@ -12,7 +12,7 @@ QT = core gui widgets help network
 
 PWD=$$system(pwd)
 
-TOPDIR=$$PWD
+TOPDIR=$${PWD}
 SRCDIR=$${TOPDIR}/src
 HDRDIR=$${SRCDIR}/inc
 
@@ -22,7 +22,7 @@ TEMPLATE_DEPTH = 516
 
 UI_DIR =$${TOPDIR}/.uic
 MOC_DIR=$${TOPDIR}/.moc
-OBJ_DIR=$${TOPDIR}/.obj
+OBJECTS_DIR=$${TOPDIR}/.obj
 RCC_DIR=$${TOPDIR}/.res
 
 DEFINES += BUILDTIME=\\\"$$system(date '+%H:%M:%S')\\\"
@@ -86,6 +86,7 @@ HEADERS += \
 #    $${SRCDIR}/dbase/icons.qrc \
 #    source/dbase/icons.qrc
 
-DISTFILES +=
+DISTFILES += \
+    $${TOPDIR}/app.ini
 
 LIBS += -L"/usr/local/lib64" -lstdc++

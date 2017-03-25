@@ -3,6 +3,7 @@
 
 #include <QApplication>
 #include <QWidget>
+#include <QLineEdit>
 #include <QLabel>
 #include <QGroupBox>
 #include <QMainWindow>
@@ -29,6 +30,8 @@ private slots:
     void addServer();
     void delServer();
     
+    void intoLogin();
+    
     void options();
     void closeWin();
     void about();
@@ -38,6 +41,9 @@ private:
     void createActions();
     void createMenus();
     void createView();
+
+    QLineEdit * userEdit;
+    QLineEdit * passEdit;
     
     QMenu * fileMenu;
     QMenu * helpMenu;

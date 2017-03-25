@@ -4,10 +4,10 @@
 #include <QAction>
 #include <QGroupBox>
 #include <QHBoxLayout>
-#include <QLineEdit>
 #include <QLabel>
 #include <QPainter>
 #include <QPushButton>
+#include <QSettings>
 #include <QStatusBar>
 #include <QMessageBox>
 
@@ -167,8 +167,8 @@ void MainWindow::createConnectionView()
     passLabel->setStyleSheet("border: 0px;");
 
 
-    QLineEdit *userEdit = new QLineEdit(loginBox);
-    QLineEdit *passEdit = new QLineEdit(loginBox);
+    userEdit = new QLineEdit(loginBox);
+    passEdit = new QLineEdit(loginBox);
     
     passEdit->setEchoMode(QLineEdit::Password);
     
@@ -193,7 +193,27 @@ void MainWindow::createConnectionView()
     loginButton->move(100,140);
     loginButton->resize(100,40);
     
+    connect(loginButton, SIGNAL(clicked()), this, SLOT(intoLogin()));
+    
     loginBox->move(130,170);
     loginBox->resize(340,190);
     loginBox->show();
+}
+
+void MainWindow::intoLogin()
+{
+    QSettings ini("app.ini",QSettings::NativeFormat);
+    
+    QString user = ini.value("loginuser", "").toString();
+    QString pass = ini.value("loginpass", "").toString();
+
+    if ((user.length() < 1)
+    ||  (pass.length() < 1)) {
+        return;
+    }
+    
+    if (userEdit->text() == user)
+    if (passEdit->text() == pass) {
+        loginBox->deleteLater();
+    }
 }

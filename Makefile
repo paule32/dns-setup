@@ -12,7 +12,7 @@ MAKEFILE      = Makefile
 
 CC            = gcc
 CXX           = g++
-DEFINES       = -DBUILDTIME=\"11:50:27\" -DBUILDDATE=\"2017-03-25\" -DQT_NO_DEBUG -DQT_HELP_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_CORE_LIB
+DEFINES       = -DBUILDTIME=\"15:07:53\" -DBUILDDATE=\"2017-03-25\" -DQT_NO_DEBUG -DQT_HELP_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_CORE_LIB
 CFLAGS        = -pipe -O2 -Wall -W -D_REENTRANT -fPIC $(DEFINES)
 CXXFLAGS      = -pipe -std=c++1y -Wno-unused-parameter -Wno-unused-variable -Wno-unused-local-typedefs -Wno-unused-but-set-variable -Wno-write-strings -Wno-switch -Wno-extra -Wno-reorder -Wno-multichar -Wno-sign-compare -Wunused-function -Woverloaded-virtual -fpermissive -ftemplate-depth=516 -frtti -fexceptions -I/usr/local/include -I/usr/local/include/boost -I/home/jens/Projekte/dns-setup. -I/home/jens/Projekte/dns-setup/src -I/home/jens/Projekte/dns-setup/src/inc -D__BYTE_ORDER=__LITTLE_ENDIAN -DQT_DEPRECATED -DQT_DISABLE_DEPRECATED_BEFORE -O2 -Wall -W -D_REENTRANT -fPIC $(DEFINES)
 INCPATH       = -I. -I/usr/local/include -I/home/jens/Projekte/dns-setup/.uic -Isrc -I/home/jens/Projekte/dns-setup/src/inc -I/usr/include -I/opt/qt5/5.5/gcc_64/include -I/opt/qt5/5.5/gcc_64/include/QtHelp -I/opt/qt5/5.5/gcc_64/include/QtWidgets -I/opt/qt5/5.5/gcc_64/include/QtGui -I/opt/qt5/5.5/gcc_64/include/QtNetwork -I/opt/qt5/5.5/gcc_64/include/QtCore -I.moc -I/opt/qt5/5.5/gcc_64/mkspecs/linux-g++
@@ -33,7 +33,7 @@ MOVE          = mv -f
 TAR           = tar -cf
 COMPRESS      = gzip -9f
 DISTNAME      = dns-setup1.0.0
-DISTDIR = /home/jens/Projekte/dns-setup/.tmp/dns-setup1.0.0
+DISTDIR = /home/jens/Projekte/dns-setup/.obj/dns-setup1.0.0
 LINK          = g++
 LFLAGS        = -Wl,-O1 -Wl,-rpath,/opt/Qt5/5.5/gcc_64 -Wl,-rpath,/opt/Qt5/5.5/gcc_64/lib -Wl,-rpath-link,/opt/qt5/5.5/gcc_64/lib
 LIBS          = $(SUBLIBS) -L/usr/local/lib64 -lstdc++ -L/opt/qt5/5.5/gcc_64/lib -lQt5Help -L/usr/lib64 -lQt5Widgets -lQt5Gui -lQt5Network -lQt5Core -lGL -lpthread 
@@ -44,7 +44,7 @@ STRIP         = strip
 
 ####### Output directory
 
-OBJECTS_DIR   = ./
+OBJECTS_DIR   = .obj/
 
 ####### Files
 
@@ -56,15 +56,15 @@ SOURCES       = src/main.cc \
 		.moc/moc_label.cpp \
 		.moc/moc_thread.cpp \
 		.moc/moc_rmiserver.cpp
-OBJECTS       = main.o \
-		mainwindow.o \
-		label.o \
-		thread.o \
-		rmiserver.o \
-		moc_mainwindow.o \
-		moc_label.o \
-		moc_thread.o \
-		moc_rmiserver.o
+OBJECTS       = .obj/main.o \
+		.obj/mainwindow.o \
+		.obj/label.o \
+		.obj/thread.o \
+		.obj/rmiserver.o \
+		.obj/moc_mainwindow.o \
+		.obj/moc_label.o \
+		.obj/moc_thread.o \
+		.obj/moc_rmiserver.o
 DIST          = /opt/qt5/5.5/gcc_64/mkspecs/features/spec_pre.prf \
 		/opt/qt5/5.5/gcc_64/mkspecs/common/unix.conf \
 		/opt/qt5/5.5/gcc_64/mkspecs/common/linux.conf \
@@ -672,9 +672,17 @@ compiler_moc_header_clean:
 		/opt/qt5/5.5/gcc_64/include/QtGui/qguiapplication.h \
 		/opt/qt5/5.5/gcc_64/include/QtGui/qinputmethod.h \
 		/opt/qt5/5.5/gcc_64/include/QtWidgets/QWidget \
+		/opt/qt5/5.5/gcc_64/include/QtWidgets/QLineEdit \
+		/opt/qt5/5.5/gcc_64/include/QtWidgets/qlineedit.h \
+		/opt/qt5/5.5/gcc_64/include/QtWidgets/qframe.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qtextcursor.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qtextformat.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qpen.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qtextoption.h \
+		/opt/qt5/5.5/gcc_64/include/QtWidgets/QLabel \
+		/opt/qt5/5.5/gcc_64/include/QtWidgets/qlabel.h \
 		/opt/qt5/5.5/gcc_64/include/QtWidgets/QGroupBox \
 		/opt/qt5/5.5/gcc_64/include/QtWidgets/qgroupbox.h \
-		/opt/qt5/5.5/gcc_64/include/QtWidgets/qframe.h \
 		/opt/qt5/5.5/gcc_64/include/QtWidgets/QMainWindow \
 		/opt/qt5/5.5/gcc_64/include/QtWidgets/qmainwindow.h \
 		/opt/qt5/5.5/gcc_64/include/QtWidgets/qtabwidget.h \
@@ -808,6 +816,7 @@ compiler_moc_header_clean:
 		/opt/qt5/5.5/gcc_64/include/QtCore/qfiledevice.h \
 		/opt/qt5/5.5/gcc_64/include/QtGui/qvector2d.h \
 		/opt/qt5/5.5/gcc_64/include/QtGui/qtouchdevice.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/QMouseEvent \
 		src/label.h
 	/opt/qt5/5.5/gcc_64/bin/moc $(DEFINES) -I/opt/qt5/5.5/gcc_64/mkspecs/linux-g++ -I/home/jens/Projekte/dns-setup -I/usr/local/include -I/home/jens/Projekte/dns-setup/.uic -I/home/jens/Projekte/dns-setup/src -I/home/jens/Projekte/dns-setup/src/inc -I/usr/include -I/opt/qt5/5.5/gcc_64/include -I/opt/qt5/5.5/gcc_64/include/QtHelp -I/opt/qt5/5.5/gcc_64/include/QtWidgets -I/opt/qt5/5.5/gcc_64/include/QtGui -I/opt/qt5/5.5/gcc_64/include/QtNetwork -I/opt/qt5/5.5/gcc_64/include/QtCore src/label.h -o .moc/moc_label.cpp
 
@@ -1002,7 +1011,7 @@ compiler_clean: compiler_moc_header_clean
 
 ####### Compile
 
-main.o: src/main.cc /opt/qt5/5.5/gcc_64/include/QtWidgets/QApplication \
+.obj/main.o: src/main.cc /opt/qt5/5.5/gcc_64/include/QtWidgets/QApplication \
 		/opt/qt5/5.5/gcc_64/include/QtWidgets/qapplication.h \
 		/opt/qt5/5.5/gcc_64/include/QtCore/qcoreapplication.h \
 		/opt/qt5/5.5/gcc_64/include/QtCore/qglobal.h \
@@ -1128,9 +1137,17 @@ main.o: src/main.cc /opt/qt5/5.5/gcc_64/include/QtWidgets/QApplication \
 		/opt/qt5/5.5/gcc_64/include/QtGui/qinputmethod.h \
 		src/mainwindow.h \
 		/opt/qt5/5.5/gcc_64/include/QtWidgets/QWidget \
+		/opt/qt5/5.5/gcc_64/include/QtWidgets/QLineEdit \
+		/opt/qt5/5.5/gcc_64/include/QtWidgets/qlineedit.h \
+		/opt/qt5/5.5/gcc_64/include/QtWidgets/qframe.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qtextcursor.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qtextformat.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qpen.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qtextoption.h \
+		/opt/qt5/5.5/gcc_64/include/QtWidgets/QLabel \
+		/opt/qt5/5.5/gcc_64/include/QtWidgets/qlabel.h \
 		/opt/qt5/5.5/gcc_64/include/QtWidgets/QGroupBox \
 		/opt/qt5/5.5/gcc_64/include/QtWidgets/qgroupbox.h \
-		/opt/qt5/5.5/gcc_64/include/QtWidgets/qframe.h \
 		/opt/qt5/5.5/gcc_64/include/QtWidgets/QMainWindow \
 		/opt/qt5/5.5/gcc_64/include/QtWidgets/qmainwindow.h \
 		/opt/qt5/5.5/gcc_64/include/QtWidgets/qtabwidget.h \
@@ -1140,9 +1157,9 @@ main.o: src/main.cc /opt/qt5/5.5/gcc_64/include/QtWidgets/QApplication \
 		/opt/qt5/5.5/gcc_64/include/QtNetwork/qtcpserver.h \
 		/opt/qt5/5.5/gcc_64/include/QtNetwork/qabstractsocket.h \
 		/opt/qt5/5.5/gcc_64/include/QtNetwork/qhostaddress.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o src/main.cc
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o .obj/main.o src/main.cc
 
-mainwindow.o: src/mainwindow.cc /opt/qt5/5.5/gcc_64/include/QtWidgets/QApplication \
+.obj/mainwindow.o: src/mainwindow.cc /opt/qt5/5.5/gcc_64/include/QtWidgets/QApplication \
 		/opt/qt5/5.5/gcc_64/include/QtWidgets/qapplication.h \
 		/opt/qt5/5.5/gcc_64/include/QtCore/qcoreapplication.h \
 		/opt/qt5/5.5/gcc_64/include/QtCore/qglobal.h \
@@ -1282,22 +1299,28 @@ mainwindow.o: src/mainwindow.cc /opt/qt5/5.5/gcc_64/include/QtWidgets/QApplicati
 		/opt/qt5/5.5/gcc_64/include/QtWidgets/qlayout.h \
 		/opt/qt5/5.5/gcc_64/include/QtWidgets/qlayoutitem.h \
 		/opt/qt5/5.5/gcc_64/include/QtWidgets/qgridlayout.h \
-		/opt/qt5/5.5/gcc_64/include/QtWidgets/QLineEdit \
-		/opt/qt5/5.5/gcc_64/include/QtWidgets/qlineedit.h \
-		/opt/qt5/5.5/gcc_64/include/QtGui/qtextcursor.h \
-		/opt/qt5/5.5/gcc_64/include/QtGui/qtextformat.h \
-		/opt/qt5/5.5/gcc_64/include/QtGui/qpen.h \
-		/opt/qt5/5.5/gcc_64/include/QtGui/qtextoption.h \
 		/opt/qt5/5.5/gcc_64/include/QtWidgets/QLabel \
 		/opt/qt5/5.5/gcc_64/include/QtWidgets/qlabel.h \
 		/opt/qt5/5.5/gcc_64/include/QtGui/QPainter \
 		/opt/qt5/5.5/gcc_64/include/QtGui/qpainter.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qtextoption.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qpen.h \
+		/opt/qt5/5.5/gcc_64/include/QtWidgets/QPushButton \
+		/opt/qt5/5.5/gcc_64/include/QtWidgets/qpushbutton.h \
+		/opt/qt5/5.5/gcc_64/include/QtWidgets/qabstractbutton.h \
+		/opt/qt5/5.5/gcc_64/include/QtWidgets/QStatusBar \
+		/opt/qt5/5.5/gcc_64/include/QtWidgets/qstatusbar.h \
 		/opt/qt5/5.5/gcc_64/include/QtWidgets/QMessageBox \
 		/opt/qt5/5.5/gcc_64/include/QtWidgets/qmessagebox.h \
 		/opt/qt5/5.5/gcc_64/include/QtWidgets/qdialog.h \
 		src/label.h \
 		/opt/qt5/5.5/gcc_64/include/QtCore/QString \
+		/opt/qt5/5.5/gcc_64/include/QtGui/QMouseEvent \
 		src/mainwindow.h \
+		/opt/qt5/5.5/gcc_64/include/QtWidgets/QLineEdit \
+		/opt/qt5/5.5/gcc_64/include/QtWidgets/qlineedit.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qtextcursor.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qtextformat.h \
 		/opt/qt5/5.5/gcc_64/include/QtWidgets/QMainWindow \
 		/opt/qt5/5.5/gcc_64/include/QtWidgets/qmainwindow.h \
 		/opt/qt5/5.5/gcc_64/include/QtWidgets/qtabwidget.h \
@@ -1306,12 +1329,12 @@ mainwindow.o: src/mainwindow.cc /opt/qt5/5.5/gcc_64/include/QtWidgets/QApplicati
 		/opt/qt5/5.5/gcc_64/include/QtNetwork/qtcpserver.h \
 		/opt/qt5/5.5/gcc_64/include/QtNetwork/qabstractsocket.h \
 		/opt/qt5/5.5/gcc_64/include/QtNetwork/qhostaddress.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o src/mainwindow.cc
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o .obj/mainwindow.o src/mainwindow.cc
 
-label.o: src/label.cc src/label.h \
-		/opt/qt5/5.5/gcc_64/include/QtCore/QString \
-		/opt/qt5/5.5/gcc_64/include/QtCore/qstring.h \
-		/opt/qt5/5.5/gcc_64/include/QtCore/qchar.h \
+.obj/label.o: src/label.cc src/mainwindow.h \
+		/opt/qt5/5.5/gcc_64/include/QtWidgets/QApplication \
+		/opt/qt5/5.5/gcc_64/include/QtWidgets/qapplication.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qcoreapplication.h \
 		/opt/qt5/5.5/gcc_64/include/QtCore/qglobal.h \
 		/opt/qt5/5.5/gcc_64/include/QtCore/qconfig.h \
 		/opt/qt5/5.5/gcc_64/include/QtCore/qfeatures.h \
@@ -1340,6 +1363,8 @@ label.o: src/label.cc src/label.h \
 		/opt/qt5/5.5/gcc_64/include/QtCore/qglobalstatic.h \
 		/opt/qt5/5.5/gcc_64/include/QtCore/qmutex.h \
 		/opt/qt5/5.5/gcc_64/include/QtCore/qnumeric.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qstring.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qchar.h \
 		/opt/qt5/5.5/gcc_64/include/QtCore/qbytearray.h \
 		/opt/qt5/5.5/gcc_64/include/QtCore/qrefcount.h \
 		/opt/qt5/5.5/gcc_64/include/QtCore/qnamespace.h \
@@ -1351,15 +1376,9 @@ label.o: src/label.cc src/label.h \
 		/usr/include/stdlib.h \
 		/usr/include/alloca.h \
 		/opt/qt5/5.5/gcc_64/include/QtCore/qstringbuilder.h \
-		/opt/qt5/5.5/gcc_64/include/QtWidgets/QLabel \
-		/opt/qt5/5.5/gcc_64/include/QtWidgets/qlabel.h \
-		/opt/qt5/5.5/gcc_64/include/QtWidgets/qframe.h \
-		/opt/qt5/5.5/gcc_64/include/QtWidgets/qwidget.h \
-		/opt/qt5/5.5/gcc_64/include/QtGui/qwindowdefs.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qobject.h \
 		/opt/qt5/5.5/gcc_64/include/QtCore/qobjectdefs.h \
 		/opt/qt5/5.5/gcc_64/include/QtCore/qobjectdefs_impl.h \
-		/opt/qt5/5.5/gcc_64/include/QtGui/qwindowdefs_win.h \
-		/opt/qt5/5.5/gcc_64/include/QtCore/qobject.h \
 		/opt/qt5/5.5/gcc_64/include/QtCore/qlist.h \
 		/opt/qt5/5.5/gcc_64/include/QtCore/qalgorithms.h \
 		/opt/qt5/5.5/gcc_64/include/QtCore/qiterator.h \
@@ -1375,11 +1394,17 @@ label.o: src/label.cc src/label.h \
 		/opt/qt5/5.5/gcc_64/include/QtCore/qcontainerfwd.h \
 		/opt/qt5/5.5/gcc_64/include/QtCore/qisenum.h \
 		/opt/qt5/5.5/gcc_64/include/QtCore/qobject_impl.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qeventloop.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qwindowdefs.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qwindowdefs_win.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qpoint.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qsize.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qcursor.h \
+		/opt/qt5/5.5/gcc_64/include/QtWidgets/qdesktopwidget.h \
+		/opt/qt5/5.5/gcc_64/include/QtWidgets/qwidget.h \
 		/opt/qt5/5.5/gcc_64/include/QtCore/qmargins.h \
 		/opt/qt5/5.5/gcc_64/include/QtGui/qpaintdevice.h \
 		/opt/qt5/5.5/gcc_64/include/QtCore/qrect.h \
-		/opt/qt5/5.5/gcc_64/include/QtCore/qsize.h \
-		/opt/qt5/5.5/gcc_64/include/QtCore/qpoint.h \
 		/opt/qt5/5.5/gcc_64/include/QtGui/qpalette.h \
 		/opt/qt5/5.5/gcc_64/include/QtGui/qcolor.h \
 		/opt/qt5/5.5/gcc_64/include/QtGui/qrgb.h \
@@ -1405,7 +1430,6 @@ label.o: src/label.cc src/label.h \
 		/opt/qt5/5.5/gcc_64/include/QtGui/qfontmetrics.h \
 		/opt/qt5/5.5/gcc_64/include/QtGui/qfontinfo.h \
 		/opt/qt5/5.5/gcc_64/include/QtWidgets/qsizepolicy.h \
-		/opt/qt5/5.5/gcc_64/include/QtGui/qcursor.h \
 		/opt/qt5/5.5/gcc_64/include/QtGui/qkeysequence.h \
 		/opt/qt5/5.5/gcc_64/include/QtGui/qevent.h \
 		/opt/qt5/5.5/gcc_64/include/QtCore/qvariant.h \
@@ -1429,10 +1453,36 @@ label.o: src/label.cc src/label.h \
 		/opt/qt5/5.5/gcc_64/include/QtCore/qfile.h \
 		/opt/qt5/5.5/gcc_64/include/QtCore/qfiledevice.h \
 		/opt/qt5/5.5/gcc_64/include/QtGui/qvector2d.h \
-		/opt/qt5/5.5/gcc_64/include/QtGui/qtouchdevice.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o label.o src/label.cc
+		/opt/qt5/5.5/gcc_64/include/QtGui/qtouchdevice.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qguiapplication.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qinputmethod.h \
+		/opt/qt5/5.5/gcc_64/include/QtWidgets/QWidget \
+		/opt/qt5/5.5/gcc_64/include/QtWidgets/QLineEdit \
+		/opt/qt5/5.5/gcc_64/include/QtWidgets/qlineedit.h \
+		/opt/qt5/5.5/gcc_64/include/QtWidgets/qframe.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qtextcursor.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qtextformat.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qpen.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qtextoption.h \
+		/opt/qt5/5.5/gcc_64/include/QtWidgets/QLabel \
+		/opt/qt5/5.5/gcc_64/include/QtWidgets/qlabel.h \
+		/opt/qt5/5.5/gcc_64/include/QtWidgets/QGroupBox \
+		/opt/qt5/5.5/gcc_64/include/QtWidgets/qgroupbox.h \
+		/opt/qt5/5.5/gcc_64/include/QtWidgets/QMainWindow \
+		/opt/qt5/5.5/gcc_64/include/QtWidgets/qmainwindow.h \
+		/opt/qt5/5.5/gcc_64/include/QtWidgets/qtabwidget.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qicon.h \
+		src/rmiserver.h \
+		/opt/qt5/5.5/gcc_64/include/QtNetwork/QTcpServer \
+		/opt/qt5/5.5/gcc_64/include/QtNetwork/qtcpserver.h \
+		/opt/qt5/5.5/gcc_64/include/QtNetwork/qabstractsocket.h \
+		/opt/qt5/5.5/gcc_64/include/QtNetwork/qhostaddress.h \
+		src/label.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/QString \
+		/opt/qt5/5.5/gcc_64/include/QtGui/QMouseEvent
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o .obj/label.o src/label.cc
 
-thread.o: src/thread.cc src/thread.h \
+.obj/thread.o: src/thread.cc src/thread.h \
 		/opt/qt5/5.5/gcc_64/include/QtCore/QThread \
 		/opt/qt5/5.5/gcc_64/include/QtCore/qthread.h \
 		/opt/qt5/5.5/gcc_64/include/QtCore/qobject.h \
@@ -1519,11 +1569,10 @@ thread.o: src/thread.cc src/thread.h \
 		/opt/qt5/5.5/gcc_64/include/QtCore/qpoint.h \
 		/opt/qt5/5.5/gcc_64/include/QtCore/qset.h \
 		/opt/qt5/5.5/gcc_64/include/QtCore/qcontiguouscache.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o thread.o src/thread.cc
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o .obj/thread.o src/thread.cc
 
-rmiserver.o: src/rmiserver.cc src/rmiserver.h \
-		/opt/qt5/5.5/gcc_64/include/QtNetwork/QTcpServer \
-		/opt/qt5/5.5/gcc_64/include/QtNetwork/qtcpserver.h \
+.obj/rmiserver.o: src/rmiserver.cc /opt/qt5/5.5/gcc_64/include/QtCore/QThread \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qthread.h \
 		/opt/qt5/5.5/gcc_64/include/QtCore/qobject.h \
 		/opt/qt5/5.5/gcc_64/include/QtCore/qobjectdefs.h \
 		/opt/qt5/5.5/gcc_64/include/QtCore/qnamespace.h \
@@ -1583,16 +1632,50 @@ rmiserver.o: src/rmiserver.cc src/rmiserver.h \
 		/opt/qt5/5.5/gcc_64/include/QtCore/qcontainerfwd.h \
 		/opt/qt5/5.5/gcc_64/include/QtCore/qisenum.h \
 		/opt/qt5/5.5/gcc_64/include/QtCore/qobject_impl.h \
-		/opt/qt5/5.5/gcc_64/include/QtNetwork/qabstractsocket.h \
-		/opt/qt5/5.5/gcc_64/include/QtCore/qiodevice.h \
-		/opt/qt5/5.5/gcc_64/include/QtCore/qdebug.h \
-		/opt/qt5/5.5/gcc_64/include/QtCore/qhash.h \
+		/opt/qt5/5.5/gcc_64/include/QtWidgets/QMessageBox \
+		/opt/qt5/5.5/gcc_64/include/QtWidgets/qmessagebox.h \
+		/opt/qt5/5.5/gcc_64/include/QtWidgets/qdialog.h \
+		/opt/qt5/5.5/gcc_64/include/QtWidgets/qwidget.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qwindowdefs.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qwindowdefs_win.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qmargins.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qpaintdevice.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qrect.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qsize.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qpoint.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qpalette.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qcolor.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qrgb.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qbrush.h \
 		/opt/qt5/5.5/gcc_64/include/QtCore/qpair.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qvector.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qmatrix.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qpolygon.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qregion.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qdatastream.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qiodevice.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qline.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qtransform.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qpainterpath.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qimage.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qpixelformat.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qpixmap.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qsharedpointer.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qshareddata.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qhash.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qfont.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qfontmetrics.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qfontinfo.h \
+		/opt/qt5/5.5/gcc_64/include/QtWidgets/qsizepolicy.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qcursor.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qkeysequence.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qevent.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qvariant.h \
 		/opt/qt5/5.5/gcc_64/include/QtCore/qmap.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qdebug.h \
 		/opt/qt5/5.5/gcc_64/include/QtCore/qtextstream.h \
 		/opt/qt5/5.5/gcc_64/include/QtCore/qlocale.h \
-		/opt/qt5/5.5/gcc_64/include/QtCore/qvariant.h \
-		/opt/qt5/5.5/gcc_64/include/QtCore/qshareddata.h \
 		/usr/include/stdio.h \
 		/usr/include/libio.h \
 		/usr/include/_G_config.h \
@@ -1602,29 +1685,59 @@ rmiserver.o: src/rmiserver.cc src/rmiserver.h \
 		/usr/include/gconv.h \
 		/usr/include/getopt.h \
 		/usr/include/ctype.h \
-		/opt/qt5/5.5/gcc_64/include/QtCore/qvector.h \
-		/opt/qt5/5.5/gcc_64/include/QtCore/qpoint.h \
 		/opt/qt5/5.5/gcc_64/include/QtCore/qset.h \
 		/opt/qt5/5.5/gcc_64/include/QtCore/qcontiguouscache.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qurl.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qurlquery.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qfile.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qfiledevice.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qvector2d.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qtouchdevice.h \
+		/opt/qt5/5.5/gcc_64/include/QtWidgets/QLabel \
+		/opt/qt5/5.5/gcc_64/include/QtWidgets/qlabel.h \
+		/opt/qt5/5.5/gcc_64/include/QtWidgets/qframe.h \
+		src/mainwindow.h \
+		/opt/qt5/5.5/gcc_64/include/QtWidgets/QApplication \
+		/opt/qt5/5.5/gcc_64/include/QtWidgets/qapplication.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qcoreapplication.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qeventloop.h \
+		/opt/qt5/5.5/gcc_64/include/QtWidgets/qdesktopwidget.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qguiapplication.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qinputmethod.h \
+		/opt/qt5/5.5/gcc_64/include/QtWidgets/QWidget \
+		/opt/qt5/5.5/gcc_64/include/QtWidgets/QLineEdit \
+		/opt/qt5/5.5/gcc_64/include/QtWidgets/qlineedit.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qtextcursor.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qtextformat.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qpen.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qtextoption.h \
+		/opt/qt5/5.5/gcc_64/include/QtWidgets/QGroupBox \
+		/opt/qt5/5.5/gcc_64/include/QtWidgets/qgroupbox.h \
+		/opt/qt5/5.5/gcc_64/include/QtWidgets/QMainWindow \
+		/opt/qt5/5.5/gcc_64/include/QtWidgets/qmainwindow.h \
+		/opt/qt5/5.5/gcc_64/include/QtWidgets/qtabwidget.h \
+		/opt/qt5/5.5/gcc_64/include/QtGui/qicon.h \
+		src/rmiserver.h \
+		/opt/qt5/5.5/gcc_64/include/QtNetwork/QTcpServer \
+		/opt/qt5/5.5/gcc_64/include/QtNetwork/qtcpserver.h \
+		/opt/qt5/5.5/gcc_64/include/QtNetwork/qabstractsocket.h \
 		/opt/qt5/5.5/gcc_64/include/QtNetwork/qhostaddress.h \
 		src/thread.h \
-		/opt/qt5/5.5/gcc_64/include/QtCore/QThread \
-		/opt/qt5/5.5/gcc_64/include/QtCore/qthread.h \
 		/opt/qt5/5.5/gcc_64/include/QtNetwork/QTcpSocket \
 		/opt/qt5/5.5/gcc_64/include/QtNetwork/qtcpsocket.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o rmiserver.o src/rmiserver.cc
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o .obj/rmiserver.o src/rmiserver.cc
 
-moc_mainwindow.o: .moc/moc_mainwindow.cpp 
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_mainwindow.o .moc/moc_mainwindow.cpp
+.obj/moc_mainwindow.o: .moc/moc_mainwindow.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o .obj/moc_mainwindow.o .moc/moc_mainwindow.cpp
 
-moc_label.o: .moc/moc_label.cpp 
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_label.o .moc/moc_label.cpp
+.obj/moc_label.o: .moc/moc_label.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o .obj/moc_label.o .moc/moc_label.cpp
 
-moc_thread.o: .moc/moc_thread.cpp 
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_thread.o .moc/moc_thread.cpp
+.obj/moc_thread.o: .moc/moc_thread.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o .obj/moc_thread.o .moc/moc_thread.cpp
 
-moc_rmiserver.o: .moc/moc_rmiserver.cpp 
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_rmiserver.o .moc/moc_rmiserver.cpp
+.obj/moc_rmiserver.o: .moc/moc_rmiserver.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o .obj/moc_rmiserver.o .moc/moc_rmiserver.cpp
 
 ####### Install
 
