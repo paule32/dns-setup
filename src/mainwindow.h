@@ -3,6 +3,8 @@
 
 #include <QApplication>
 #include <QWidget>
+#include <QLabel>
+#include <QGroupBox>
 #include <QMainWindow>
 
 #include "rmiserver.h"
@@ -13,7 +15,14 @@ class QMenu;
 class MainWindow: public QMainWindow {
     Q_OBJECT
 public:
-    MainWindow();
+    explicit MainWindow();
+    void createConnectionView();
+    
+    QGroupBox * groupBoxL;
+    QGroupBox * groupBoxR;
+    
+    QLabel  * warnLabel;
+    QWidget * loginBox;
     
 protected:
 private slots:
@@ -28,6 +37,7 @@ private slots:
 private:
     void createActions();
     void createMenus();
+    void createView();
     
     QMenu * fileMenu;
     QMenu * helpMenu;
@@ -40,8 +50,10 @@ private:
     
     QAction * helpAction1;
     QAction * helpAction2;
-    
+   
     RMIServer * server;
 };
+
+extern class MainWindow *app_window;
 
 #endif

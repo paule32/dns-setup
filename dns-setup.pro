@@ -70,11 +70,13 @@ INCLUDEPATH += \
 SOURCES += \
     $${SRCDIR}/main.cc \
     $${SRCDIR}/mainwindow.cc \
+    $${SRCDIR}/label.cc \
     $${SRCDIR}/thread.cc \
     $${SRCDIR}/rmiserver.cc
 
 HEADERS += \
     $${SRCDIR}/mainwindow.h \
+    $${SRCDIR}/label.h \
     $${SRCDIR}/thread.h \
     $${SRCDIR}/rmiserver.h
 
