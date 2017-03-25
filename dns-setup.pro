@@ -61,6 +61,7 @@ QMAKE_CXXFLAGS += \
 #QMAKE_EXTRA_TARGETS += dBaseHelp
 
 INCLUDEPATH += \
+    /home/jens/Qt/5.8/gcc_64/include \
     /usr/local/include \
     $${TOPDIR}/.uic \
     $${SRCDIR}/ \
@@ -89,4 +90,4 @@ HEADERS += \
 DISTFILES += \
     $${TOPDIR}/app.ini
 
-LIBS += -L"/usr/local/lib64" -lstdc++
+LIBS += -L"/home/jens/Qt/5.8/gcc_64/lib" -lstdc++

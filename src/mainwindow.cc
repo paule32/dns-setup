@@ -91,9 +91,37 @@ void MainWindow::createActions()
 
 void MainWindow::createMenus()
 {
+    QWidget  *menuWidget = new QWidget(this);
+    menuWidget->setAutoFillBackground(true);
+    menuWidget->move(0,0);
+    menuWidget->resize(800,35);
+    menuWidget->setStyleSheet("background-color:gray;");
+
+    QString menustr = "background-color:gray;font-weight:900;";
+    QMenuBar * menu = new QMenuBar(menuWidget);
+    
+    menu->setAutoFillBackground(true);
+    menu->setStyleSheet(menustr);
+    menu->setFont(QFont("Arial",12));
+    menu->move(4,7);
+    menu->resize(800,30);
+
+   
     fileMenu = new QMenu("File");
     helpMenu = new QMenu("Help");
+    
+    fileMenu->setAutoFillBackground(true);
+    fileMenu->move(4,4);
+    fileMenu->setStyleSheet(menustr);
+    fileMenu->setFont(QFont("Arial",12));
 
+    helpMenu->setAutoFillBackground(true);
+    helpMenu->setStyleSheet(menustr);
+    helpMenu->setFont(QFont("Arial",12));
+
+    menu->addMenu(fileMenu);
+    menu->addMenu(helpMenu);
+    
     fileMenu->addAction(fileActionA);
     fileMenu->addAction(fileActionB);
     fileMenu->addAction(fileAction1);
@@ -102,9 +130,6 @@ void MainWindow::createMenus()
     
     helpMenu->addAction(helpAction1);
     helpMenu->addAction(helpAction2);
-    
-    menuBar()->addMenu(fileMenu);
-    menuBar()->addMenu(helpMenu);
 }
 
 void MainWindow::createView()
@@ -255,11 +280,13 @@ void MainWindow::createSettingsView()
     mainTab->addTab(tab4,"Statistik");
     mainTab->addTab(tab5,"Order");
 
-    tab1->setStyleSheet("background-color:rgb(200,200,100);");
-    tab2->setStyleSheet("background-color:rgb(200,200,100);");
-    tab3->setStyleSheet("background-color:rgb(200,200,100);");
-    tab4->setStyleSheet("background-color:rgb(200,200,100);");
-    tab5->setStyleSheet("background-color:rgb(200,200,100);");
+    QString color_str = "background-color:rgb(200,200,100);";
+    
+    tab1->setStyleSheet(color_str);
+    tab2->setStyleSheet(color_str);
+    tab3->setStyleSheet(color_str);
+    tab4->setStyleSheet(color_str);
+    tab5->setStyleSheet(color_str);
     
     QLabel *hostLabel = new QLabel(tab2);
     hostLabel->setFont(QFont("Arial",12));
@@ -312,6 +339,42 @@ void MainWindow::createSettingsView()
     nameserverList->resize(200,200);
     nameserverList->setStyleSheet("background-color:white;");
     
+
+    QPushButton *nameserverAddButton = new QPushButton(tab2);
+    nameserverAddButton->move(240,174);
+    nameserverAddButton->resize(100,30);
+    nameserverAddButton->setFont(QFont("Arial",12));
+    nameserverAddButton->setText("Add New ...");
+    nameserverAddButton->setStyleSheet("background-color:lime;");
+    
+    QPushButton *nameserverDeleteButton = new QPushButton(tab2);
+    nameserverDeleteButton->move(240,234);
+    nameserverDeleteButton->resize(100,30);
+    nameserverDeleteButton->setFont(QFont("Arial",12));
+    nameserverDeleteButton->setText("Delete");
+    nameserverDeleteButton->setStyleSheet("background-color:rgb(255,100,0);");
+
+    QPushButton *nameserverEditButton = new QPushButton(tab2);
+    nameserverEditButton->move(240,294);
+    nameserverEditButton->resize(100,30);
+    nameserverEditButton->setFont(QFont("Arial",12));
+    nameserverEditButton->setText("Edit");
+    nameserverEditButton->setStyleSheet("background-color:cyan;");
+    
+    
+    QLineEdit *nameserverEdit = new QLineEdit(tab2);
+    nameserverEdit->move(390,177);
+    nameserverEdit->resize(170,30);
+    nameserverEdit->setFont(QFont("Arial",12));
+    nameserverEdit->setStyleSheet("background-color:white;");
+
+    QPushButton *nameserverPingButton = new QPushButton(tab2);
+    nameserverPingButton->move(10,400);
+    nameserverPingButton->resize(100,30);
+    nameserverPingButton->setFont(QFont("Arial",12));
+    nameserverPingButton->setText("Ping Test");
+    nameserverPingButton->setStyleSheet("background-color:yellow;");
+
     
     //
     QLabel *userLabel = new QLabel(tab3);
@@ -342,12 +405,12 @@ void MainWindow::createSettingsView()
     userList2->resize(200,200);
     userList2->setStyleSheet("background-color:white;");
 
-    QPushButton *userOrderButton = new QPushButton(tab3);
-    userOrderButton->move(470,40);
-    userOrderButton->resize(100,30);
-    userOrderButton->setFont(QFont("Arial",12));
-    userOrderButton->setText("Switch");
-    userOrderButton->setStyleSheet("background-color:lime;");
+    QPushButton *userSwitchButton = new QPushButton(tab3);
+    userSwitchButton->move(470,40);
+    userSwitchButton->resize(100,30);
+    userSwitchButton->setFont(QFont("Arial",12));
+    userSwitchButton->setText("Switch");
+    userSwitchButton->setStyleSheet("background-color:lime;");
     
     QPushButton *personalButton = new QPushButton(tab3);
     personalButton->move(10,260);
@@ -362,6 +425,14 @@ void MainWindow::createSettingsView()
     personalButton2->setFont(QFont("Arial",12));
     personalButton2->setText("Delete ...");
     personalButton2->setStyleSheet("background-color:rgb(255,100,0);");
+    
+    QPushButton *personalButton3 = new QPushButton(tab3);
+    personalButton3->move(10,340);
+    personalButton3->resize(120,30);
+    personalButton3->setFont(QFont("Arial",12));
+    personalButton3->setText("Edit");
+    personalButton3->setStyleSheet("background-color:cyan;");
+
 
 
     QPushButton *profileButton = new QPushButton(tab3);
@@ -378,6 +449,13 @@ void MainWindow::createSettingsView()
     profileButton2->setText("Delete ...");
     profileButton2->setStyleSheet("background-color:rgb(255,100,0);");
     
+    QPushButton *profileButton3 = new QPushButton(tab3);
+    profileButton3->move(260,340);
+    profileButton3->resize(120,30);
+    profileButton3->setFont(QFont("Arial",12));
+    profileButton3->setText("Edit");
+    profileButton3->setStyleSheet("background-color:cyan;");
+
     //
 
     QLabel *productLabel = new QLabel(tab5);
@@ -448,7 +526,7 @@ void MainWindow::createSettingsView()
     productOrderButton->move(230,320);
     productOrderButton->resize(140,35);
     productOrderButton->setFont(QFont("Arial",12));
-    productOrderButton->setText("Order Product");
+    productOrderButton->setText("Order Product Qty.");
     productOrderButton->setStyleSheet("background-color:cyan;");
     
     QLineEdit *productOrderEdit = new QLineEdit(tab5);
