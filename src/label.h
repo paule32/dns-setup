@@ -17,4 +17,16 @@ protected:
     virtual void mousePressEvent(QMouseEvent *evt) override;
 };
 
+class MyWidget: public QWidget {
+    Q_OBJECT
+public:
+    explicit MyWidget(QWidget *parent = 0);
+
+signals:
+    void clicked();
+    
+protected:
+    virtual void mousePressEvent(QMouseEvent *evt) override;
+};
+
 #endif

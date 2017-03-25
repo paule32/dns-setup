@@ -11,6 +11,7 @@
 #include <QSettings>
 #include <QStatusBar>
 #include <QScrollArea>
+#include <QListWidget>
 #include <QMessageBox>
 
 #include "label.h"
@@ -115,7 +116,7 @@ void MainWindow::createView()
     "background-color:cyan; " \
     "border: 1px solid black; border-radius: 10px;");
     
-    QWidget *pixwid1 = new QWidget(groupBoxL);
+    MyWidget *pixwid1 = new MyWidget(groupBoxL);
     QLabel *pix1 = new QLabel(pixwid1);
     QImage  img1("./img/pc2.png");
     QImage  imgA = img1.scaled(120,130,Qt::KeepAspectRatio);
@@ -128,11 +129,12 @@ void MainWindow::createView()
     
     MyLabel *pixA = new MyLabel(groupBoxL,QString("New connection"));
     pixA->move(9,100);
-    
-    connect(pixA, SIGNAL(clicked()), this,  SLOT(createConnectionView()));
+ 
+    connect(pixwid1, SIGNAL(clicked()), this, SLOT(createConnectionView()));
+    connect(pixA   , SIGNAL(clicked()), this, SLOT(createConnectionView()));
     //
     
-    QWidget *pixwid2 = new QWidget(groupBoxL);
+    MyWidget *pixwid2 = new MyWidget(groupBoxL);
     QLabel *pix2 = new QLabel(pixwid2);
     QImage  img2("./img/settings.png");
     pix2->setScaledContents(true);
@@ -147,7 +149,8 @@ void MainWindow::createView()
     MyLabel *pixB = new MyLabel(groupBoxL,QString("Settings"));
     pixB->move(40,260);
     
-    connect(pixB, SIGNAL(clicked()), this, SLOT(createSettingsView()));
+    connect(pixwid2, SIGNAL(clicked()), this, SLOT(createSettingsView()));
+    connect(pixB   , SIGNAL(clicked()), this, SLOT(createSettingsView()));
     //
     
     groupBoxR = new QGroupBox(this);
@@ -242,9 +245,120 @@ void MainWindow::createSettingsView()
 
     QWidget *tab1 = new QWidget(mainTab);
     QWidget *tab2 = new QWidget(mainTab);
+    QWidget *tab3 = new QWidget(mainTab);
     
     mainTab->addTab(tab1,"Common");
     mainTab->addTab(tab2,"Network");
+    mainTab->addTab(tab3,"User");
+
+    tab1->setStyleSheet("background-color:rgb(200,200,100);");
+    tab2->setStyleSheet("background-color:rgb(200,200,100);");
+    tab3->setStyleSheet("background-color:rgb(200,200,100);");
+    
+    QLabel *hostLabel = new QLabel(tab2);
+    hostLabel->setFont(QFont("Arial",12));
+    hostLabel->setText("Host:");
+    hostLabel->move(10,22);
+    
+    QLabel *portLabel = new QLabel(tab2);
+    portLabel->setFont(QFont("Arial",12));
+    portLabel->setText("Port:");
+    portLabel->move(10,62);
+    
+    QLabel *proxLabel = new QLabel(tab2);
+    proxLabel->setFont(QFont("Arial",12));
+    proxLabel->setText("Proxy:");
+    proxLabel->move(10,102);
+ 
+    hostLabel->setStyleSheet("border: 0px;");
+    portLabel->setStyleSheet("border: 0px;");
+    proxLabel->setStyleSheet("border: 0px;");
+    
+    QLineEdit *hostEdit = new QLineEdit(tab2);
+    QLineEdit *portEdit = new QLineEdit(tab2);
+    QLineEdit *proxEdit = new QLineEdit(tab2);
+    
+    hostEdit->setFont(QFont("Arial",12));
+    hostEdit->move(70,20);
+    hostEdit->resize(260,25);
+    
+    portEdit->setFont(QFont("Arial",12));
+    portEdit->move(70,60);
+    portEdit->resize(260,25);
+    
+    proxEdit->setFont(QFont("Arial",12));
+    proxEdit->move(70,100);
+    proxEdit->resize(260,25);
+    
+    hostEdit->setStyleSheet("background-color:white;");
+    portEdit->setStyleSheet("background-color:white;");
+    proxEdit->setStyleSheet("background-color:white;");
+    
+    //
+    QLabel *userLabel = new QLabel(tab3);
+    userLabel->move(10,10);
+    userLabel->setFont(QFont("Arial",12));
+    userLabel->setText("Personal:");
+    userLabel->setStyleSheet("border: 0px;");
+    
+    QListWidget *userList = new QListWidget(tab3);
+    userList->move(10,40);
+    userList->resize(200,200);
+    userList->setStyleSheet("background-color:white;");
+    
+    QListWidgetItem *item1 = new QListWidgetItem(userList);
+    item1->setFont(QFont("Arial",12));
+    item1->setText("admin");
+    
+    //
+
+    QLabel *userLabel2 = new QLabel(tab3);
+    userLabel2->move(260,10);
+    userLabel2->setFont(QFont("Arial",12));
+    userLabel2->setText("User-Profile's:");
+    userLabel2->setStyleSheet("border: 0px;");
+    
+    QListWidget *userList2 = new QListWidget(tab3);
+    userList2->move(260,40);
+    userList2->resize(200,200);
+    userList2->setStyleSheet("background-color:white;");
+
+    QPushButton *userOrderButton = new QPushButton(tab3);
+    userOrderButton->move(470,40);
+    userOrderButton->resize(100,30);
+    userOrderButton->setFont(QFont("Arial",12));
+    userOrderButton->setText("Order");
+    userOrderButton->setStyleSheet("background-color:lime;");
+    
+    QPushButton *personalButton = new QPushButton(tab3);
+    personalButton->move(10,260);
+    personalButton->resize(120,30);
+    personalButton->setFont(QFont("Arial",12));
+    personalButton->setText("Add New ...");
+    personalButton->setStyleSheet("background-color:lime;");
+
+    QPushButton *personalButton2 = new QPushButton(tab3);
+    personalButton2->move(10,300);
+    personalButton2->resize(120,30);
+    personalButton2->setFont(QFont("Arial",12));
+    personalButton2->setText("Delete ...");
+    personalButton2->setStyleSheet("background-color:rgb(255,100,0);");
+
+
+    QPushButton *profileButton = new QPushButton(tab3);
+    profileButton->move(260,260);
+    profileButton->resize(120,30);
+    profileButton->setFont(QFont("Arial",12));
+    profileButton->setText("Add New ...");
+    profileButton->setStyleSheet("background-color:lime;");
+
+    QPushButton *profileButton2 = new QPushButton(tab3);
+    profileButton2->move(260,300);
+    profileButton2->resize(120,30);
+    profileButton2->setFont(QFont("Arial",12));
+    profileButton2->setText("Delete ...");
+    profileButton2->setStyleSheet("background-color:rgb(255,100,0);");
+    
     mainTab->show();
 
 /*    

@@ -1,3 +1,5 @@
+#include <QWidget>
+
 #include "mainwindow.h"
 #include "label.h"
 
@@ -8,7 +10,11 @@ MyLabel::MyLabel(QWidget *parent, QString txt)
     setText(txt);
 }
 
-void MyLabel::mousePressEvent(QMouseEvent *evt)
+MyWidget::MyWidget(QWidget *parent)
+    : QWidget(parent)
 {
-    emit clicked();
 }
+
+void MyLabel::mousePressEvent (QMouseEvent *evt) { emit clicked(); }
+void MyWidget::mousePressEvent(QMouseEvent *evt) { emit clicked(); }
+
