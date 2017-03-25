@@ -5,10 +5,12 @@
 #include <QGroupBox>
 #include <QHBoxLayout>
 #include <QLabel>
+#include <QPalette>
 #include <QPainter>
 #include <QPushButton>
 #include <QSettings>
 #include <QStatusBar>
+#include <QScrollArea>
 #include <QMessageBox>
 
 #include "label.h"
@@ -26,6 +28,8 @@ MainWindow::MainWindow()
 
     warnLabel = nullptr;
     loginBox  = nullptr;
+    scroller  = nullptr;
+    mainTab   = nullptr;
     
     createActions();
     createMenus();
@@ -125,6 +129,27 @@ void MainWindow::createView()
     MyLabel *pixA = new MyLabel(groupBoxL,QString("New connection"));
     pixA->move(9,100);
     
+    connect(pixA, SIGNAL(clicked()), this,  SLOT(createConnectionView()));
+    //
+    
+    QWidget *pixwid2 = new QWidget(groupBoxL);
+    QLabel *pix2 = new QLabel(pixwid2);
+    QImage  img2("./img/settings.png");
+    pix2->setScaledContents(true);
+    QImage  imgB = img2.scaled(120,130,Qt::KeepAspectRatio);
+    
+    pix2->setPixmap(QPixmap::fromImage(imgB));
+    pix2->setAlignment(Qt::AlignCenter);
+    
+    pixwid2->move(10,150);
+    pixwid2->resize(120,122);
+    
+    MyLabel *pixB = new MyLabel(groupBoxL,QString("Settings"));
+    pixB->move(40,260);
+    
+    connect(pixB, SIGNAL(clicked()), this, SLOT(createSettingsView()));
+    //
+    
     groupBoxR = new QGroupBox(this);
     groupBoxR->move(160,35);
     groupBoxR->resize(620,532);
@@ -137,8 +162,10 @@ void MainWindow::createView()
 
 void MainWindow::createConnectionView()
 {
-    if (warnLabel)
-    warnLabel->hide();
+    if (warnLabel) warnLabel->hide();
+    if (loginBox)  loginBox ->hide();
+    if (scroller)  scroller ->hide();
+    if (mainTab)   mainTab  ->hide();
     
     loginBox = new QWidget(groupBoxR);
     loginBox->setStyleSheet(
@@ -200,6 +227,42 @@ void MainWindow::createConnectionView()
     loginBox->show();
 }
 
+void MainWindow::createSettingsView()
+{
+    if (warnLabel) warnLabel->hide();
+    if (loginBox)  loginBox ->hide();
+    if (scroller)  scroller ->hide();
+    if (mainTab)   mainTab  ->hide();
+
+    mainTab = new QTabWidget(groupBoxR);
+    mainTab->setFont(QFont("Arial",12));
+    mainTab->move(10,10);
+    mainTab->resize(600,500);
+    mainTab->setTabShape(QTabWidget::Rounded);
+
+    QWidget *tab1 = new QWidget(mainTab);
+    QWidget *tab2 = new QWidget(mainTab);
+    
+    mainTab->addTab(tab1,"Common");
+    mainTab->addTab(tab2,"Network");
+    mainTab->show();
+
+/*    
+    scroller = new QScrollArea(groupBoxR);
+
+    scroller->viewport()->setBackgroundRole(QPalette::Dark);
+    scroller->viewport()->setAutoFillBackground(true);
+
+    scroller->move(10,10);
+    scroller->resize(598,505);
+
+    scroller->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+    scroller->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+
+    scroller->show();
+    */
+}
+
 void MainWindow::intoLogin()
 {
     QSettings ini("app.ini",QSettings::NativeFormat);
@@ -213,7 +276,12 @@ void MainWindow::intoLogin()
     }
     
     if (userEdit->text() == user)
-    if (passEdit->text() == pass) {
-        loginBox->deleteLater();
+    if (passEdit->text() == pass)
+    {
+        if (warnLabel) warnLabel->hide();
+        if (loginBox)  loginBox ->hide();
+        if (scroller)  scroller ->hide();
+        if (mainTab)   mainTab  ->hide();
+        
     }
 }

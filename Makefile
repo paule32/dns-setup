@@ -12,7 +12,7 @@ MAKEFILE      = Makefile
 
 CC            = gcc
 CXX           = g++
-DEFINES       = -DBUILDTIME=\"15:07:53\" -DBUILDDATE=\"2017-03-25\" -DQT_NO_DEBUG -DQT_HELP_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_CORE_LIB
+DEFINES       = -DBUILDTIME=\"15:35:50\" -DBUILDDATE=\"2017-03-25\" -DQT_NO_DEBUG -DQT_HELP_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_CORE_LIB
 CFLAGS        = -pipe -O2 -Wall -W -D_REENTRANT -fPIC $(DEFINES)
 CXXFLAGS      = -pipe -std=c++1y -Wno-unused-parameter -Wno-unused-variable -Wno-unused-local-typedefs -Wno-unused-but-set-variable -Wno-write-strings -Wno-switch -Wno-extra -Wno-reorder -Wno-multichar -Wno-sign-compare -Wunused-function -Woverloaded-virtual -fpermissive -ftemplate-depth=516 -frtti -fexceptions -I/usr/local/include -I/usr/local/include/boost -I/home/jens/Projekte/dns-setup. -I/home/jens/Projekte/dns-setup/src -I/home/jens/Projekte/dns-setup/src/inc -D__BYTE_ORDER=__LITTLE_ENDIAN -DQT_DEPRECATED -DQT_DISABLE_DEPRECATED_BEFORE -O2 -Wall -W -D_REENTRANT -fPIC $(DEFINES)
 INCPATH       = -I. -I/usr/local/include -I/home/jens/Projekte/dns-setup/.uic -Isrc -I/home/jens/Projekte/dns-setup/src/inc -I/usr/include -I/opt/qt5/5.5/gcc_64/include -I/opt/qt5/5.5/gcc_64/include/QtHelp -I/opt/qt5/5.5/gcc_64/include/QtWidgets -I/opt/qt5/5.5/gcc_64/include/QtGui -I/opt/qt5/5.5/gcc_64/include/QtNetwork -I/opt/qt5/5.5/gcc_64/include/QtCore -I.moc -I/opt/qt5/5.5/gcc_64/mkspecs/linux-g++
@@ -65,7 +65,8 @@ OBJECTS       = .obj/main.o \
 		.obj/moc_label.o \
 		.obj/moc_thread.o \
 		.obj/moc_rmiserver.o
-DIST          = /opt/qt5/5.5/gcc_64/mkspecs/features/spec_pre.prf \
+DIST          = app.ini \
+		/opt/qt5/5.5/gcc_64/mkspecs/features/spec_pre.prf \
 		/opt/qt5/5.5/gcc_64/mkspecs/common/unix.conf \
 		/opt/qt5/5.5/gcc_64/mkspecs/common/linux.conf \
 		/opt/qt5/5.5/gcc_64/mkspecs/common/sanitize.conf \
@@ -1308,6 +1309,8 @@ compiler_clean: compiler_moc_header_clean
 		/opt/qt5/5.5/gcc_64/include/QtWidgets/QPushButton \
 		/opt/qt5/5.5/gcc_64/include/QtWidgets/qpushbutton.h \
 		/opt/qt5/5.5/gcc_64/include/QtWidgets/qabstractbutton.h \
+		/opt/qt5/5.5/gcc_64/include/QtCore/QSettings \
+		/opt/qt5/5.5/gcc_64/include/QtCore/qsettings.h \
 		/opt/qt5/5.5/gcc_64/include/QtWidgets/QStatusBar \
 		/opt/qt5/5.5/gcc_64/include/QtWidgets/qstatusbar.h \
 		/opt/qt5/5.5/gcc_64/include/QtWidgets/QMessageBox \

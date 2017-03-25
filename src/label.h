@@ -10,6 +10,9 @@ class MyLabel: public QLabel {
 public:
     explicit MyLabel(QWidget *parent, QString txt);
 
+signals:
+    void clicked();
+    
 protected:
     virtual void mousePressEvent(QMouseEvent *evt) override;
 };

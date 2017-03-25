@@ -10,5 +10,5 @@ MyLabel::MyLabel(QWidget *parent, QString txt)
 
 void MyLabel::mousePressEvent(QMouseEvent *evt)
 {
-    app_window->createConnectionView();
+    emit clicked();
 }

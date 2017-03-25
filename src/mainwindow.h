@@ -6,6 +6,8 @@
 #include <QLineEdit>
 #include <QLabel>
 #include <QGroupBox>
+#include <QScrollArea>
+#include <QTabWidget>
 #include <QMainWindow>
 
 #include "rmiserver.h"
@@ -17,8 +19,7 @@ class MainWindow: public QMainWindow {
     Q_OBJECT
 public:
     explicit MainWindow();
-    void createConnectionView();
-    
+   
     QGroupBox * groupBoxL;
     QGroupBox * groupBoxR;
     
@@ -29,7 +30,9 @@ protected:
 private slots:
     void addServer();
     void delServer();
-    
+
+    void createConnectionView();    
+    void createSettingsView();
     void intoLogin();
     
     void options();
@@ -44,6 +47,9 @@ private:
 
     QLineEdit * userEdit;
     QLineEdit * passEdit;
+    
+    QScrollArea * scroller;
+    QTabWidget  * mainTab;
     
     QMenu * fileMenu;
     QMenu * helpMenu;
