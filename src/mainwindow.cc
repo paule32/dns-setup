@@ -246,14 +246,20 @@ void MainWindow::createSettingsView()
     QWidget *tab1 = new QWidget(mainTab);
     QWidget *tab2 = new QWidget(mainTab);
     QWidget *tab3 = new QWidget(mainTab);
+    QWidget *tab4 = new QWidget(mainTab);
+    QWidget *tab5 = new QWidget(mainTab);
     
     mainTab->addTab(tab1,"Common");
     mainTab->addTab(tab2,"Network");
     mainTab->addTab(tab3,"User");
+    mainTab->addTab(tab4,"Statistik");
+    mainTab->addTab(tab5,"Order");
 
     tab1->setStyleSheet("background-color:rgb(200,200,100);");
     tab2->setStyleSheet("background-color:rgb(200,200,100);");
     tab3->setStyleSheet("background-color:rgb(200,200,100);");
+    tab4->setStyleSheet("background-color:rgb(200,200,100);");
+    tab5->setStyleSheet("background-color:rgb(200,200,100);");
     
     QLabel *hostLabel = new QLabel(tab2);
     hostLabel->setFont(QFont("Arial",12));
@@ -295,6 +301,19 @@ void MainWindow::createSettingsView()
     proxEdit->setStyleSheet("background-color:white;");
     
     //
+    QLabel *nameserverLabel = new QLabel(tab2);
+    nameserverLabel->move(10,150);
+    nameserverLabel->setFont(QFont("Arial",12));
+    nameserverLabel->setText("Nameserver:");
+    nameserverLabel->setStyleSheet("border: 0px;");
+    
+    QListWidget *nameserverList = new QListWidget(tab2);
+    nameserverList->move(10,174);
+    nameserverList->resize(200,200);
+    nameserverList->setStyleSheet("background-color:white;");
+    
+    
+    //
     QLabel *userLabel = new QLabel(tab3);
     userLabel->move(10,10);
     userLabel->setFont(QFont("Arial",12));
@@ -327,7 +346,7 @@ void MainWindow::createSettingsView()
     userOrderButton->move(470,40);
     userOrderButton->resize(100,30);
     userOrderButton->setFont(QFont("Arial",12));
-    userOrderButton->setText("Order");
+    userOrderButton->setText("Switch");
     userOrderButton->setStyleSheet("background-color:lime;");
     
     QPushButton *personalButton = new QPushButton(tab3);
@@ -358,6 +377,85 @@ void MainWindow::createSettingsView()
     profileButton2->setFont(QFont("Arial",12));
     profileButton2->setText("Delete ...");
     profileButton2->setStyleSheet("background-color:rgb(255,100,0);");
+    
+    //
+
+    QLabel *productLabel = new QLabel(tab5);
+    productLabel->move(10,10);
+    productLabel->setFont(QFont("Arial",12));
+    productLabel->setText("Product's:");
+    productLabel->setStyleSheet("border: 0px;");
+    
+    QListWidget *stockList = new QListWidget(tab5);
+    stockList->move(10,40);
+    stockList->resize(200,400);
+    stockList->setStyleSheet("background-color:white;");
+    
+    
+    QLabel *productNameLabel = new QLabel(tab5);
+    productNameLabel->move(230,43);
+    productNameLabel->setFont(QFont("Arial",12));
+    productNameLabel->setText("Name:");
+    productNameLabel->setStyleSheet("border: 0px;");
+    
+    QLabel *productPriceLabel = new QLabel(tab5);
+    productPriceLabel->move(230,83);
+    productPriceLabel->setFont(QFont("Arial",12));
+    productPriceLabel->setText("Price:");
+    productPriceLabel->setStyleSheet("border: 0px;");
+    
+    QLabel *productCountLabel = new QLabel(tab5);
+    productCountLabel->move(230,123);
+    productCountLabel->setFont(QFont("Arial",12));
+    productCountLabel->setText("Quantity:");
+    productCountLabel->setStyleSheet("border: 0px;");
+    
+    
+    QLineEdit *productNameEdit = new QLineEdit(tab5);
+    productNameEdit->move(290,40);
+    productNameEdit->resize(170,30);
+    productNameEdit->setFont(QFont("Arial",12));
+    productNameEdit->setStyleSheet("background-color:white;");
+
+    QLineEdit *productPriceEdit = new QLineEdit(tab5);
+    productPriceEdit->move(290,80);
+    productPriceEdit->resize(170,30);
+    productPriceEdit->setFont(QFont("Arial",12));
+    productPriceEdit->setStyleSheet("background-color:white;");
+
+    QLineEdit *productCountEdit = new QLineEdit(tab5);
+    productCountEdit->move(360,120);
+    productCountEdit->resize(100,30);
+    productCountEdit->setFont(QFont("Arial",12));
+    productCountEdit->setStyleSheet("background-color:white;");
+
+
+    QPushButton *productAddButton = new QPushButton(tab5);
+    productAddButton->move(230,200);
+    productAddButton->resize(100,25);
+    productAddButton->setFont(QFont("Arial",12));
+    productAddButton->setText("Add New ...");
+    productAddButton->setStyleSheet("background-color:lime;");
+
+    QPushButton *productDeleteButton = new QPushButton(tab5);
+    productDeleteButton->move(230,240);
+    productDeleteButton->resize(100,25);
+    productDeleteButton->setFont(QFont("Arial",12));
+    productDeleteButton->setText("Delete");
+    productDeleteButton->setStyleSheet("background-color:rgb(255,100,0);");
+    
+    QPushButton *productOrderButton = new QPushButton(tab5);
+    productOrderButton->move(230,320);
+    productOrderButton->resize(140,35);
+    productOrderButton->setFont(QFont("Arial",12));
+    productOrderButton->setText("Order Product");
+    productOrderButton->setStyleSheet("background-color:cyan;");
+    
+    QLineEdit *productOrderEdit = new QLineEdit(tab5);
+    productOrderEdit->move(400,320);
+    productOrderEdit->resize(140,35);
+    productOrderEdit->setFont(QFont("Arial",12));
+    productOrderEdit->setStyleSheet("background-color:white;");
     
     mainTab->show();
 
