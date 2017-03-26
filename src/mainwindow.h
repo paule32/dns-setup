@@ -45,6 +45,11 @@ private slots:
     void nameserverEditClick();
     void nameserverDeleteClick();
     
+    void showSettingsTabPrinter1();
+    void showSettingsTabPrinter2();
+    void showSettingsTabPrinter3();
+    void showSettingsTabPrinter4();
+    
     void addServer();
     void delServer();
 
@@ -81,6 +86,14 @@ private:
     
     QAction * helpAction1;
     QAction * helpAction2;
+    
+    QWidget * printer_tab1;
+    QWidget * printer_tab2;
+    QWidget * printer_tab3;
+    QWidget * printer_tab4;
+    QWidget * printer_tab5;
+    
+    QTabWidget * printerTab;
    
     RMIServer * server;
 };

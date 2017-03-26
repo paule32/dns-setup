@@ -464,6 +464,9 @@ void MainWindow::createSettingsView()
         MyLabel *pixC = new MyLabel(tab6,QString("Printer 1"));
         pixC->move(40,160);
         pixC->setStyleSheet(color_cyan);
+        
+        connect(pixC   , SIGNAL(clicked()), this, SLOT(showSettingsTabPrinter1()));
+        connect(pixwid3, SIGNAL(clicked()), this, SLOT(showSettingsTabPrinter1()));
     }
 
     {
@@ -484,6 +487,9 @@ void MainWindow::createSettingsView()
         MyLabel *pixC = new MyLabel(tab6,QString("Printer 2"));
         pixC->move(190,160);
         pixC->setStyleSheet(color_cyan);
+        
+        connect(pixC   , SIGNAL(clicked()), this, SLOT(showSettingsTabPrinter2()));
+        connect(pixwid3, SIGNAL(clicked()), this, SLOT(showSettingsTabPrinter2()));
     }
     
     {
@@ -504,6 +510,9 @@ void MainWindow::createSettingsView()
         MyLabel *pixC = new MyLabel(tab6,QString("Scanner"));
         pixC->move(340,160);
         pixC->setStyleSheet(color_cyan);
+        
+        connect(pixC   , SIGNAL(clicked()), this, SLOT(showSettingsTabPrinter3()));
+        connect(pixwid3, SIGNAL(clicked()), this, SLOT(showSettingsTabPrinter3()));
     }
 
     {
@@ -524,44 +533,47 @@ void MainWindow::createSettingsView()
         MyLabel *pixC = new MyLabel(tab6,QString("Fax"));
         pixC->move(490,160);
         pixC->setStyleSheet(color_cyan);
+        
+        connect(pixC   , SIGNAL(clicked()), this, SLOT(showSettingsTabPrinter4()));
+        connect(pixwid3, SIGNAL(clicked()), this, SLOT(showSettingsTabPrinter4()));
     }
 
     {
-        QTabWidget *printerTab = new QTabWidget(tab6);
+        printerTab = new QTabWidget(tab6);
         printerTab->setFont(QFont("Arial",12));
         printerTab->move(10,200);
         printerTab->resize(560,250);
         printerTab->setTabShape(QTabWidget::Rounded);
         
-        QWidget *_tab1 = new QWidget(printerTab);
-        QWidget *_tab2 = new QWidget(printerTab);
-        QWidget *_tab3 = new QWidget(printerTab);
-        QWidget *_tab4 = new QWidget(printerTab);
-        QWidget *_tab5 = new QWidget(printerTab);
+        printer_tab1 = new QWidget(printerTab);
+        printer_tab2 = new QWidget(printerTab);
+        printer_tab3 = new QWidget(printerTab);
+        printer_tab4 = new QWidget(printerTab);
+        printer_tab5 = new QWidget(printerTab);
         
         printerTab->setStyleSheet(color_white);
         
-        _tab1->setStyleSheet(color_str);
-        _tab2->setStyleSheet(color_str);
-        _tab3->setStyleSheet(color_str);
-        _tab4->setStyleSheet(color_str);
-        _tab5->setStyleSheet(color_str);
+        printer_tab1->setStyleSheet(color_str);
+        printer_tab2->setStyleSheet(color_str);
+        printer_tab3->setStyleSheet(color_str);
+        printer_tab4->setStyleSheet(color_str);
+        printer_tab5->setStyleSheet(color_str);
 
-        printerTab->addTab(_tab1,"Settings: Printer 1 ");
-        printerTab->addTab(_tab2,"Settings: Printer 2 ");
-        printerTab->addTab(_tab3,"Settings: Scanner ");
-        printerTab->addTab(_tab4,"Settings: Fax ");
-        printerTab->addTab(_tab5,"Price");
+        printerTab->addTab(printer_tab1,"Settings: Printer 1 ");
+        printerTab->addTab(printer_tab2,"Settings: Printer 2 ");
+        printerTab->addTab(printer_tab3,"Settings: Scanner ");
+        printerTab->addTab(printer_tab4,"Settings: Fax ");
+        printerTab->addTab(printer_tab5,"Price");
         
         printerTab->removeTab(1);
         printerTab->removeTab(1);
         printerTab->removeTab(1);
         
-        MyLabel *interfaceLabel = new MyLabel(_tab1,QString("Interface:"));
+        MyLabel *interfaceLabel = new MyLabel(printer_tab1,QString("Interface:"));
         interfaceLabel->move(12,19);
         interfaceLabel->setStyleSheet("border:0px;");
         
-        QComboBox *interfaceCombo = new QComboBox(_tab1);
+        QComboBox *interfaceCombo = new QComboBox(printer_tab1);
         interfaceCombo->move(90,15);
         interfaceCombo->resize(90,24);
         interfaceCombo->setFont(QFont("Arial",12));
@@ -572,22 +584,22 @@ void MainWindow::createSettingsView()
         interfaceCombo->insertItem(2,"eth2");
         interfaceCombo->insertItem(3,"eth3");
         
-        MyLabel *interfaceAddressLabel = new MyLabel(_tab1,QString("Address:"));
+        MyLabel *interfaceAddressLabel = new MyLabel(printer_tab1,QString("Address:"));
         interfaceAddressLabel->move(12,44);
         interfaceAddressLabel->setStyleSheet("border:0px;");
         
-        QLineEdit *interfaceAddressEdit = new QLineEdit(_tab1);
+        QLineEdit *interfaceAddressEdit = new QLineEdit(printer_tab1);
         interfaceAddressEdit->move(90,45);
         interfaceAddressEdit->resize(200,24);
         interfaceAddressEdit->setFont(QFont("Arial",12));
         interfaceAddressEdit->setStyleSheet(color_white);
         
         
-        MyLabel *interfaceMaskLabel = new MyLabel(_tab1,QString("Mask:"));
+        MyLabel *interfaceMaskLabel = new MyLabel(printer_tab1,QString("Mask:"));
         interfaceMaskLabel->move(12,77);
         interfaceMaskLabel->setStyleSheet("border:0px;");
         
-        QLineEdit *interfaceMaskEdit = new QLineEdit(_tab1);
+        QLineEdit *interfaceMaskEdit = new QLineEdit(printer_tab1);
         interfaceMaskEdit->move(90,75);
         interfaceMaskEdit->resize(200,24);
         interfaceMaskEdit->setFont(QFont("Arial",12));
@@ -953,3 +965,28 @@ void MainWindow::initData()
     dataBase = new DataManager("./data/data.db");
     dataBase->initData();
 }
+
+void MainWindow::showSettingsTabPrinter2() {
+    printerTab->removeTab(0);
+    printerTab->addTab(printer_tab2,"Settings: Printer 2");
+    printerTab->addTab(printer_tab5,"Price");
+}
+
+void MainWindow::showSettingsTabPrinter1() {
+    printerTab->removeTab(0);
+    printerTab->addTab(printer_tab1,"Settings: Printer 1");
+    printerTab->addTab(printer_tab5,"Price");
+}
+
+void MainWindow::showSettingsTabPrinter3() {
+    printerTab->removeTab(0);
+    printerTab->addTab(printer_tab3,"Settings: Scanner");
+    printerTab->addTab(printer_tab5,"Price");
+}
+
+void MainWindow::showSettingsTabPrinter4() {
+    printerTab->removeTab(0);
+    printerTab->addTab(printer_tab4,"Settings: Fax");
+    printerTab->addTab(printer_tab5,"Price");
+}
+
