@@ -605,7 +605,104 @@ void MainWindow::createSettingsView()
         interfaceMaskEdit->setFont(QFont("Arial",12));
         interfaceMaskEdit->setStyleSheet(color_white);
 
+        QPushButton *routeButton = new QPushButton(printer_tab1);
+        routeButton->move(320,45);
+        routeButton->resize(100,35);
+        routeButton->setFont(QFont("Arial",12));
+        routeButton->setStyleSheet(color_lime);
+        routeButton->setText(QString("Route"));
     }
+    
+    {
+        MyLabel *interfaceLabel = new MyLabel(printer_tab2,QString("Interface:"));
+        interfaceLabel->move(12,19);
+        interfaceLabel->setStyleSheet("border:0px;");
+        
+        QComboBox *interfaceCombo = new QComboBox(printer_tab2);
+        interfaceCombo->move(90,15);
+        interfaceCombo->resize(90,24);
+        interfaceCombo->setFont(QFont("Arial",12));
+        interfaceCombo->setEditText("eth0");
+        interfaceCombo->setEditable(false);
+        interfaceCombo->insertItem(0,"eth0");
+        interfaceCombo->insertItem(1,"eth1");
+        interfaceCombo->insertItem(2,"eth2");
+        interfaceCombo->insertItem(3,"eth3");
+        
+        MyLabel *interfaceAddressLabel = new MyLabel(printer_tab2,QString("Address:"));
+        interfaceAddressLabel->move(12,44);
+        interfaceAddressLabel->setStyleSheet("border:0px;");
+        
+        QLineEdit *interfaceAddressEdit = new QLineEdit(printer_tab2);
+        interfaceAddressEdit->move(90,45);
+        interfaceAddressEdit->resize(200,24);
+        interfaceAddressEdit->setFont(QFont("Arial",12));
+        interfaceAddressEdit->setStyleSheet(color_white);
+        
+        
+        MyLabel *interfaceMaskLabel = new MyLabel(printer_tab2,QString("Mask:"));
+        interfaceMaskLabel->move(12,77);
+        interfaceMaskLabel->setStyleSheet("border:0px;");
+        
+        QLineEdit *interfaceMaskEdit = new QLineEdit(printer_tab2);
+        interfaceMaskEdit->move(90,75);
+        interfaceMaskEdit->resize(200,24);
+        interfaceMaskEdit->setFont(QFont("Arial",12));
+        interfaceMaskEdit->setStyleSheet(color_white);
+        
+        QPushButton *routeButton = new QPushButton(printer_tab2);
+        routeButton->move(320,45);
+        routeButton->resize(100,35);
+        routeButton->setFont(QFont("Arial",12));
+        routeButton->setStyleSheet(color_lime);
+        routeButton->setText(QString("Route"));
+    }
+
+    {
+        MyLabel *interfaceLabel = new MyLabel(printer_tab3,QString("Interface:"));
+        interfaceLabel->move(12,19);
+        interfaceLabel->setStyleSheet("border:0px;");
+        
+        QComboBox *interfaceCombo = new QComboBox(printer_tab3);
+        interfaceCombo->move(90,15);
+        interfaceCombo->resize(90,24);
+        interfaceCombo->setFont(QFont("Arial",12));
+        interfaceCombo->setEditText("eth0");
+        interfaceCombo->setEditable(false);
+        interfaceCombo->insertItem(0,"eth0");
+        interfaceCombo->insertItem(1,"eth1");
+        interfaceCombo->insertItem(2,"eth2");
+        interfaceCombo->insertItem(3,"eth3");
+        
+        MyLabel *interfaceAddressLabel = new MyLabel(printer_tab3,QString("Address:"));
+        interfaceAddressLabel->move(12,44);
+        interfaceAddressLabel->setStyleSheet("border:0px;");
+        
+        QLineEdit *interfaceAddressEdit = new QLineEdit(printer_tab3);
+        interfaceAddressEdit->move(90,45);
+        interfaceAddressEdit->resize(200,24);
+        interfaceAddressEdit->setFont(QFont("Arial",12));
+        interfaceAddressEdit->setStyleSheet(color_white);
+        
+        
+        MyLabel *interfaceMaskLabel = new MyLabel(printer_tab3,QString("Mask:"));
+        interfaceMaskLabel->move(12,77);
+        interfaceMaskLabel->setStyleSheet("border:0px;");
+        
+        QLineEdit *interfaceMaskEdit = new QLineEdit(printer_tab3);
+        interfaceMaskEdit->move(90,75);
+        interfaceMaskEdit->resize(200,24);
+        interfaceMaskEdit->setFont(QFont("Arial",12));
+        interfaceMaskEdit->setStyleSheet(color_white);
+        
+        QPushButton *routeButton = new QPushButton(printer_tab3);
+        routeButton->move(320,45);
+        routeButton->resize(100,35);
+        routeButton->setFont(QFont("Arial",12));
+        routeButton->setStyleSheet(color_lime);
+        routeButton->setText(QString("Route"));
+    }
+
     
     QLabel *hostLabel = new QLabel(tab2);
     hostLabel->setFont(QFont("Arial",12));
