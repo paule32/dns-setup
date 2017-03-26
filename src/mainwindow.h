@@ -27,6 +27,8 @@ public:
     QLabel  * warnLabel;
     QWidget * loginBox;
     
+    QStringList guestAction;
+    
     QListWidget * nameserverList;
     QLineEdit   * nameserverEdit;
     
