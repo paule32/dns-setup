@@ -12,10 +12,10 @@ MAKEFILE      = Makefile
 
 CC            = gcc
 CXX           = g++
-DEFINES       = -DBUILDTIME=\"23:03:04\" -DBUILDDATE=\"2017-03-25\" -DQT_NO_DEBUG -DQT_HELP_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_CORE_LIB
+DEFINES       = -DBUILDTIME=\"00:15:49\" -DBUILDDATE=\"2017-03-26\" -DQT_NO_DEBUG -DQT_HELP_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_SQL_LIB -DQT_NETWORK_LIB -DQT_CORE_LIB
 CFLAGS        = -pipe -O2 -Wall -W -D_REENTRANT -fPIC $(DEFINES)
 CXXFLAGS      = -pipe -std=c++1y -Wno-unused-parameter -Wno-unused-variable -Wno-unused-local-typedefs -Wno-unused-but-set-variable -Wno-write-strings -Wno-switch -Wno-extra -Wno-reorder -Wno-multichar -Wno-sign-compare -Wunused-function -Woverloaded-virtual -fpermissive -ftemplate-depth=516 -frtti -fexceptions -I/usr/local/include -I/usr/local/include/boost -I/home/jens/Projekte/dns-setup. -I/home/jens/Projekte/dns-setup/src -I/home/jens/Projekte/dns-setup/src/inc -D__BYTE_ORDER=__LITTLE_ENDIAN -DQT_DEPRECATED -DQT_DISABLE_DEPRECATED_BEFORE -O2 -std=gnu++11 -Wall -W -D_REENTRANT -fPIC $(DEFINES)
-INCPATH       = -I. -I../../Qt/5.8/gcc_64/include -isystem /usr/local/include -I/home/jens/Projekte/dns-setup/.uic -Isrc -I/home/jens/Projekte/dns-setup/src/inc -isystem /usr/include -I../../Qt/5.8/gcc_64/include/QtHelp -I../../Qt/5.8/gcc_64/include/QtWidgets -I../../Qt/5.8/gcc_64/include/QtGui -I../../Qt/5.8/gcc_64/include/QtNetwork -I../../Qt/5.8/gcc_64/include/QtCore -I.moc -isystem /usr/include/libdrm -I../../Qt/5.8/gcc_64/mkspecs/linux-g++
+INCPATH       = -I. -I../../Qt/5.8/gcc_64/include -isystem /usr/local/include -I/home/jens/Projekte/dns-setup/.uic -Isrc -I/home/jens/Projekte/dns-setup/src/inc -isystem /usr/include -I../../Qt/5.8/gcc_64/include/QtHelp -I../../Qt/5.8/gcc_64/include/QtWidgets -I../../Qt/5.8/gcc_64/include/QtGui -I../../Qt/5.8/gcc_64/include/QtSql -I../../Qt/5.8/gcc_64/include/QtNetwork -I../../Qt/5.8/gcc_64/include/QtCore -I.moc -isystem /usr/include/libdrm -I../../Qt/5.8/gcc_64/mkspecs/linux-g++
 QMAKE         = /home/jens/Qt/5.8/gcc_64/bin/qmake
 DEL_FILE      = rm -f
 CHK_DIR_EXISTS= test -d
@@ -36,7 +36,7 @@ DISTNAME      = dns-setup1.0.0
 DISTDIR = /home/jens/Projekte/dns-setup/.obj/dns-setup1.0.0
 LINK          = g++
 LFLAGS        = -Wl,-O1 -Wl,-rpath,/home/jens/Qt/5.8/gcc_64/lib -Wl,-rpath-link,/home/jens/Qt/5.8/gcc_64/lib
-LIBS          = $(SUBLIBS) -L/home/jens/Qt/5.8/gcc_64/lib -lstdc++ -lQt5Help -lQt5Widgets -lQt5Gui -lQt5Network -lQt5Core -lGL -lpthread 
+LIBS          = $(SUBLIBS) -L/home/jens/Qt/5.8/gcc_64/lib -lstdc++ -lQt5Help -lQt5Widgets -lQt5Gui -lQt5Sql -lQt5Network -lQt5Core -lGL -lpthread 
 AR            = ar cqs
 RANLIB        = 
 SED           = sed
@@ -51,6 +51,7 @@ OBJECTS_DIR   = .obj/
 SOURCES       = src/main.cc \
 		src/mainwindow.cc \
 		src/label.cc \
+		src/data.cc \
 		src/thread.cc \
 		src/rmiserver.cc .moc/moc_mainwindow.cpp \
 		.moc/moc_label.cpp \
@@ -59,6 +60,7 @@ SOURCES       = src/main.cc \
 OBJECTS       = .obj/main.o \
 		.obj/mainwindow.o \
 		.obj/label.o \
+		.obj/data.o \
 		.obj/thread.o \
 		.obj/rmiserver.o \
 		.obj/moc_mainwindow.o \
@@ -237,10 +239,12 @@ DIST          = app.ini \
 		../../Qt/5.8/gcc_64/mkspecs/features/lex.prf \
 		dns-setup.pro src/mainwindow.h \
 		src/label.h \
+		src/data.h \
 		src/thread.h \
 		src/rmiserver.h src/main.cc \
 		src/mainwindow.cc \
 		src/label.cc \
+		src/data.cc \
 		src/thread.cc \
 		src/rmiserver.cc
 QMAKE_TARGET  = dns-setup
@@ -427,6 +431,7 @@ Makefile: dns-setup.pro ../../Qt/5.8/gcc_64/mkspecs/linux-g++/qmake.conf ../../Q
 		../../Qt/5.8/gcc_64/lib/libQt5Help.prl \
 		../../Qt/5.8/gcc_64/lib/libQt5Widgets.prl \
 		../../Qt/5.8/gcc_64/lib/libQt5Gui.prl \
+		../../Qt/5.8/gcc_64/lib/libQt5Sql.prl \
 		../../Qt/5.8/gcc_64/lib/libQt5Network.prl \
 		../../Qt/5.8/gcc_64/lib/libQt5Core.prl
 	$(QMAKE) -o Makefile dns-setup.pro
@@ -603,6 +608,7 @@ dns-setup.pro:
 ../../Qt/5.8/gcc_64/lib/libQt5Help.prl:
 ../../Qt/5.8/gcc_64/lib/libQt5Widgets.prl:
 ../../Qt/5.8/gcc_64/lib/libQt5Gui.prl:
+../../Qt/5.8/gcc_64/lib/libQt5Sql.prl:
 ../../Qt/5.8/gcc_64/lib/libQt5Network.prl:
 ../../Qt/5.8/gcc_64/lib/libQt5Core.prl:
 qmake: FORCE
@@ -620,8 +626,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents ../../Qt/5.8/gcc_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents src/mainwindow.h src/label.h src/thread.h src/rmiserver.h $(DISTDIR)/
-	$(COPY_FILE) --parents src/main.cc src/mainwindow.cc src/label.cc src/thread.cc src/rmiserver.cc $(DISTDIR)/
+	$(COPY_FILE) --parents src/mainwindow.h src/label.h src/data.h src/thread.h src/rmiserver.h $(DISTDIR)/
+	$(COPY_FILE) --parents src/main.cc src/mainwindow.cc src/label.cc src/data.cc src/thread.cc src/rmiserver.cc $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -793,7 +799,7 @@ compiler_moc_header_clean:
 		src/mainwindow.h \
 		.moc/moc_predefs.h \
 		../../Qt/5.8/gcc_64/bin/moc
-	/home/jens/Qt/5.8/gcc_64/bin/moc $(DEFINES) --include /home/jens/Projekte/dns-setup/.moc/moc_predefs.h -I/home/jens/Qt/5.8/gcc_64/mkspecs/linux-g++ -I/home/jens/Projekte/dns-setup -I/home/jens/Qt/5.8/gcc_64/include -I/usr/local/include -I/home/jens/Projekte/dns-setup/.uic -I/home/jens/Projekte/dns-setup/src -I/home/jens/Projekte/dns-setup/src/inc -I/usr/include -I/home/jens/Qt/5.8/gcc_64/include/QtHelp -I/home/jens/Qt/5.8/gcc_64/include/QtWidgets -I/home/jens/Qt/5.8/gcc_64/include/QtGui -I/home/jens/Qt/5.8/gcc_64/include/QtNetwork -I/home/jens/Qt/5.8/gcc_64/include/QtCore -I/usr/include/c++/4.8 -I/usr/include/x86_64-linux-gnu/c++/4.8 -I/usr/include/c++/4.8/backward -I/usr/lib/gcc/x86_64-linux-gnu/4.8/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/4.8/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include src/mainwindow.h -o .moc/moc_mainwindow.cpp
+	/home/jens/Qt/5.8/gcc_64/bin/moc $(DEFINES) --include /home/jens/Projekte/dns-setup/.moc/moc_predefs.h -I/home/jens/Qt/5.8/gcc_64/mkspecs/linux-g++ -I/home/jens/Projekte/dns-setup -I/home/jens/Qt/5.8/gcc_64/include -I/usr/local/include -I/home/jens/Projekte/dns-setup/.uic -I/home/jens/Projekte/dns-setup/src -I/home/jens/Projekte/dns-setup/src/inc -I/usr/include -I/home/jens/Qt/5.8/gcc_64/include/QtHelp -I/home/jens/Qt/5.8/gcc_64/include/QtWidgets -I/home/jens/Qt/5.8/gcc_64/include/QtGui -I/home/jens/Qt/5.8/gcc_64/include/QtSql -I/home/jens/Qt/5.8/gcc_64/include/QtNetwork -I/home/jens/Qt/5.8/gcc_64/include/QtCore -I/usr/include/c++/4.8 -I/usr/include/x86_64-linux-gnu/c++/4.8 -I/usr/include/c++/4.8/backward -I/usr/lib/gcc/x86_64-linux-gnu/4.8/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/4.8/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include src/mainwindow.h -o .moc/moc_mainwindow.cpp
 
 .moc/moc_label.cpp: ../../Qt/5.8/gcc_64/include/QtCore/QString \
 		../../Qt/5.8/gcc_64/include/QtCore/qstring.h \
@@ -903,7 +909,7 @@ compiler_moc_header_clean:
 		src/label.h \
 		.moc/moc_predefs.h \
 		../../Qt/5.8/gcc_64/bin/moc
-	/home/jens/Qt/5.8/gcc_64/bin/moc $(DEFINES) --include /home/jens/Projekte/dns-setup/.moc/moc_predefs.h -I/home/jens/Qt/5.8/gcc_64/mkspecs/linux-g++ -I/home/jens/Projekte/dns-setup -I/home/jens/Qt/5.8/gcc_64/include -I/usr/local/include -I/home/jens/Projekte/dns-setup/.uic -I/home/jens/Projekte/dns-setup/src -I/home/jens/Projekte/dns-setup/src/inc -I/usr/include -I/home/jens/Qt/5.8/gcc_64/include/QtHelp -I/home/jens/Qt/5.8/gcc_64/include/QtWidgets -I/home/jens/Qt/5.8/gcc_64/include/QtGui -I/home/jens/Qt/5.8/gcc_64/include/QtNetwork -I/home/jens/Qt/5.8/gcc_64/include/QtCore -I/usr/include/c++/4.8 -I/usr/include/x86_64-linux-gnu/c++/4.8 -I/usr/include/c++/4.8/backward -I/usr/lib/gcc/x86_64-linux-gnu/4.8/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/4.8/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include src/label.h -o .moc/moc_label.cpp
+	/home/jens/Qt/5.8/gcc_64/bin/moc $(DEFINES) --include /home/jens/Projekte/dns-setup/.moc/moc_predefs.h -I/home/jens/Qt/5.8/gcc_64/mkspecs/linux-g++ -I/home/jens/Projekte/dns-setup -I/home/jens/Qt/5.8/gcc_64/include -I/usr/local/include -I/home/jens/Projekte/dns-setup/.uic -I/home/jens/Projekte/dns-setup/src -I/home/jens/Projekte/dns-setup/src/inc -I/usr/include -I/home/jens/Qt/5.8/gcc_64/include/QtHelp -I/home/jens/Qt/5.8/gcc_64/include/QtWidgets -I/home/jens/Qt/5.8/gcc_64/include/QtGui -I/home/jens/Qt/5.8/gcc_64/include/QtSql -I/home/jens/Qt/5.8/gcc_64/include/QtNetwork -I/home/jens/Qt/5.8/gcc_64/include/QtCore -I/usr/include/c++/4.8 -I/usr/include/x86_64-linux-gnu/c++/4.8 -I/usr/include/c++/4.8/backward -I/usr/lib/gcc/x86_64-linux-gnu/4.8/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/4.8/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include src/label.h -o .moc/moc_label.cpp
 
 .moc/moc_thread.cpp: ../../Qt/5.8/gcc_64/include/QtCore/QThread \
 		../../Qt/5.8/gcc_64/include/QtCore/qthread.h \
@@ -976,7 +982,7 @@ compiler_moc_header_clean:
 		src/thread.h \
 		.moc/moc_predefs.h \
 		../../Qt/5.8/gcc_64/bin/moc
-	/home/jens/Qt/5.8/gcc_64/bin/moc $(DEFINES) --include /home/jens/Projekte/dns-setup/.moc/moc_predefs.h -I/home/jens/Qt/5.8/gcc_64/mkspecs/linux-g++ -I/home/jens/Projekte/dns-setup -I/home/jens/Qt/5.8/gcc_64/include -I/usr/local/include -I/home/jens/Projekte/dns-setup/.uic -I/home/jens/Projekte/dns-setup/src -I/home/jens/Projekte/dns-setup/src/inc -I/usr/include -I/home/jens/Qt/5.8/gcc_64/include/QtHelp -I/home/jens/Qt/5.8/gcc_64/include/QtWidgets -I/home/jens/Qt/5.8/gcc_64/include/QtGui -I/home/jens/Qt/5.8/gcc_64/include/QtNetwork -I/home/jens/Qt/5.8/gcc_64/include/QtCore -I/usr/include/c++/4.8 -I/usr/include/x86_64-linux-gnu/c++/4.8 -I/usr/include/c++/4.8/backward -I/usr/lib/gcc/x86_64-linux-gnu/4.8/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/4.8/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include src/thread.h -o .moc/moc_thread.cpp
+	/home/jens/Qt/5.8/gcc_64/bin/moc $(DEFINES) --include /home/jens/Projekte/dns-setup/.moc/moc_predefs.h -I/home/jens/Qt/5.8/gcc_64/mkspecs/linux-g++ -I/home/jens/Projekte/dns-setup -I/home/jens/Qt/5.8/gcc_64/include -I/usr/local/include -I/home/jens/Projekte/dns-setup/.uic -I/home/jens/Projekte/dns-setup/src -I/home/jens/Projekte/dns-setup/src/inc -I/usr/include -I/home/jens/Qt/5.8/gcc_64/include/QtHelp -I/home/jens/Qt/5.8/gcc_64/include/QtWidgets -I/home/jens/Qt/5.8/gcc_64/include/QtGui -I/home/jens/Qt/5.8/gcc_64/include/QtSql -I/home/jens/Qt/5.8/gcc_64/include/QtNetwork -I/home/jens/Qt/5.8/gcc_64/include/QtCore -I/usr/include/c++/4.8 -I/usr/include/x86_64-linux-gnu/c++/4.8 -I/usr/include/c++/4.8/backward -I/usr/lib/gcc/x86_64-linux-gnu/4.8/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/4.8/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include src/thread.h -o .moc/moc_thread.cpp
 
 .moc/moc_rmiserver.cpp: ../../Qt/5.8/gcc_64/include/QtNetwork/QTcpServer \
 		../../Qt/5.8/gcc_64/include/QtNetwork/qtcpserver.h \
@@ -1048,7 +1054,7 @@ compiler_moc_header_clean:
 		src/rmiserver.h \
 		.moc/moc_predefs.h \
 		../../Qt/5.8/gcc_64/bin/moc
-	/home/jens/Qt/5.8/gcc_64/bin/moc $(DEFINES) --include /home/jens/Projekte/dns-setup/.moc/moc_predefs.h -I/home/jens/Qt/5.8/gcc_64/mkspecs/linux-g++ -I/home/jens/Projekte/dns-setup -I/home/jens/Qt/5.8/gcc_64/include -I/usr/local/include -I/home/jens/Projekte/dns-setup/.uic -I/home/jens/Projekte/dns-setup/src -I/home/jens/Projekte/dns-setup/src/inc -I/usr/include -I/home/jens/Qt/5.8/gcc_64/include/QtHelp -I/home/jens/Qt/5.8/gcc_64/include/QtWidgets -I/home/jens/Qt/5.8/gcc_64/include/QtGui -I/home/jens/Qt/5.8/gcc_64/include/QtNetwork -I/home/jens/Qt/5.8/gcc_64/include/QtCore -I/usr/include/c++/4.8 -I/usr/include/x86_64-linux-gnu/c++/4.8 -I/usr/include/c++/4.8/backward -I/usr/lib/gcc/x86_64-linux-gnu/4.8/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/4.8/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include src/rmiserver.h -o .moc/moc_rmiserver.cpp
+	/home/jens/Qt/5.8/gcc_64/bin/moc $(DEFINES) --include /home/jens/Projekte/dns-setup/.moc/moc_predefs.h -I/home/jens/Qt/5.8/gcc_64/mkspecs/linux-g++ -I/home/jens/Projekte/dns-setup -I/home/jens/Qt/5.8/gcc_64/include -I/usr/local/include -I/home/jens/Projekte/dns-setup/.uic -I/home/jens/Projekte/dns-setup/src -I/home/jens/Projekte/dns-setup/src/inc -I/usr/include -I/home/jens/Qt/5.8/gcc_64/include/QtHelp -I/home/jens/Qt/5.8/gcc_64/include/QtWidgets -I/home/jens/Qt/5.8/gcc_64/include/QtGui -I/home/jens/Qt/5.8/gcc_64/include/QtSql -I/home/jens/Qt/5.8/gcc_64/include/QtNetwork -I/home/jens/Qt/5.8/gcc_64/include/QtCore -I/usr/include/c++/4.8 -I/usr/include/x86_64-linux-gnu/c++/4.8 -I/usr/include/c++/4.8/backward -I/usr/lib/gcc/x86_64-linux-gnu/4.8/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/4.8/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include src/rmiserver.h -o .moc/moc_rmiserver.cpp
 
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
@@ -1520,6 +1526,43 @@ compiler_clean: compiler_moc_predefs_clean compiler_moc_header_clean
 		../../Qt/5.8/gcc_64/include/QtCore/QString \
 		../../Qt/5.8/gcc_64/include/QtGui/QMouseEvent
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o .obj/label.o src/label.cc
+
+.obj/data.o: src/data.cc src/data.h \
+		../../Qt/5.8/gcc_64/include/QtCore/QString \
+		../../Qt/5.8/gcc_64/include/QtCore/qstring.h \
+		../../Qt/5.8/gcc_64/include/QtCore/qchar.h \
+		../../Qt/5.8/gcc_64/include/QtCore/qglobal.h \
+		../../Qt/5.8/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		../../Qt/5.8/gcc_64/include/QtCore/qconfig.h \
+		../../Qt/5.8/gcc_64/include/QtCore/qtcore-config.h \
+		../../Qt/5.8/gcc_64/include/QtCore/qsystemdetection.h \
+		../../Qt/5.8/gcc_64/include/QtCore/qprocessordetection.h \
+		../../Qt/5.8/gcc_64/include/QtCore/qcompilerdetection.h \
+		../../Qt/5.8/gcc_64/include/QtCore/qtypeinfo.h \
+		../../Qt/5.8/gcc_64/include/QtCore/qsysinfo.h \
+		../../Qt/5.8/gcc_64/include/QtCore/qlogging.h \
+		../../Qt/5.8/gcc_64/include/QtCore/qflags.h \
+		../../Qt/5.8/gcc_64/include/QtCore/qtypetraits.h \
+		../../Qt/5.8/gcc_64/include/QtCore/qatomic.h \
+		../../Qt/5.8/gcc_64/include/QtCore/qbasicatomic.h \
+		../../Qt/5.8/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		../../Qt/5.8/gcc_64/include/QtCore/qgenericatomic.h \
+		../../Qt/5.8/gcc_64/include/QtCore/qatomic_cxx11.h \
+		../../Qt/5.8/gcc_64/include/QtCore/qatomic_msvc.h \
+		../../Qt/5.8/gcc_64/include/QtCore/qglobalstatic.h \
+		../../Qt/5.8/gcc_64/include/QtCore/qmutex.h \
+		../../Qt/5.8/gcc_64/include/QtCore/qnumeric.h \
+		../../Qt/5.8/gcc_64/include/QtCore/qversiontagging.h \
+		../../Qt/5.8/gcc_64/include/QtCore/qbytearray.h \
+		../../Qt/5.8/gcc_64/include/QtCore/qrefcount.h \
+		../../Qt/5.8/gcc_64/include/QtCore/qnamespace.h \
+		../../Qt/5.8/gcc_64/include/QtCore/qarraydata.h \
+		../../Qt/5.8/gcc_64/include/QtCore/qstringbuilder.h \
+		../../Qt/5.8/gcc_64/include/QtSql/QSqlQuery \
+		../../Qt/5.8/gcc_64/include/QtSql/qsqlquery.h \
+		../../Qt/5.8/gcc_64/include/QtSql/qtsqlglobal.h \
+		../../Qt/5.8/gcc_64/include/QtSql/qsqldatabase.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o .obj/data.o src/data.cc
 
 .obj/thread.o: src/thread.cc src/thread.h \
 		../../Qt/5.8/gcc_64/include/QtCore/QThread \

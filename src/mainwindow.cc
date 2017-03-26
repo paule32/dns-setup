@@ -11,10 +11,14 @@
 #include <QSettings>
 #include <QStatusBar>
 #include <QScrollArea>
+#include <QList>
 #include <QListWidget>
+#include <QRegExp>
 #include <QMessageBox>
 
 #include "label.h"
+#include "data.h"
+
 #include "mainwindow.h"
 #include "rmiserver.h"
 
@@ -35,6 +39,8 @@ MainWindow::MainWindow()
     createActions();
     createMenus();
     createView();
+    
+    initData();
 }
 
 void MainWindow::addServer()
@@ -273,20 +279,137 @@ void MainWindow::createSettingsView()
     QWidget *tab3 = new QWidget(mainTab);
     QWidget *tab4 = new QWidget(mainTab);
     QWidget *tab5 = new QWidget(mainTab);
+    QWidget *tab6 = new QWidget(mainTab);
     
     mainTab->addTab(tab1,"Common");
     mainTab->addTab(tab2,"Network");
+    mainTab->addTab(tab6,"Printer");
     mainTab->addTab(tab3,"User");
     mainTab->addTab(tab4,"Statistik");
     mainTab->addTab(tab5,"Order");
 
-    QString color_str = "background-color:rgb(200,200,100);";
+    QString color_str   = "background-color:rgb(200,200,100);";
+    QString color_white = "background-color:white;";
+    QString color_cyan  = "background-color:cyan;";
+    QString color_lime  = "background-color:lime;";
+    
+    QString text_online = "    Online";
     
     tab1->setStyleSheet(color_str);
     tab2->setStyleSheet(color_str);
     tab3->setStyleSheet(color_str);
     tab4->setStyleSheet(color_str);
     tab5->setStyleSheet(color_str);
+    tab6->setStyleSheet(color_str);
+
+
+    {
+        MyLabel *status = new MyLabel(tab6,text_online);
+        status->move(25,14);
+        status->resize(90,27);
+        status->setStyleSheet(color_lime);
+            
+        MyWidget *pixwid3 = new MyWidget(tab6);
+        QLabel *pix3 = new QLabel(pixwid3);
+        QImage  img3("./img/printer.png");
+        pix3->setScaledContents(true);
+        QImage  imgC = img3.scaled(120,130,Qt::KeepAspectRatio);
+        pix3->setPixmap(QPixmap::fromImage(imgC));
+        pix3->setAlignment(Qt::AlignCenter);
+        pixwid3->move(10,50);
+        pixwid3->resize(120,122);
+        MyLabel *pixC = new MyLabel(tab6,QString("Printer 1"));
+        pixC->move(40,160);
+        pixC->setStyleSheet(color_cyan);
+    }
+
+    {
+        MyLabel *status = new MyLabel(tab6,text_online);
+        status->move(175,14);
+        status->resize(90,27);
+        status->setStyleSheet(color_lime);    
+
+        MyWidget *pixwid3 = new MyWidget(tab6);
+        QLabel *pix3 = new QLabel(pixwid3);
+        QImage  img3("./img/printer.png");
+        pix3->setScaledContents(true);
+        QImage  imgC = img3.scaled(120,130,Qt::KeepAspectRatio);
+        pix3->setPixmap(QPixmap::fromImage(imgC));
+        pix3->setAlignment(Qt::AlignCenter);
+        pixwid3->move(160,50);
+        pixwid3->resize(120,122);
+        MyLabel *pixC = new MyLabel(tab6,QString("Printer 2"));
+        pixC->move(190,160);
+        pixC->setStyleSheet(color_cyan);
+    }
+    
+    {
+        MyLabel *status = new MyLabel(tab6,text_online);
+        status->move(325,14);
+        status->resize(90,27);
+        status->setStyleSheet(color_lime);
+            
+        MyWidget *pixwid3 = new MyWidget(tab6);
+        QLabel *pix3 = new QLabel(pixwid3);
+        QImage  img3("./img/printer.png");
+        pix3->setScaledContents(true);
+        QImage  imgC = img3.scaled(120,130,Qt::KeepAspectRatio);
+        pix3->setPixmap(QPixmap::fromImage(imgC));
+        pix3->setAlignment(Qt::AlignCenter);
+        pixwid3->move(310,50);
+        pixwid3->resize(120,122);
+        MyLabel *pixC = new MyLabel(tab6,QString("Scanner"));
+        pixC->move(340,160);
+        pixC->setStyleSheet(color_cyan);
+    }
+
+    {
+        MyLabel *status = new MyLabel(tab6,text_online);
+        status->move(475,14);
+        status->resize(90,27);
+        status->setStyleSheet(color_lime);
+
+        MyWidget *pixwid3 = new MyWidget(tab6);
+        QLabel *pix3 = new QLabel(pixwid3);
+        QImage  img3("./img/printer.png");
+        pix3->setScaledContents(true);
+        QImage  imgC = img3.scaled(120,130,Qt::KeepAspectRatio);
+        pix3->setPixmap(QPixmap::fromImage(imgC));
+        pix3->setAlignment(Qt::AlignCenter);
+        pixwid3->move(460,50);
+        pixwid3->resize(120,122);
+        MyLabel *pixC = new MyLabel(tab6,QString("Fax"));
+        pixC->move(490,160);
+        pixC->setStyleSheet(color_cyan);
+    }
+
+    {
+        QTabWidget *printerTab = new QTabWidget(tab6);
+        printerTab->setFont(QFont("Arial",12));
+        printerTab->move(10,200);
+        printerTab->resize(560,250);
+        printerTab->setTabShape(QTabWidget::Rounded);
+        
+        QWidget *tab1 = new QWidget(printerTab);
+        QWidget *tab2 = new QWidget(printerTab);
+        QWidget *tab3 = new QWidget(printerTab);
+        QWidget *tab4 = new QWidget(printerTab);
+        QWidget *tab5 = new QWidget(printerTab);
+        
+        printerTab->setStyleSheet(color_white);
+        
+        tab1->setStyleSheet(color_str);
+        tab2->setStyleSheet(color_str);
+        tab3->setStyleSheet(color_str);
+        tab4->setStyleSheet(color_str);
+        tab5->setStyleSheet(color_str);
+
+        printerTab->addTab(tab1,"Settings: Printer 1 ");
+        printerTab->addTab(tab2,"Settings: Printer 2 ");
+        printerTab->addTab(tab3,"Settings: Scanner ");
+        printerTab->addTab(tab4,"Settings: Fax ");
+        printerTab->addTab(tab5,"Price");
+    }
     
     QLabel *hostLabel = new QLabel(tab2);
     hostLabel->setFont(QFont("Arial",12));
@@ -312,20 +435,27 @@ void MainWindow::createSettingsView()
     QLineEdit *proxEdit = new QLineEdit(tab2);
     
     hostEdit->setFont(QFont("Arial",12));
+    hostEdit->setText(dataBase->getDataFromField(QString("server"),QString("host")));
     hostEdit->move(70,20);
     hostEdit->resize(260,25);
     
     portEdit->setFont(QFont("Arial",12));
+    portEdit->setText(dataBase->getDataFromField(QString("server"),QString("port")));
     portEdit->move(70,60);
     portEdit->resize(260,25);
     
     proxEdit->setFont(QFont("Arial",12));
+    proxEdit->setText(dataBase->getDataFromField(QString("server"),QString("proxy")));
     proxEdit->move(70,100);
     proxEdit->resize(260,25);
     
-    hostEdit->setStyleSheet("background-color:white;");
-    portEdit->setStyleSheet("background-color:white;");
-    proxEdit->setStyleSheet("background-color:white;");
+    connect(hostEdit, SIGNAL(textChanged(QString)), this, SLOT(hostEditchanged(QString)));
+    connect(portEdit, SIGNAL(textChanged(QString)), this, SLOT(portEditchanged(QString)));
+    connect(proxEdit, SIGNAL(textChanged(QString)), this, SLOT(proxEditchanged(QString)));
+    
+    hostEdit->setStyleSheet(color_white);
+    portEdit->setStyleSheet(color_white);
+    proxEdit->setStyleSheet(color_white);
     
     //
     QLabel *nameserverLabel = new QLabel(tab2);
@@ -334,11 +464,13 @@ void MainWindow::createSettingsView()
     nameserverLabel->setText("Nameserver:");
     nameserverLabel->setStyleSheet("border: 0px;");
     
-    QListWidget *nameserverList = new QListWidget(tab2);
+    nameserverList = new QListWidget(tab2);
     nameserverList->move(10,174);
     nameserverList->resize(200,200);
+    nameserverList->setFont(QFont("Arial",12));
     nameserverList->setStyleSheet("background-color:white;");
     
+    dataBase->initNameserverList(nameserverList);
 
     QPushButton *nameserverAddButton = new QPushButton(tab2);
     nameserverAddButton->move(240,174);
@@ -361,12 +493,17 @@ void MainWindow::createSettingsView()
     nameserverEditButton->setText("Edit");
     nameserverEditButton->setStyleSheet("background-color:cyan;");
     
+    connect(nameserverAddButton   , SIGNAL(clicked()), this, SLOT(nameserverAddClick   ()));
+    connect(nameserverEditButton  , SIGNAL(clicked()), this, SLOT(nameserverEditClick  ()));
+    connect(nameserverDeleteButton, SIGNAL(clicked()), this, SLOT(nameserverDeleteClick()));
     
-    QLineEdit *nameserverEdit = new QLineEdit(tab2);
+    nameserverEdit = new QLineEdit(tab2);
     nameserverEdit->move(390,177);
     nameserverEdit->resize(170,30);
     nameserverEdit->setFont(QFont("Arial",12));
     nameserverEdit->setStyleSheet("background-color:white;");
+
+    connect(nameserverEdit, SIGNAL(textChanged(QString)), this, SLOT(nameserverEditChange(QString)));
 
     QPushButton *nameserverPingButton = new QPushButton(tab2);
     nameserverPingButton->move(10,400);
@@ -553,6 +690,48 @@ void MainWindow::createSettingsView()
     */
 }
 
+void MainWindow::hostEditchanged(QString text) { dataBase->setDataFromField("server","host" ,text); }
+void MainWindow::portEditchanged(QString text) { dataBase->setDataFromField("server","port" ,text); }
+void MainWindow::proxEditchanged(QString text) { dataBase->setDataFromField("server","proxy",text); }
+
+void MainWindow::nameserverAddClick()
+{
+    bool   found = false;
+    QString edit = nameserverEdit->text().remove(QRegExp("\\t*\\n*\\r*\\s*$"));
+    
+    if (edit.length() < 1) {
+        QMessageBox::warning(this,"Warning !!!","No Data");
+        return;
+    }
+
+    nameserverList->addItem(edit );
+    nameserverEdit->setText("");
+    
+//    dataBase->deleteTable("nameserver");
+//    dataBase->createTable("nameserver");
+
+    static int i = 0;
+    ++i;
+    dataBase->insertData("nameserver", i, edit);
+}
+
+void MainWindow::nameserverEditChange(QString text) { }
+void MainWindow::nameserverEditClick() { }
+void MainWindow::nameserverDeleteClick()
+{
+    if (nameserverList->currentRow() > -1)
+    {        
+        dataBase->nameserverListDeleteRow(
+        nameserverList->currentItem()->text());
+
+        QListWidgetItem *item =
+        nameserverList->takeItem(
+        nameserverList->currentRow());
+
+        delete item;
+    }
+}
+
 void MainWindow::intoLogin()
 {
     QSettings ini("app.ini",QSettings::NativeFormat);
@@ -574,4 +753,10 @@ void MainWindow::intoLogin()
         if (mainTab)   mainTab  ->hide();
         
     }
+}
+
+void MainWindow::initData()
+{
+    dataBase = new DataManager("./data/data.db");
+    dataBase->initData();
 }

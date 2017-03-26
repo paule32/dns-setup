@@ -8,7 +8,7 @@ TEMPLATE = app
 TARGET   = dns-setup
 CONFIG  += release
 
-QT = core gui widgets help network
+QT = core gui widgets sql help network
 
 PWD=$$system(pwd)
 
@@ -72,12 +72,14 @@ SOURCES += \
     $${SRCDIR}/main.cc \
     $${SRCDIR}/mainwindow.cc \
     $${SRCDIR}/label.cc \
+    $${SRCDIR}/data.cc \
     $${SRCDIR}/thread.cc \
     $${SRCDIR}/rmiserver.cc
 
 HEADERS += \
     $${SRCDIR}/mainwindow.h \
     $${SRCDIR}/label.h \
+    $${SRCDIR}/data.h \
     $${SRCDIR}/thread.h \
     $${SRCDIR}/rmiserver.h
 

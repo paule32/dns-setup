@@ -8,6 +8,7 @@
 #include <QGroupBox>
 #include <QScrollArea>
 #include <QTabWidget>
+#include <QListWidget>
 #include <QMainWindow>
 
 #include "rmiserver.h"
@@ -26,8 +27,22 @@ public:
     QLabel  * warnLabel;
     QWidget * loginBox;
     
+    QListWidget * nameserverList;
+    QLineEdit   * nameserverEdit;
+    
 protected:
+public slots:
+    void hostEditchanged(QString text);
+    void portEditchanged(QString text);
+    void proxEditchanged(QString text);
+    
+    void nameserverEditChange(QString text);
+    
 private slots:
+    void nameserverAddClick();
+    void nameserverEditClick();
+    void nameserverDeleteClick();
+    
     void addServer();
     void delServer();
 
@@ -44,6 +59,8 @@ private:
     void createActions();
     void createMenus();
     void createView();
+    
+    void initData();
 
     QLineEdit * userEdit;
     QLineEdit * passEdit;
