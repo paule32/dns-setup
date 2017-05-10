@@ -11,6 +11,7 @@
 #include <QListWidget>
 #include <QMainWindow>
 
+#include "cafemessage.h"
 #include "rmiserver.h"
 
 class QAction;
@@ -50,6 +51,8 @@ private slots:
     void showSettingsTabPrinter3();
     void showSettingsTabPrinter4();
     
+    void setupPrinter1();
+    
     void addServer();
     void delServer();
 
@@ -86,6 +89,8 @@ private:
     
     QAction * helpAction1;
     QAction * helpAction2;
+
+    MyCafeMessage * message;
     
     QWidget * printer_tab1;
     QWidget * printer_tab2;

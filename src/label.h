@@ -22,11 +22,14 @@ class MyWidget: public QWidget {
 public:
     explicit MyWidget(QWidget *parent = 0);
 
+    void newPCSessionMembers();
+    void newPCSessionNonMembers();
+    
 signals:
     void clicked();
     
 protected:
-    virtual void mousePressEvent(QMouseEvent *evt) override;
+    virtual void mouseReleaseEvent(QMouseEvent *evt) override;
 };
 
 #endif

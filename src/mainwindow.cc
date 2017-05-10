@@ -17,20 +17,39 @@
 #include <QComboBox>
 #include <QMessageBox>
 
+#include <QGuiApplication>
+#include <QStyleHints>
+#include <QScreen>
+#include <QQmlApplicationEngine>
+#include <QtQml/QQmlContext>
+#include <QtWebView/QtWebView>
+
+#include <QPrinter>
+#include <QPageSetupDialog>
+#include <QPrintPreviewDialog>
+
+#include <QtWebView/QtWebView>
+#include <QUrl>
+
 #include "label.h"
 #include "data.h"
+#include "menu.h"
 
 #include "mainwindow.h"
 #include "rmiserver.h"
 
+const int WIDTH  = 1000;
+const int HEIGHT =  700;
+
 MainWindow::MainWindow()
 {
+    this->move  (0,0);
+    this->resize(WIDTH,HEIGHT);
+
     QWidget *widget = new QWidget;
-    setCentralWidget(widget);
     
-    setWindowTitle(QString::fromUtf8("DNS-Server client 1.0 - Jens Kallup"));
-    move(0,0);
-    resize(800,600);
+    setCentralWidget(widget);
+    setWindowTitle(QString::fromUtf8("Cafe-Server 1.0 - Jens Kallup"));
 
     warnLabel = nullptr;
     loginBox  = nullptr;
@@ -109,7 +128,7 @@ void MainWindow::createMenus()
     QWidget  *menuWidget = new QWidget(this);
     menuWidget->setAutoFillBackground(true);
     menuWidget->move(0,0);
-    menuWidget->resize(800,35);
+    menuWidget->resize(WIDTH,35);
     menuWidget->setStyleSheet("background-color:gray;");
 
     QString menustr = "background-color:gray;font-weight:900;";
@@ -119,7 +138,7 @@ void MainWindow::createMenus()
     menu->setStyleSheet(menustr);
     menu->setFont(QFont("Arial",12));
     menu->move(4,7);
-    menu->resize(800,30);
+    menu->resize(WIDTH,30);
 
    
     fileMenu = new QMenu("File");
@@ -151,7 +170,7 @@ void MainWindow::createView()
 {
     groupBoxL = new QGroupBox(this);
     groupBoxL->move(10,35);
-    groupBoxL->resize(140,532);
+    groupBoxL->resize(140,HEIGHT - 40);
     groupBoxL->setStyleSheet(
     "background-color:cyan; " \
     "border: 1px solid black; border-radius: 10px;");
@@ -195,7 +214,7 @@ void MainWindow::createView()
     
     groupBoxR = new QGroupBox(this);
     groupBoxR->move(160,35);
-    groupBoxR->resize(620,532);
+    groupBoxR->resize(820,HEIGHT - 40);
     groupBoxR->setStyleSheet(
     "background-color:white; " \
     "border: 1px solid black; border-radius: 10px;");
@@ -280,7 +299,7 @@ void MainWindow::createSettingsView()
     mainTab = new QTabWidget(groupBoxR);
     mainTab->setFont(QFont("Arial",12));
     mainTab->move(10,10);
-    mainTab->resize(600,500);
+    mainTab->resize(800,626);
     mainTab->setTabShape(QTabWidget::Rounded);
 
     QWidget *tab1 = new QWidget(mainTab);
@@ -301,8 +320,11 @@ void MainWindow::createSettingsView()
     QString color_white = "background-color:white;";
     QString color_cyan  = "background-color:cyan;";
     QString color_lime  = "background-color:lime;";
+    QString color_red   = "background-color:red;";
     
-    QString text_online = "    Online";
+    QString text_offline = "    Offline";
+    QString text_online  = "    Online";
+    QString text_free    = "     Free";
     
     tab1->setStyleSheet(color_str);
     tab2->setStyleSheet(color_str);
@@ -312,12 +334,14 @@ void MainWindow::createSettingsView()
     tab6->setStyleSheet(color_str);
 
     {
-        MyLabel *status = new MyLabel(tab1,text_online);
+        MyLabel *status = new MyLabel(tab1,text_offline);
         status->move(25,14);
         status->resize(90,27);
-        status->setStyleSheet(color_lime);
+        status->setStyleSheet(color_red);
+        status->setObjectName("pc1status");
             
         MyWidget *pixwid3 = new MyWidget(tab1);
+        pixwid3->setObjectName("pc1click");
         QLabel *pix3 = new QLabel(pixwid3);
         QImage  img3("./img/work.png");
         pix3->setScaledContents(true);
@@ -328,16 +352,17 @@ void MainWindow::createSettingsView()
         pixwid3->resize(120,122);
         MyLabel *pixC = new MyLabel(tab1,QString(" CafePC 1 "));
         pixC->move(20,140);
-        pixC->setStyleSheet(color_cyan);        
+        pixC->setStyleSheet(color_cyan);
     }
 
     {
-        MyLabel *status = new MyLabel(tab1,text_online);
+        MyLabel *status = new MyLabel(tab1,text_offline);
         status->move(175,14);
         status->resize(90,27);
-        status->setStyleSheet(color_lime);
+        status->setStyleSheet(color_red);
             
         MyWidget *pixwid3 = new MyWidget(tab1);
+        pixwid3->setObjectName("pc2click");
         QLabel *pix3 = new QLabel(pixwid3);
         QImage  img3("./img/work.png");
         pix3->setScaledContents(true);
@@ -352,12 +377,13 @@ void MainWindow::createSettingsView()
     }
 
     {
-        MyLabel *status = new MyLabel(tab1,text_online);
+        MyLabel *status = new MyLabel(tab1,text_offline);
         status->move(320,14);
         status->resize(90,27);
-        status->setStyleSheet(color_lime);
+        status->setStyleSheet(color_red);
             
         MyWidget *pixwid3 = new MyWidget(tab1);
+        pixwid3->setObjectName("pc3click");
         QLabel *pix3 = new QLabel(pixwid3);
         QImage  img3("./img/work.png");
         pix3->setScaledContents(true);
@@ -372,12 +398,13 @@ void MainWindow::createSettingsView()
     }
 
     {
-        MyLabel *status = new MyLabel(tab1,text_online);
+        MyLabel *status = new MyLabel(tab1,text_offline);
         status->move(465,14);
         status->resize(90,27);
-        status->setStyleSheet(color_lime);
+        status->setStyleSheet(color_red);
             
         MyWidget *pixwid3 = new MyWidget(tab1);
+        pixwid3->setObjectName("pc4click");
         QLabel *pix3 = new QLabel(pixwid3);
         QImage  img3("./img/work.png");
         pix3->setScaledContents(true);
@@ -391,15 +418,37 @@ void MainWindow::createSettingsView()
         pixC->setStyleSheet(color_cyan);        
     }
 
+    {
+        MyLabel *status = new MyLabel(tab1,text_offline);
+        status->move(614,14);
+        status->resize(90,27);
+        status->setStyleSheet(color_red);
+            
+        MyWidget *pixwid3 = new MyWidget(tab1);
+        QLabel *pix3 = new QLabel(pixwid3);
+        pixwid3->setObjectName("pc5click");
+        QImage  img3("./img/work.png");
+        pix3->setScaledContents(true);
+        QImage  imgC = img3.scaled(120,130,Qt::KeepAspectRatio);
+        pix3->setPixmap(QPixmap::fromImage(imgC));
+        pix3->setAlignment(Qt::AlignCenter);
+        pixwid3->move(600,50);
+        pixwid3->resize(120,122);
+        MyLabel *pixC = new MyLabel(tab1,QString(" CafePC 5 "));
+        pixC->move(615,140);
+        pixC->setStyleSheet(color_cyan);        
+    }
+
 ///
 
     {
-        MyLabel *status = new MyLabel(tab1,text_online);
+        MyLabel *status = new MyLabel(tab1,text_offline);
         status->move(25,214);
         status->resize(90,27);
-        status->setStyleSheet(color_lime);
+        status->setStyleSheet(color_red);
             
         MyWidget *pixwid3 = new MyWidget(tab1);
+        pixwid3->setObjectName("pc6click");
         QLabel *pix3 = new QLabel(pixwid3);
         QImage  img3("./img/work.png");
         pix3->setScaledContents(true);
@@ -408,46 +457,118 @@ void MainWindow::createSettingsView()
         pix3->setAlignment(Qt::AlignCenter);
         pixwid3->move(10,250);
         pixwid3->resize(120,122);
-        MyLabel *pixC = new MyLabel(tab1,QString(" CafePC 5 "));
+        MyLabel *pixC = new MyLabel(tab1,QString(" CafePC 6 "));
         pixC->move(20,340);
         pixC->setStyleSheet(color_cyan);        
     }
 
     {
-        MyLabel *status = new MyLabel(tab1,text_online);
-        status->move(465,214);
+        MyLabel *status = new MyLabel(tab1,text_offline);
+        status->move(614,214);
         status->resize(90,27);
-        status->setStyleSheet(color_lime);
+        status->setStyleSheet(color_red);
             
         MyWidget *pixwid3 = new MyWidget(tab1);
+        pixwid3->setObjectName("pc7click");
         QLabel *pix3 = new QLabel(pixwid3);
         QImage  img3("./img/work.png");
         pix3->setScaledContents(true);
         QImage  imgC = img3.scaled(120,130,Qt::KeepAspectRatio);
         pix3->setPixmap(QPixmap::fromImage(imgC));
         pix3->setAlignment(Qt::AlignCenter);
-        pixwid3->move(450,250);
+        pixwid3->move(600,250);
         pixwid3->resize(120,122);
-        MyLabel *pixC = new MyLabel(tab1,QString(" CafePC 6 "));
-        pixC->move(470,340);
+        MyLabel *pixC = new MyLabel(tab1,QString(" CafePC 7 "));
+        pixC->move(615,340);
+        pixC->setStyleSheet(color_cyan);
+    }
+
+    // cafe tables ...
+    {
+        MyLabel *status = new MyLabel(tab1,text_free);
+        status->move(25,414);
+        status->resize(90,27);
+        status->setStyleSheet(color_lime);
+            
+        MyWidget *pixwid3 = new MyWidget(tab1);
+        pixwid3->setObjectName("table1click");
+        QLabel *pix3 = new QLabel(pixwid3);
+        QImage  img3("./img/tisch.png");
+        pix3->setScaledContents(true);
+        QImage  imgC = img3.scaled(130,120,Qt::KeepAspectRatio);
+        pix3->setPixmap(QPixmap::fromImage(imgC));
+        pix3->setAlignment(Qt::AlignCenter);
+        pixwid3->move(10,450);
+        pixwid3->resize(120,122);
+        MyLabel *pixC = new MyLabel(tab1,QString(" CafeTable 1 "));
+        pixC->move(20,540);
         pixC->setStyleSheet(color_cyan);        
     }
 
+    {
+        MyLabel *status = new MyLabel(tab1,text_free);
+        status->move(325,414);
+        status->resize(90,27);
+        status->setStyleSheet(color_lime);
+            
+        MyWidget *pixwid3 = new MyWidget(tab1);
+        pixwid3->setObjectName("table2click");
+        QLabel *pix3 = new QLabel(pixwid3);
+        QImage  img3("./img/tisch.png");
+        pix3->setScaledContents(true);
+        QImage  imgC = img3.scaled(130,120,Qt::KeepAspectRatio);
+        pix3->setPixmap(QPixmap::fromImage(imgC));
+        pix3->setAlignment(Qt::AlignCenter);
+        pixwid3->move(305,450);
+        pixwid3->resize(120,122);
+        MyLabel *pixC = new MyLabel(tab1,QString(" CafeTable 2 "));
+        pixC->move(312,540);
+        pixC->setStyleSheet(color_cyan);        
+    }
+
+    {
+        MyLabel *status = new MyLabel(tab1,text_free);
+        status->move(614,414);
+        status->resize(90,27);
+        status->setStyleSheet(color_lime);
+            
+        MyWidget *pixwid3 = new MyWidget(tab1);
+        pixwid3->setObjectName("table3click");
+        QLabel *pix3 = new QLabel(pixwid3);
+        QImage  img3("./img/tisch.png");
+        pix3->setScaledContents(true);
+        QImage  imgC = img3.scaled(120,130,Qt::KeepAspectRatio);
+        pix3->setPixmap(QPixmap::fromImage(imgC));
+        pix3->setAlignment(Qt::AlignCenter);
+        pixwid3->move(600,450);
+        pixwid3->resize(120,122);
+        MyLabel *pixC = new MyLabel(tab1,QString(" CafeTable 3 "));
+        pixC->move(609,540);
+        pixC->setStyleSheet(color_cyan);
+    }
+       
+    
     // buying flyer ...
     {
         MyLabel *status = new MyLabel(tab1,guestAction.at(1).arg("PC-2"));
         status->setWordWrap(true);
-        status->move(205,214);
+        status->move(275,214);
         status->resize(160,107);
         status->setStyleSheet("background-color:rgb(150,200,200);qproperty-alignment: AlignCenter;");
 
     }
 
-
+    // something wrong in the cafe.. ??
+    {
+        message = new MyCafeMessage(tab1);
+        message->move(250,300);
+        message->resize(210,50);
+        message->setStyleSheet("background-color:yellow;");
+    }
     
     //
     {
-        MyLabel *status = new MyLabel(tab6,text_online);
+        MyLabel *status = new MyLabel(tab6,text_offline);
         status->move(25,14);
         status->resize(90,27);
         status->setStyleSheet(color_lime);
@@ -470,7 +591,7 @@ void MainWindow::createSettingsView()
     }
 
     {
-        MyLabel *status = new MyLabel(tab6,text_online);
+        MyLabel *status = new MyLabel(tab6,text_offline);
         status->move(175,14);
         status->resize(90,27);
         status->setStyleSheet(color_lime);    
@@ -493,7 +614,7 @@ void MainWindow::createSettingsView()
     }
     
     {
-        MyLabel *status = new MyLabel(tab6,text_online);
+        MyLabel *status = new MyLabel(tab6,text_offline);
         status->move(325,14);
         status->resize(90,27);
         status->setStyleSheet(color_lime);
@@ -516,7 +637,7 @@ void MainWindow::createSettingsView()
     }
 
     {
-        MyLabel *status = new MyLabel(tab6,text_online);
+        MyLabel *status = new MyLabel(tab6,text_offline);
         status->move(475,14);
         status->resize(90,27);
         status->setStyleSheet(color_lime);
@@ -569,6 +690,18 @@ void MainWindow::createSettingsView()
         printerTab->removeTab(1);
         printerTab->removeTab(1);
         
+        MyLabel *priceLabel = new MyLabel(printer_tab5,QString("Price per Unit:"));
+        priceLabel->move(12,19);
+        priceLabel->setStyleSheet("border:0px;");
+	
+        QLineEdit *priceEdit = new QLineEdit(printer_tab5);
+        priceEdit->move(120,17);
+    	priceEdit->resize(100,26);
+    	priceEdit->setStyleSheet(color_white);
+    	priceEdit->setFont(QFont("Arial",12));
+    	priceEdit->setText("0,20");
+
+
         MyLabel *interfaceLabel = new MyLabel(printer_tab1,QString("Interface:"));
         interfaceLabel->move(12,19);
         interfaceLabel->setStyleSheet("border:0px;");
@@ -604,6 +737,15 @@ void MainWindow::createSettingsView()
         interfaceMaskEdit->resize(200,24);
         interfaceMaskEdit->setFont(QFont("Arial",12));
         interfaceMaskEdit->setStyleSheet(color_white);
+        
+        QPushButton *setupPrinter = new QPushButton(printer_tab1);
+        setupPrinter->move(90,114);
+        setupPrinter->resize(100,35);
+        setupPrinter->setFont(QFont("Arial",12));
+        setupPrinter->setStyleSheet(color_cyan);
+        setupPrinter->setText(QString("Setup"));
+        
+        connect(setupPrinter, SIGNAL(clicked()), this, SLOT(setupPrinter1()));
 
         QPushButton *routeButton = new QPushButton(printer_tab1);
         routeButton->move(320,45);
@@ -1087,3 +1229,20 @@ void MainWindow::showSettingsTabPrinter4() {
     printerTab->addTab(printer_tab5,"Price");
 }
 
+void MainWindow::setupPrinter1()
+{
+
+    
+    QThread *engine_runner = new QThread;
+
+/*
+    
+    
+    QPrinter printer;
+    printer.setOutputFormat(QPrinter::PdfFormat);
+    printer.setOutputFileName("/foobar");
+    
+    QPrintPreviewDialog pp(this);
+    pp.exec();
+    */
+}

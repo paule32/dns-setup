@@ -5,10 +5,11 @@
 # (c) 2015-2017 Jens Kallup
 #------------------------------------------------------------------------
 TEMPLATE = app
-TARGET   = dns-setup
+TARGET   = server
 CONFIG  += release
 
-QT = core gui widgets sql help network
+QT += core gui widgets sql help network printsupport webengine webview \
+      qml quick
 
 PWD=$$system(pwd)
 
@@ -71,23 +72,23 @@ INCLUDEPATH += \
 SOURCES += \
     $${SRCDIR}/main.cc \
     $${SRCDIR}/mainwindow.cc \
+    $${SRCDIR}/menu.cc \
     $${SRCDIR}/label.cc \
     $${SRCDIR}/data.cc \
     $${SRCDIR}/thread.cc \
+    $${SRCDIR}/utils.cc \
+    $${SRCDIR}/cafemessage.cc \
     $${SRCDIR}/rmiserver.cc
 
 HEADERS += \
     $${SRCDIR}/mainwindow.h \
+    $${SRCDIR}/menu.h \
     $${SRCDIR}/label.h \
     $${SRCDIR}/data.h \
     $${SRCDIR}/thread.h \
+    $${SRCDIR}/utils.h \
+    $${SRCDIR}/cafemessage.h \
     $${SRCDIR}/rmiserver.h
-
-#FORMS   += \
-
-#RESOURCES += \
-#    $${SRCDIR}/dbase/icons.qrc \
-#    source/dbase/icons.qrc
 
 DISTFILES += \
     $${TOPDIR}/app.ini
