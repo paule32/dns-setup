@@ -73,6 +73,7 @@ SOURCES += \
     $${SRCDIR}/main.cc \
     $${SRCDIR}/mainwindow.cc \
     $${SRCDIR}/menu.cc \
+    $${SRCDIR}/ping.cc \
     $${SRCDIR}/label.cc \
     $${SRCDIR}/data.cc \
     $${SRCDIR}/thread.cc \

@@ -20,6 +20,7 @@ public:
     
     bool    insertData(QString tab, int id, QString text);
     
+    QString location;
 private:
     bool addPersonal(const QString &name);
     

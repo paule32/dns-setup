@@ -41,12 +41,55 @@
 const int WIDTH  = 1000;
 const int HEIGHT =  700;
 
-MainWindow::MainWindow()
+MyMainWindow::MyMainWindow(int w, int h)
 {
-    this->move  (0,0);
-    this->resize(WIDTH,HEIGHT);
+    titleBarWidth  = w-6;
+    titleBarHeight = 20;
+    
+    windSizeWidth  = w;
+    windSizeHeight = h;
 
-    QWidget *widget = new QWidget;
+    borderSizeTop   = 3;
+    borderSizeLeft  = 3;
+
+    move(10,10);
+    resize(
+        windSizeWidth  - 20,
+        windSizeHeight - 20);
+            
+    container = new QWidget(this);
+    container->move  (10,10);
+    container->resize(
+        this->width(),
+        this->height());
+    container->show();
+}
+
+void MyMainWindow::paintEvent(QPaintEvent *)
+{
+    QPainter p(this);
+    QPen pen;
+    QFont font("Arial",10);
+    
+    pen.setColor(Qt::yellow);
+    font.setBold(true);
+    
+    p.setBrush(Qt::blue);
+    p.drawRect(5, 5, width()-10, 18);
+    p.setBrush(Qt::yellow);
+    p.setFont(font);
+    p.setPen(pen);
+    p.drawText(18,18, "DVE - InternetCafe (c) 2017 Jens Kallup * Version 1.0");
+    p.end();
+}
+
+MainWindow::MainWindow(int w, int h)
+    : MyMainWindow(w,h)
+{
+    app_path = qApp->applicationDirPath();
+    qDebug() << app_path;
+
+    QWidget *widget = new QWidget(container);
     
     setCentralWidget(widget);
     setWindowTitle(QString::fromUtf8("Cafe-Server 1.0 - Jens Kallup"));
@@ -127,8 +170,10 @@ void MainWindow::createMenus()
 {
     QWidget  *menuWidget = new QWidget(this);
     menuWidget->setAutoFillBackground(true);
-    menuWidget->move(0,0);
-    menuWidget->resize(WIDTH,35);
+    menuWidget->move(
+        borderSizeLeft+5,
+        borderSizeTop+5+titleBarHeight);
+    menuWidget->resize(width()-15,35);
     menuWidget->setStyleSheet("background-color:gray;");
 
     QString menustr = "background-color:gray;font-weight:900;";
@@ -169,15 +214,16 @@ void MainWindow::createMenus()
 void MainWindow::createView()
 {
     groupBoxL = new QGroupBox(this);
-    groupBoxL->move(10,35);
-    groupBoxL->resize(140,HEIGHT - 40);
+    groupBoxL->move(10,64);
+    groupBoxL->resize(140,HEIGHT - 64);
     groupBoxL->setStyleSheet(
     "background-color:cyan; " \
     "border: 1px solid black; border-radius: 10px;");
-    
+   
+    //    
     MyWidget *pixwid1 = new MyWidget(groupBoxL);
     QLabel *pix1 = new QLabel(pixwid1);
-    QImage  img1("./img/pc2.png");
+    QImage  img1(QString("%1/img/pc2.png").arg(app_path));
     QImage  imgA = img1.scaled(120,130,Qt::KeepAspectRatio);
     
     pix1->setPixmap(QPixmap::fromImage(imgA));
@@ -195,7 +241,7 @@ void MainWindow::createView()
     
     MyWidget *pixwid2 = new MyWidget(groupBoxL);
     QLabel *pix2 = new QLabel(pixwid2);
-    QImage  img2("./img/settings.png");
+    QImage  img2(QString("%1/img/settings.png").arg(app_path));
     pix2->setScaledContents(true);
     QImage  imgB = img2.scaled(120,130,Qt::KeepAspectRatio);
     
@@ -213,11 +259,22 @@ void MainWindow::createView()
     //
     
     groupBoxR = new QGroupBox(this);
-    groupBoxR->move(160,35);
-    groupBoxR->resize(820,HEIGHT - 40);
+    groupBoxR->move(160,64);
+    groupBoxR->resize(820,HEIGHT - 64);
     groupBoxR->setStyleSheet(
     "background-color:white; " \
     "border: 1px solid black; border-radius: 10px;");
+
+    {
+        MyWidget *pixwid0 = new MyWidget(groupBoxR);
+        QLabel *pix0 = new QLabel(pixwid0);
+        QImage  img0(QString("%1/img/logo.png").arg(app_path));
+        pix0->setPixmap(QPixmap::fromImage(img0));
+        pix0->setAlignment(Qt::AlignCenter);
+        pixwid0->move(100,100);
+        pixwid0->resize(640,480);
+        pixwid0->setStyleSheet("border: 0px solid white;");
+    }
     
     statusBar()->show();
 }
@@ -316,11 +373,12 @@ void MainWindow::createSettingsView()
     mainTab->addTab(tab4,"Statistik");
     mainTab->addTab(tab5,"Order");
 
-    QString color_str   = "background-color:rgb(200,200,100);";
-    QString color_white = "background-color:white;";
-    QString color_cyan  = "background-color:cyan;";
-    QString color_lime  = "background-color:lime;";
-    QString color_red   = "background-color:red;";
+    QString backc_str   = "background-color";
+    QString color_str   = QString("%1:rgb(200,200,100);").arg(backc_str);
+    QString color_white = QString("%1:white;").arg(backc_str);
+    QString color_cyan  = QString("%1:cyan;").arg(backc_str);
+    QString color_lime  = QString("%1:lime;").arg(backc_str);
+    QString color_red   = QString("%1:red;").arg(backc_str);
     
     QString text_offline = "    Offline";
     QString text_online  = "    Online";
@@ -343,7 +401,7 @@ void MainWindow::createSettingsView()
         MyWidget *pixwid3 = new MyWidget(tab1);
         pixwid3->setObjectName("pc1click");
         QLabel *pix3 = new QLabel(pixwid3);
-        QImage  img3("./img/work.png");
+        QImage  img3(QString("%1/img/work.png").arg(app_path));
         pix3->setScaledContents(true);
         QImage  imgC = img3.scaled(120,130,Qt::KeepAspectRatio);
         pix3->setPixmap(QPixmap::fromImage(imgC));
@@ -364,7 +422,7 @@ void MainWindow::createSettingsView()
         MyWidget *pixwid3 = new MyWidget(tab1);
         pixwid3->setObjectName("pc2click");
         QLabel *pix3 = new QLabel(pixwid3);
-        QImage  img3("./img/work.png");
+        QImage  img3(QString("%1/img/work.png").arg(app_path));
         pix3->setScaledContents(true);
         QImage  imgC = img3.scaled(120,130,Qt::KeepAspectRatio);
         pix3->setPixmap(QPixmap::fromImage(imgC));
@@ -385,7 +443,7 @@ void MainWindow::createSettingsView()
         MyWidget *pixwid3 = new MyWidget(tab1);
         pixwid3->setObjectName("pc3click");
         QLabel *pix3 = new QLabel(pixwid3);
-        QImage  img3("./img/work.png");
+        QImage  img3(QString("%1/img/work.png").arg(app_path));
         pix3->setScaledContents(true);
         QImage  imgC = img3.scaled(120,130,Qt::KeepAspectRatio);
         pix3->setPixmap(QPixmap::fromImage(imgC));
@@ -406,7 +464,7 @@ void MainWindow::createSettingsView()
         MyWidget *pixwid3 = new MyWidget(tab1);
         pixwid3->setObjectName("pc4click");
         QLabel *pix3 = new QLabel(pixwid3);
-        QImage  img3("./img/work.png");
+        QImage  img3(QString("%1/img/work.png").arg(app_path));
         pix3->setScaledContents(true);
         QImage  imgC = img3.scaled(120,130,Qt::KeepAspectRatio);
         pix3->setPixmap(QPixmap::fromImage(imgC));
@@ -427,7 +485,7 @@ void MainWindow::createSettingsView()
         MyWidget *pixwid3 = new MyWidget(tab1);
         QLabel *pix3 = new QLabel(pixwid3);
         pixwid3->setObjectName("pc5click");
-        QImage  img3("./img/work.png");
+        QImage  img3(QString("%1/img/work.png").arg(app_path));
         pix3->setScaledContents(true);
         QImage  imgC = img3.scaled(120,130,Qt::KeepAspectRatio);
         pix3->setPixmap(QPixmap::fromImage(imgC));
@@ -450,7 +508,7 @@ void MainWindow::createSettingsView()
         MyWidget *pixwid3 = new MyWidget(tab1);
         pixwid3->setObjectName("pc6click");
         QLabel *pix3 = new QLabel(pixwid3);
-        QImage  img3("./img/work.png");
+        QImage  img3(QString("%1/img/work.png").arg(app_path));
         pix3->setScaledContents(true);
         QImage  imgC = img3.scaled(120,130,Qt::KeepAspectRatio);
         pix3->setPixmap(QPixmap::fromImage(imgC));
@@ -471,7 +529,7 @@ void MainWindow::createSettingsView()
         MyWidget *pixwid3 = new MyWidget(tab1);
         pixwid3->setObjectName("pc7click");
         QLabel *pix3 = new QLabel(pixwid3);
-        QImage  img3("./img/work.png");
+        QImage  img3(QString("%1/img/work.png").arg(app_path));
         pix3->setScaledContents(true);
         QImage  imgC = img3.scaled(120,130,Qt::KeepAspectRatio);
         pix3->setPixmap(QPixmap::fromImage(imgC));
@@ -493,7 +551,7 @@ void MainWindow::createSettingsView()
         MyWidget *pixwid3 = new MyWidget(tab1);
         pixwid3->setObjectName("table1click");
         QLabel *pix3 = new QLabel(pixwid3);
-        QImage  img3("./img/tisch.png");
+        QImage  img3(QString("%1/img/tisch.png").arg(app_path));
         pix3->setScaledContents(true);
         QImage  imgC = img3.scaled(130,120,Qt::KeepAspectRatio);
         pix3->setPixmap(QPixmap::fromImage(imgC));
@@ -514,7 +572,7 @@ void MainWindow::createSettingsView()
         MyWidget *pixwid3 = new MyWidget(tab1);
         pixwid3->setObjectName("table2click");
         QLabel *pix3 = new QLabel(pixwid3);
-        QImage  img3("./img/tisch.png");
+        QImage  img3(QString("%1/img/tisch.png").arg(app_path));
         pix3->setScaledContents(true);
         QImage  imgC = img3.scaled(130,120,Qt::KeepAspectRatio);
         pix3->setPixmap(QPixmap::fromImage(imgC));
@@ -535,7 +593,7 @@ void MainWindow::createSettingsView()
         MyWidget *pixwid3 = new MyWidget(tab1);
         pixwid3->setObjectName("table3click");
         QLabel *pix3 = new QLabel(pixwid3);
-        QImage  img3("./img/tisch.png");
+        QImage  img3(QString("%1/img/tisch.png").arg(app_path));
         pix3->setScaledContents(true);
         QImage  imgC = img3.scaled(120,130,Qt::KeepAspectRatio);
         pix3->setPixmap(QPixmap::fromImage(imgC));
@@ -575,7 +633,7 @@ void MainWindow::createSettingsView()
             
         MyWidget *pixwid3 = new MyWidget(tab6);
         QLabel *pix3 = new QLabel(pixwid3);
-        QImage  img3("./img/printer.png");
+        QImage  img3(QString("%1/img/printer.png").arg(app_path));
         pix3->setScaledContents(true);
         QImage  imgC = img3.scaled(120,130,Qt::KeepAspectRatio);
         pix3->setPixmap(QPixmap::fromImage(imgC));
@@ -598,7 +656,7 @@ void MainWindow::createSettingsView()
 
         MyWidget *pixwid3 = new MyWidget(tab6);
         QLabel *pix3 = new QLabel(pixwid3);
-        QImage  img3("./img/printer.png");
+        QImage  img3(QString("%1/img/printer.png").arg(app_path));
         pix3->setScaledContents(true);
         QImage  imgC = img3.scaled(120,130,Qt::KeepAspectRatio);
         pix3->setPixmap(QPixmap::fromImage(imgC));
@@ -621,7 +679,7 @@ void MainWindow::createSettingsView()
             
         MyWidget *pixwid3 = new MyWidget(tab6);
         QLabel *pix3 = new QLabel(pixwid3);
-        QImage  img3("./img/printer.png");
+        QImage  img3(QString("%1/img/printer.png").arg(app_path));
         pix3->setScaledContents(true);
         QImage  imgC = img3.scaled(120,130,Qt::KeepAspectRatio);
         pix3->setPixmap(QPixmap::fromImage(imgC));
@@ -644,7 +702,7 @@ void MainWindow::createSettingsView()
 
         MyWidget *pixwid3 = new MyWidget(tab6);
         QLabel *pix3 = new QLabel(pixwid3);
-        QImage  img3("./img/printer.png");
+        QImage  img3(QString("%1/img/printer.png").arg(app_path));
         pix3->setScaledContents(true);
         QImage  imgC = img3.scaled(120,130,Qt::KeepAspectRatio);
         pix3->setPixmap(QPixmap::fromImage(imgC));
@@ -912,7 +970,7 @@ void MainWindow::createSettingsView()
     nameserverList->move(10,174);
     nameserverList->resize(200,200);
     nameserverList->setFont(QFont("Arial",12));
-    nameserverList->setStyleSheet("background-color:white;");
+    nameserverList->setStyleSheet(color_white);
     
     dataBase->initNameserverList(nameserverList);
 
@@ -921,7 +979,7 @@ void MainWindow::createSettingsView()
     nameserverAddButton->resize(100,30);
     nameserverAddButton->setFont(QFont("Arial",12));
     nameserverAddButton->setText("Add New ...");
-    nameserverAddButton->setStyleSheet("background-color:lime;");
+    nameserverAddButton->setStyleSheet(color_lime);
     
     QPushButton *nameserverDeleteButton = new QPushButton(tab2);
     nameserverDeleteButton->move(240,234);
@@ -935,7 +993,7 @@ void MainWindow::createSettingsView()
     nameserverEditButton->resize(100,30);
     nameserverEditButton->setFont(QFont("Arial",12));
     nameserverEditButton->setText("Edit");
-    nameserverEditButton->setStyleSheet("background-color:cyan;");
+    nameserverEditButton->setStyleSheet(color_cyan);
     
     connect(nameserverAddButton   , SIGNAL(clicked()), this, SLOT(nameserverAddClick   ()));
     connect(nameserverEditButton  , SIGNAL(clicked()), this, SLOT(nameserverEditClick  ()));
@@ -945,7 +1003,7 @@ void MainWindow::createSettingsView()
     nameserverEdit->move(390,177);
     nameserverEdit->resize(170,30);
     nameserverEdit->setFont(QFont("Arial",12));
-    nameserverEdit->setStyleSheet("background-color:white;");
+    nameserverEdit->setStyleSheet(color_white);
 
     connect(nameserverEdit, SIGNAL(textChanged(QString)), this, SLOT(nameserverEditChange(QString)));
 
@@ -967,7 +1025,7 @@ void MainWindow::createSettingsView()
     QListWidget *userList = new QListWidget(tab3);
     userList->move(10,40);
     userList->resize(200,200);
-    userList->setStyleSheet("background-color:white;");
+    userList->setStyleSheet(color_white);
     
     QListWidgetItem *item1 = new QListWidgetItem(userList);
     item1->setFont(QFont("Arial",12));
@@ -984,21 +1042,21 @@ void MainWindow::createSettingsView()
     QListWidget *userList2 = new QListWidget(tab3);
     userList2->move(260,40);
     userList2->resize(200,200);
-    userList2->setStyleSheet("background-color:white;");
+    userList2->setStyleSheet(color_white);
 
     QPushButton *userSwitchButton = new QPushButton(tab3);
     userSwitchButton->move(470,40);
     userSwitchButton->resize(100,30);
     userSwitchButton->setFont(QFont("Arial",12));
     userSwitchButton->setText("Switch");
-    userSwitchButton->setStyleSheet("background-color:lime;");
+    userSwitchButton->setStyleSheet(color_lime);
     
     QPushButton *personalButton = new QPushButton(tab3);
     personalButton->move(10,260);
     personalButton->resize(120,30);
     personalButton->setFont(QFont("Arial",12));
     personalButton->setText("Add New ...");
-    personalButton->setStyleSheet("background-color:lime;");
+    personalButton->setStyleSheet(color_lime);
 
     QPushButton *personalButton2 = new QPushButton(tab3);
     personalButton2->move(10,300);
@@ -1012,7 +1070,7 @@ void MainWindow::createSettingsView()
     personalButton3->resize(120,30);
     personalButton3->setFont(QFont("Arial",12));
     personalButton3->setText("Edit");
-    personalButton3->setStyleSheet("background-color:cyan;");
+    personalButton3->setStyleSheet(color_cyan);
 
 
 
@@ -1021,7 +1079,7 @@ void MainWindow::createSettingsView()
     profileButton->resize(120,30);
     profileButton->setFont(QFont("Arial",12));
     profileButton->setText("Add New ...");
-    profileButton->setStyleSheet("background-color:lime;");
+    profileButton->setStyleSheet(color_lime);
 
     QPushButton *profileButton2 = new QPushButton(tab3);
     profileButton2->move(260,300);
@@ -1035,7 +1093,7 @@ void MainWindow::createSettingsView()
     profileButton3->resize(120,30);
     profileButton3->setFont(QFont("Arial",12));
     profileButton3->setText("Edit");
-    profileButton3->setStyleSheet("background-color:cyan;");
+    profileButton3->setStyleSheet(color_cyan);
 
     //
 
@@ -1048,7 +1106,7 @@ void MainWindow::createSettingsView()
     QListWidget *stockList = new QListWidget(tab5);
     stockList->move(10,40);
     stockList->resize(200,400);
-    stockList->setStyleSheet("background-color:white;");
+    stockList->setStyleSheet(color_white);
     
     
     QLabel *productNameLabel = new QLabel(tab5);
@@ -1074,19 +1132,19 @@ void MainWindow::createSettingsView()
     productNameEdit->move(290,40);
     productNameEdit->resize(170,30);
     productNameEdit->setFont(QFont("Arial",12));
-    productNameEdit->setStyleSheet("background-color:white;");
+    productNameEdit->setStyleSheet(color_white);
 
     QLineEdit *productPriceEdit = new QLineEdit(tab5);
     productPriceEdit->move(290,80);
     productPriceEdit->resize(170,30);
     productPriceEdit->setFont(QFont("Arial",12));
-    productPriceEdit->setStyleSheet("background-color:white;");
+    productPriceEdit->setStyleSheet(color_white);
 
     QLineEdit *productCountEdit = new QLineEdit(tab5);
     productCountEdit->move(360,120);
     productCountEdit->resize(100,30);
     productCountEdit->setFont(QFont("Arial",12));
-    productCountEdit->setStyleSheet("background-color:white;");
+    productCountEdit->setStyleSheet(color_white);
 
 
     QPushButton *productAddButton = new QPushButton(tab5);
@@ -1094,7 +1152,7 @@ void MainWindow::createSettingsView()
     productAddButton->resize(100,25);
     productAddButton->setFont(QFont("Arial",12));
     productAddButton->setText("Add New ...");
-    productAddButton->setStyleSheet("background-color:lime;");
+    productAddButton->setStyleSheet(color_lime);
 
     QPushButton *productDeleteButton = new QPushButton(tab5);
     productDeleteButton->move(230,240);
@@ -1108,13 +1166,13 @@ void MainWindow::createSettingsView()
     productOrderButton->resize(140,35);
     productOrderButton->setFont(QFont("Arial",12));
     productOrderButton->setText("Order Product Qty.");
-    productOrderButton->setStyleSheet("background-color:cyan;");
+    productOrderButton->setStyleSheet(color_cyan);
     
     QLineEdit *productOrderEdit = new QLineEdit(tab5);
     productOrderEdit->move(400,320);
     productOrderEdit->resize(140,35);
     productOrderEdit->setFont(QFont("Arial",12));
-    productOrderEdit->setStyleSheet("background-color:white;");
+    productOrderEdit->setStyleSheet(color_white);
     
     mainTab->show();
 
@@ -1201,7 +1259,8 @@ void MainWindow::intoLogin()
 
 void MainWindow::initData()
 {
-    dataBase = new DataManager("./data/data.db");
+qDebug() << app_path;
+    dataBase = new DataManager(QString("%1/data/data.db").arg(app_path));
     dataBase->initData();
 }
 

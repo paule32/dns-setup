@@ -15,6 +15,8 @@ DataManager::DataManager(const QString &path)
 {
     db = QSqlDatabase::addDatabase("QSQLITE");
     db.setDatabaseName(path);
+
+    location = path;
     
     if (!db.open()) {
         QMessageBox::critical(0,"Open Connection Error","database connection fail.");
@@ -74,7 +76,7 @@ bool DataManager::initData()
             success = false;
         }
     }   else {
-        QFile f("./data/data.db");
+        QFile f(location);
         if (!f.exists()) {
             QMessageBox::warning(0,"Warning","data could not be init.");
             success = false;

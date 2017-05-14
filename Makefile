@@ -12,7 +12,7 @@ MAKEFILE      = Makefile
 
 CC            = gcc
 CXX           = g++
-DEFINES       = -DBUILDTIME=\"15:36:33\" -DBUILDDATE=\"2017-05-09\" -DQT_NO_DEBUG -DQT_HELP_LIB -DQT_PRINTSUPPORT_LIB -DQT_WIDGETS_LIB -DQT_WEBENGINE_LIB -DQT_WEBENGINECORE_LIB -DQT_QUICK_LIB -DQT_GUI_LIB -DQT_SQL_LIB -DQT_WEBCHANNEL_LIB -DQT_QML_LIB -DQT_NETWORK_LIB -DQT_POSITIONING_LIB -DQT_CORE_LIB -DQT_WEBVIEW_LIB
+DEFINES       = -DBUILDTIME=\"17:04:55\" -DBUILDDATE=\"2017-05-10\" -DQT_NO_DEBUG -DQT_HELP_LIB -DQT_PRINTSUPPORT_LIB -DQT_WIDGETS_LIB -DQT_WEBENGINE_LIB -DQT_WEBENGINECORE_LIB -DQT_QUICK_LIB -DQT_GUI_LIB -DQT_SQL_LIB -DQT_WEBCHANNEL_LIB -DQT_QML_LIB -DQT_NETWORK_LIB -DQT_POSITIONING_LIB -DQT_CORE_LIB -DQT_WEBVIEW_LIB
 CFLAGS        = -pipe -O2 -Wall -W -D_REENTRANT -fPIC $(DEFINES)
 CXXFLAGS      = -pipe -std=c++1y -Wno-unused-parameter -Wno-unused-variable -Wno-unused-local-typedefs -Wno-unused-but-set-variable -Wno-write-strings -Wno-switch -Wno-extra -Wno-reorder -Wno-multichar -Wno-sign-compare -Wunused-function -Woverloaded-virtual -fpermissive -ftemplate-depth=516 -frtti -fexceptions -I/usr/local/include -I/usr/local/include/boost -I/home/jens/Projekte/dns-setup. -I/home/jens/Projekte/dns-setup/src -I/home/jens/Projekte/dns-setup/src/inc -D__BYTE_ORDER=__LITTLE_ENDIAN -DQT_DEPRECATED -DQT_DISABLE_DEPRECATED_BEFORE -O2 -std=gnu++11 -Wall -W -D_REENTRANT -fPIC $(DEFINES)
 INCPATH       = -I. -I../../Qt/5.8/gcc_64/include -isystem /usr/local/include -I/home/jens/Projekte/dns-setup/.uic -Isrc -I/home/jens/Projekte/dns-setup/src/inc -isystem /usr/include -I../../Qt/5.8/gcc_64/include/QtHelp -I../../Qt/5.8/gcc_64/include/QtPrintSupport -I../../Qt/5.8/gcc_64/include/QtWidgets -I../../Qt/5.8/gcc_64/include/QtWebEngine -I../../Qt/5.8/gcc_64/include/QtWebEngineCore -I../../Qt/5.8/gcc_64/include/QtQuick -I../../Qt/5.8/gcc_64/include/QtGui -I../../Qt/5.8/gcc_64/include/QtSql -I../../Qt/5.8/gcc_64/include/QtWebChannel -I../../Qt/5.8/gcc_64/include/QtQml -I../../Qt/5.8/gcc_64/include/QtNetwork -I../../Qt/5.8/gcc_64/include/QtPositioning -I../../Qt/5.8/gcc_64/include/QtCore -I../../Qt/5.8/gcc_64/include/QtWebView -I.moc -isystem /usr/include/libdrm -I../../Qt/5.8/gcc_64/mkspecs/linux-g++
@@ -51,6 +51,7 @@ OBJECTS_DIR   = .obj/
 SOURCES       = src/main.cc \
 		src/mainwindow.cc \
 		src/menu.cc \
+		src/ping.cc \
 		src/label.cc \
 		src/data.cc \
 		src/thread.cc \
@@ -66,6 +67,7 @@ SOURCES       = src/main.cc \
 OBJECTS       = .obj/main.o \
 		.obj/mainwindow.o \
 		.obj/menu.o \
+		.obj/ping.o \
 		.obj/label.o \
 		.obj/data.o \
 		.obj/thread.o \
@@ -259,6 +261,7 @@ DIST          = app.ini \
 		src/rmiserver.h src/main.cc \
 		src/mainwindow.cc \
 		src/menu.cc \
+		src/ping.cc \
 		src/label.cc \
 		src/data.cc \
 		src/thread.cc \
@@ -661,7 +664,7 @@ distdir: FORCE
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents ../../Qt/5.8/gcc_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents src/mainwindow.h src/menu.h src/label.h src/data.h src/thread.h src/utils.h src/cafemessage.h src/rmiserver.h $(DISTDIR)/
-	$(COPY_FILE) --parents src/main.cc src/mainwindow.cc src/menu.cc src/label.cc src/data.cc src/thread.cc src/utils.cc src/cafemessage.cc src/rmiserver.cc $(DISTDIR)/
+	$(COPY_FILE) --parents src/main.cc src/mainwindow.cc src/menu.cc src/ping.cc src/label.cc src/data.cc src/thread.cc src/utils.cc src/cafemessage.cc src/rmiserver.cc $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -855,8 +858,8 @@ compiler_moc_header_clean:
 		../../Qt/5.8/gcc_64/bin/moc
 	/home/jens/Qt/5.8/gcc_64/bin/moc $(DEFINES) --include /home/jens/Projekte/dns-setup/.moc/moc_predefs.h -I/home/jens/Qt/5.8/gcc_64/mkspecs/linux-g++ -I/home/jens/Projekte/dns-setup -I/home/jens/Qt/5.8/gcc_64/include -I/usr/local/include -I/home/jens/Projekte/dns-setup/.uic -I/home/jens/Projekte/dns-setup/src -I/home/jens/Projekte/dns-setup/src/inc -I/usr/include -I/home/jens/Qt/5.8/gcc_64/include/QtHelp -I/home/jens/Qt/5.8/gcc_64/include/QtPrintSupport -I/home/jens/Qt/5.8/gcc_64/include/QtWidgets -I/home/jens/Qt/5.8/gcc_64/include/QtWebEngine -I/home/jens/Qt/5.8/gcc_64/include/QtWebEngineCore -I/home/jens/Qt/5.8/gcc_64/include/QtQuick -I/home/jens/Qt/5.8/gcc_64/include/QtGui -I/home/jens/Qt/5.8/gcc_64/include/QtSql -I/home/jens/Qt/5.8/gcc_64/include/QtWebChannel -I/home/jens/Qt/5.8/gcc_64/include/QtQml -I/home/jens/Qt/5.8/gcc_64/include/QtNetwork -I/home/jens/Qt/5.8/gcc_64/include/QtPositioning -I/home/jens/Qt/5.8/gcc_64/include/QtCore -I/home/jens/Qt/5.8/gcc_64/include/QtWebView -I/usr/include/c++/4.8 -I/usr/include/x86_64-linux-gnu/c++/4.8 -I/usr/include/c++/4.8/backward -I/usr/lib/gcc/x86_64-linux-gnu/4.8/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/4.8/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include src/mainwindow.h -o .moc/moc_mainwindow.cpp
 
-.moc/moc_menu.cpp: ../../Qt/5.8/gcc_64/include/QtWidgets/QMenu \
-		../../Qt/5.8/gcc_64/include/QtWidgets/qmenu.h \
+.moc/moc_menu.cpp: ../../Qt/5.8/gcc_64/include/QtWidgets/QWidget \
+		../../Qt/5.8/gcc_64/include/QtWidgets/qwidget.h \
 		../../Qt/5.8/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
 		../../Qt/5.8/gcc_64/include/QtGui/qtguiglobal.h \
 		../../Qt/5.8/gcc_64/include/QtCore/qglobal.h \
@@ -883,7 +886,6 @@ compiler_moc_header_clean:
 		../../Qt/5.8/gcc_64/include/QtCore/qversiontagging.h \
 		../../Qt/5.8/gcc_64/include/QtGui/qtgui-config.h \
 		../../Qt/5.8/gcc_64/include/QtWidgets/qtwidgets-config.h \
-		../../Qt/5.8/gcc_64/include/QtWidgets/qwidget.h \
 		../../Qt/5.8/gcc_64/include/QtGui/qwindowdefs.h \
 		../../Qt/5.8/gcc_64/include/QtCore/qobjectdefs.h \
 		../../Qt/5.8/gcc_64/include/QtCore/qnamespace.h \
@@ -957,6 +959,9 @@ compiler_moc_header_clean:
 		../../Qt/5.8/gcc_64/include/QtCore/qfiledevice.h \
 		../../Qt/5.8/gcc_64/include/QtGui/qvector2d.h \
 		../../Qt/5.8/gcc_64/include/QtGui/qtouchdevice.h \
+		../../Qt/5.8/gcc_64/include/QtCore/QPoint \
+		../../Qt/5.8/gcc_64/include/QtWidgets/QMenu \
+		../../Qt/5.8/gcc_64/include/QtWidgets/qmenu.h \
 		../../Qt/5.8/gcc_64/include/QtGui/qicon.h \
 		../../Qt/5.8/gcc_64/include/QtWidgets/qaction.h \
 		../../Qt/5.8/gcc_64/include/QtWidgets/qactiongroup.h \
@@ -1809,12 +1814,12 @@ compiler_clean: compiler_moc_predefs_clean compiler_moc_header_clean
 		../../Qt/5.8/gcc_64/include/QtNetwork/qabstractsocket.h \
 		../../Qt/5.8/gcc_64/include/QtNetwork/qhostaddress.h \
 		src/menu.h \
+		../../Qt/5.8/gcc_64/include/QtCore/QPoint \
 		../../Qt/5.8/gcc_64/include/QtWidgets/QMenu
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o .obj/mainwindow.o src/mainwindow.cc
 
-.obj/menu.o: src/menu.cc src/menu.h \
-		../../Qt/5.8/gcc_64/include/QtWidgets/QMenu \
-		../../Qt/5.8/gcc_64/include/QtWidgets/qmenu.h \
+.obj/menu.o: src/menu.cc ../../Qt/5.8/gcc_64/include/QtWidgets/QMessageBox \
+		../../Qt/5.8/gcc_64/include/QtWidgets/qmessagebox.h \
 		../../Qt/5.8/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
 		../../Qt/5.8/gcc_64/include/QtGui/qtguiglobal.h \
 		../../Qt/5.8/gcc_64/include/QtCore/qglobal.h \
@@ -1841,6 +1846,7 @@ compiler_clean: compiler_moc_predefs_clean compiler_moc_header_clean
 		../../Qt/5.8/gcc_64/include/QtCore/qversiontagging.h \
 		../../Qt/5.8/gcc_64/include/QtGui/qtgui-config.h \
 		../../Qt/5.8/gcc_64/include/QtWidgets/qtwidgets-config.h \
+		../../Qt/5.8/gcc_64/include/QtWidgets/qdialog.h \
 		../../Qt/5.8/gcc_64/include/QtWidgets/qwidget.h \
 		../../Qt/5.8/gcc_64/include/QtGui/qwindowdefs.h \
 		../../Qt/5.8/gcc_64/include/QtCore/qobjectdefs.h \
@@ -1915,16 +1921,73 @@ compiler_clean: compiler_moc_predefs_clean compiler_moc_header_clean
 		../../Qt/5.8/gcc_64/include/QtCore/qfiledevice.h \
 		../../Qt/5.8/gcc_64/include/QtGui/qvector2d.h \
 		../../Qt/5.8/gcc_64/include/QtGui/qtouchdevice.h \
-		../../Qt/5.8/gcc_64/include/QtGui/qicon.h \
-		../../Qt/5.8/gcc_64/include/QtWidgets/qaction.h \
-		../../Qt/5.8/gcc_64/include/QtWidgets/qactiongroup.h \
 		src/label.h \
 		../../Qt/5.8/gcc_64/include/QtCore/QString \
 		../../Qt/5.8/gcc_64/include/QtWidgets/QLabel \
 		../../Qt/5.8/gcc_64/include/QtWidgets/qlabel.h \
 		../../Qt/5.8/gcc_64/include/QtWidgets/qframe.h \
-		../../Qt/5.8/gcc_64/include/QtGui/QMouseEvent
+		../../Qt/5.8/gcc_64/include/QtGui/QMouseEvent \
+		src/menu.h \
+		../../Qt/5.8/gcc_64/include/QtWidgets/QWidget \
+		../../Qt/5.8/gcc_64/include/QtCore/QPoint \
+		../../Qt/5.8/gcc_64/include/QtWidgets/QMenu \
+		../../Qt/5.8/gcc_64/include/QtWidgets/qmenu.h \
+		../../Qt/5.8/gcc_64/include/QtGui/qicon.h \
+		../../Qt/5.8/gcc_64/include/QtWidgets/qaction.h \
+		../../Qt/5.8/gcc_64/include/QtWidgets/qactiongroup.h \
+		src/mainwindow.h \
+		../../Qt/5.8/gcc_64/include/QtWidgets/QApplication \
+		../../Qt/5.8/gcc_64/include/QtWidgets/qapplication.h \
+		../../Qt/5.8/gcc_64/include/QtCore/qcoreapplication.h \
+		../../Qt/5.8/gcc_64/include/QtCore/qeventloop.h \
+		../../Qt/5.8/gcc_64/include/QtWidgets/qdesktopwidget.h \
+		../../Qt/5.8/gcc_64/include/QtGui/qguiapplication.h \
+		../../Qt/5.8/gcc_64/include/QtGui/qinputmethod.h \
+		../../Qt/5.8/gcc_64/include/QtWidgets/QLineEdit \
+		../../Qt/5.8/gcc_64/include/QtWidgets/qlineedit.h \
+		../../Qt/5.8/gcc_64/include/QtGui/qtextcursor.h \
+		../../Qt/5.8/gcc_64/include/QtGui/qtextformat.h \
+		../../Qt/5.8/gcc_64/include/QtGui/qpen.h \
+		../../Qt/5.8/gcc_64/include/QtGui/qtextoption.h \
+		../../Qt/5.8/gcc_64/include/QtWidgets/QGroupBox \
+		../../Qt/5.8/gcc_64/include/QtWidgets/qgroupbox.h \
+		../../Qt/5.8/gcc_64/include/QtWidgets/QScrollArea \
+		../../Qt/5.8/gcc_64/include/QtWidgets/qscrollarea.h \
+		../../Qt/5.8/gcc_64/include/QtWidgets/qabstractscrollarea.h \
+		../../Qt/5.8/gcc_64/include/QtWidgets/QTabWidget \
+		../../Qt/5.8/gcc_64/include/QtWidgets/qtabwidget.h \
+		../../Qt/5.8/gcc_64/include/QtWidgets/QListWidget \
+		../../Qt/5.8/gcc_64/include/QtWidgets/qlistwidget.h \
+		../../Qt/5.8/gcc_64/include/QtWidgets/qlistview.h \
+		../../Qt/5.8/gcc_64/include/QtWidgets/qabstractitemview.h \
+		../../Qt/5.8/gcc_64/include/QtCore/qabstractitemmodel.h \
+		../../Qt/5.8/gcc_64/include/QtCore/qitemselectionmodel.h \
+		../../Qt/5.8/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
+		../../Qt/5.8/gcc_64/include/QtWidgets/qstyleoption.h \
+		../../Qt/5.8/gcc_64/include/QtWidgets/qabstractspinbox.h \
+		../../Qt/5.8/gcc_64/include/QtGui/qvalidator.h \
+		../../Qt/5.8/gcc_64/include/QtCore/qregularexpression.h \
+		../../Qt/5.8/gcc_64/include/QtWidgets/qslider.h \
+		../../Qt/5.8/gcc_64/include/QtWidgets/qabstractslider.h \
+		../../Qt/5.8/gcc_64/include/QtWidgets/qstyle.h \
+		../../Qt/5.8/gcc_64/include/QtWidgets/qtabbar.h \
+		../../Qt/5.8/gcc_64/include/QtWidgets/qrubberband.h \
+		../../Qt/5.8/gcc_64/include/QtWidgets/QMainWindow \
+		../../Qt/5.8/gcc_64/include/QtWidgets/qmainwindow.h \
+		src/cafemessage.h \
+		../../Qt/5.8/gcc_64/include/QtCore/QThread \
+		../../Qt/5.8/gcc_64/include/QtCore/qthread.h \
+		src/rmiserver.h \
+		../../Qt/5.8/gcc_64/include/QtNetwork/QTcpServer \
+		../../Qt/5.8/gcc_64/include/QtNetwork/qtcpserver.h \
+		../../Qt/5.8/gcc_64/include/QtNetwork/qtnetworkglobal.h \
+		../../Qt/5.8/gcc_64/include/QtNetwork/qtnetwork-config.h \
+		../../Qt/5.8/gcc_64/include/QtNetwork/qabstractsocket.h \
+		../../Qt/5.8/gcc_64/include/QtNetwork/qhostaddress.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o .obj/menu.o src/menu.cc
+
+.obj/ping.o: src/ping.cc 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o .obj/ping.o src/ping.cc
 
 .obj/label.o: src/label.cc ../../Qt/5.8/gcc_64/include/QtWidgets/QWidget \
 		../../Qt/5.8/gcc_64/include/QtWidgets/qwidget.h \
@@ -2027,12 +2090,15 @@ compiler_clean: compiler_moc_predefs_clean compiler_moc_header_clean
 		../../Qt/5.8/gcc_64/include/QtCore/qfiledevice.h \
 		../../Qt/5.8/gcc_64/include/QtGui/qvector2d.h \
 		../../Qt/5.8/gcc_64/include/QtGui/qtouchdevice.h \
+		../../Qt/5.8/gcc_64/include/QtGui/QMouseEvent \
+		../../Qt/5.8/gcc_64/include/QtWidgets/QDesktopWidget \
+		../../Qt/5.8/gcc_64/include/QtWidgets/qdesktopwidget.h \
+		../../Qt/5.8/gcc_64/include/QtCore/QString \
 		src/mainwindow.h \
 		../../Qt/5.8/gcc_64/include/QtWidgets/QApplication \
 		../../Qt/5.8/gcc_64/include/QtWidgets/qapplication.h \
 		../../Qt/5.8/gcc_64/include/QtCore/qcoreapplication.h \
 		../../Qt/5.8/gcc_64/include/QtCore/qeventloop.h \
-		../../Qt/5.8/gcc_64/include/QtWidgets/qdesktopwidget.h \
 		../../Qt/5.8/gcc_64/include/QtGui/qguiapplication.h \
 		../../Qt/5.8/gcc_64/include/QtGui/qinputmethod.h \
 		../../Qt/5.8/gcc_64/include/QtWidgets/QLineEdit \
@@ -2073,7 +2139,6 @@ compiler_clean: compiler_moc_predefs_clean compiler_moc_header_clean
 		src/cafemessage.h \
 		../../Qt/5.8/gcc_64/include/QtCore/QThread \
 		../../Qt/5.8/gcc_64/include/QtCore/qthread.h \
-		../../Qt/5.8/gcc_64/include/QtCore/QString \
 		src/rmiserver.h \
 		../../Qt/5.8/gcc_64/include/QtNetwork/QTcpServer \
 		../../Qt/5.8/gcc_64/include/QtNetwork/qtcpserver.h \
@@ -2082,7 +2147,12 @@ compiler_clean: compiler_moc_predefs_clean compiler_moc_header_clean
 		../../Qt/5.8/gcc_64/include/QtNetwork/qabstractsocket.h \
 		../../Qt/5.8/gcc_64/include/QtNetwork/qhostaddress.h \
 		src/label.h \
-		../../Qt/5.8/gcc_64/include/QtGui/QMouseEvent
+		src/menu.h \
+		../../Qt/5.8/gcc_64/include/QtCore/QPoint \
+		../../Qt/5.8/gcc_64/include/QtWidgets/QMenu \
+		../../Qt/5.8/gcc_64/include/QtWidgets/qmenu.h \
+		../../Qt/5.8/gcc_64/include/QtWidgets/qaction.h \
+		../../Qt/5.8/gcc_64/include/QtWidgets/qactiongroup.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o .obj/label.o src/label.cc
 
 .obj/data.o: src/data.cc ../../Qt/5.8/gcc_64/include/QtWidgets/QMessageBox \

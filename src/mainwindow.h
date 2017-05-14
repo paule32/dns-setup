@@ -17,10 +17,31 @@
 class QAction;
 class QMenu;
 
-class MainWindow: public QMainWindow {
+class MyMainWindow: public QMainWindow {
     Q_OBJECT
 public:
-    explicit MainWindow();
+    explicit MyMainWindow(int w, int h);
+    
+    QWidget *container;
+
+    int borderSizeWidth;
+    int borderSizeHeight;
+    int borderSizeTop;
+    int borderSizeLeft;
+    
+    int titleBarWidth; int titleBarHeight;
+    int windSizeWidth; int windSizeHeight;
+    
+    QString app_path;
+    
+protected:
+    void paintEvent(QPaintEvent *p);
+};
+
+class MainWindow: public MyMainWindow {
+    Q_OBJECT
+public:
+    explicit MainWindow(int w, int h);
    
     QGroupBox * groupBoxL;
     QGroupBox * groupBoxR;

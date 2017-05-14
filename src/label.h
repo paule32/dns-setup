@@ -4,6 +4,7 @@
 #include <QString>
 #include <QLabel>
 #include <QMouseEvent>
+#include <QProcess>
 
 class MyLabel: public QLabel {
     Q_OBJECT
@@ -24,9 +25,18 @@ public:
 
     void newPCSessionMembers();
     void newPCSessionNonMembers();
+    void newPCSession(int m);
+    void monitorUser();
+    void monitorUserIP();
     
 signals:
     void clicked();
+
+private:
+    QString MonitorIP;
+    int     newSessionPC;
+    
+    QProcess * myprocess;
     
 protected:
     virtual void mouseReleaseEvent(QMouseEvent *evt) override;
