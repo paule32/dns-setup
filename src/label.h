@@ -39,7 +39,9 @@ private:
     QProcess * myprocess;
     
 protected:
-    virtual void mouseReleaseEvent(QMouseEvent *evt) override;
+    void mouseReleaseEvent(QMouseEvent *evt) override;
+    void enterEvent(QEvent *evt);
+    void leaveEvent(QEvent *evt);
 };
 
 #endif

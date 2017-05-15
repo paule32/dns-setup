@@ -1,3 +1,10 @@
+// -----------------------------------------------
+// DVE Internet-Cafe Project 1.0
+// (c) 2017 Jens Kallup
+// All rights reserved.
+//
+// e-mail: jkallup@web.de
+// -----------------------------------------------
 #include <QApplication>
 #include <QWidget>
 #include <QMenuBar>
@@ -243,9 +250,9 @@ void MainWindow::createView()
     QLabel *pix2 = new QLabel(pixwid2);
     QImage  img2(QString("%1/img/settings.png").arg(app_path));
     pix2->setScaledContents(true);
-    QImage  imgB = img2.scaled(120,130,Qt::KeepAspectRatio);
+    img2 = img2.scaled(120,130,Qt::KeepAspectRatio);
     
-    pix2->setPixmap(QPixmap::fromImage(imgB));
+    pix2->setPixmap(QPixmap::fromImage(img2));
     pix2->setAlignment(Qt::AlignCenter);
     
     pixwid2->move(10,150);

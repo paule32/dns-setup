@@ -38,8 +38,8 @@ xpid=$(awk "NR==1{print;exit}" work.pid)
 #--------------------------------------------
 if [ "$xsess" -gt 0 ]
 then
-  #exec $(pwd)/server
-  exec /home/jens/Projekte/dns-setup/server --display $display
+  exec $current_dir/server --display $display
+  exec $current_dir/server --display $display
 fi
 
 #------------------------------------------

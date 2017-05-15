@@ -5,12 +5,18 @@
 #include <QDesktopWidget>
 #include <QVariant>
 #include <QString>
+#include <QMessageBox>  
 
 #include "mainwindow.h"
 #include "label.h"
 #include "menu.h"
 
+#include "browsermainwindow.h"
+
 using namespace std;
+
+QWidget *my_application_browser_widget = nullptr;
+extern BrowserMainWindow * my_browser_window;
 
 MyLabel::MyLabel(QWidget *parent, QString txt)
     : QLabel(parent)
@@ -23,6 +29,12 @@ MyWidget::MyWidget(QWidget *parent)
     : QWidget(parent)
 {
 }
+
+/*
+MyWidget::MyWidget(QWidget *parent, QString &name)
+    : QWidget(parent)  {
+    setObjectName(name);
+}*/
 
 void MyLabel::mousePressEvent (QMouseEvent *evt) { }
 void MyWidget::mouseReleaseEvent(QMouseEvent *evt)
@@ -116,8 +128,15 @@ void MyWidget::mouseReleaseEvent(QMouseEvent *evt)
     }   }
 }
 
+void MyWidget::enterEvent(QEvent *evt) { setStyleSheet("border: 5px solid black;"); }
+void MyWidget::leaveEvent(QEvent *evt) { setStyleSheet("border: 1px solid black;"); }
+
 void MyWidget::newPCSession(int m)
 {
+    if (my_browser_window != nullptr)
+    my_browser_window->show();
+    else qApp->exec();
+    
     if ((m == 1) && (newSessionPC == 1)) {
     }
 }

@@ -1,6 +1,5 @@
 #------------------------------------------------------------------------
-# dBase-Project 1.0
-# RDP - Rapid Database Programming
+# DVE Internet Cafe Project 1.0
 #
 # (c) 2015-2017 Jens Kallup
 #------------------------------------------------------------------------
@@ -8,8 +7,11 @@ TEMPLATE = app
 TARGET   = server
 CONFIG  += release
 
-QT += core gui widgets sql help network printsupport webengine webview \
-      qml quick
+QT += core gui widgets sql help network printsupport \
+      qml quick webenginewidgets
+
+qtHaveModule(uitools):!embedded: QT += uitools
+else: DEFINES += QT_NO_UITOOLS
 
 PWD=$$system(pwd)
 
@@ -81,6 +83,30 @@ SOURCES += \
     $${SRCDIR}/cafemessage.cc \
     $${SRCDIR}/rmiserver.cc
 
+SOURCES += \
+    $${SRCDIR}/autosaver.cc \
+    $${SRCDIR}/bookmarks.cc \
+    $${SRCDIR}/browserapplication.cc \
+    $${SRCDIR}/browsermainwindow.cc \
+    $${SRCDIR}/chasewidget.cc \
+    $${SRCDIR}/downloadmanager.cc \
+    $${SRCDIR}/edittableview.cc \
+    $${SRCDIR}/edittreeview.cc \
+    $${SRCDIR}/featurepermissionbar.cc\
+    $${SRCDIR}/fullscreennotification.cc \
+    $${SRCDIR}/history.cc \
+    $${SRCDIR}/modelmenu.cc \
+    $${SRCDIR}/printtopdfdialog.cc \
+    $${SRCDIR}/savepagedialog.cc \
+    $${SRCDIR}/searchlineedit.cc \
+    $${SRCDIR}/settings.cc \
+    $${SRCDIR}/squeezelabel.cc \
+    $${SRCDIR}/tabwidget.cc \
+    $${SRCDIR}/toolbarsearch.cc \
+    $${SRCDIR}/urllineedit.cc \
+    $${SRCDIR}/webview.cc \
+    $${SRCDIR}/xbel.cc
+    
 HEADERS += \
     $${SRCDIR}/mainwindow.h \
     $${SRCDIR}/menu.h \
@@ -90,6 +116,47 @@ HEADERS += \
     $${SRCDIR}/utils.h \
     $${SRCDIR}/cafemessage.h \
     $${SRCDIR}/rmiserver.h
+
+
+HEADERS += \
+    $${SRCDIR}/autosaver.h \
+    $${SRCDIR}/bookmarks.h \
+    $${SRCDIR}/browserapplication.h \
+    $${SRCDIR}/browsermainwindow.h \
+    $${SRCDIR}/chasewidget.h \
+    $${SRCDIR}/downloadmanager.h \
+    $${SRCDIR}/edittableview.h \
+    $${SRCDIR}/edittreeview.h \
+    $${SRCDIR}/featurepermissionbar.h\
+    $${SRCDIR}/fullscreennotification.h \
+    $${SRCDIR}/history.h \
+    $${SRCDIR}/modelmenu.h \
+    $${SRCDIR}/printtopdfdialog.h \
+    $${SRCDIR}/savepagedialog.h \
+    $${SRCDIR}/searchlineedit.h \
+    $${SRCDIR}/settings.h \
+    $${SRCDIR}/squeezelabel.h \
+    $${SRCDIR}/tabwidget.h \
+    $${SRCDIR}/toolbarsearch.h \
+    $${SRCDIR}/urllineedit.h \
+    $${SRCDIR}/webview.h \
+    $${SRCDIR}/xbel.h
+    
+FORMS += \
+    $${SRCDIR}/addbookmarkdialog.ui \
+    $${SRCDIR}/bookmarks.ui \
+    $${SRCDIR}/cookies.ui \
+    $${SRCDIR}/cookiesexceptions.ui \
+    $${SRCDIR}/downloaditem.ui \
+    $${SRCDIR}/downloads.ui \
+    $${SRCDIR}/history.ui \
+    $${SRCDIR}/passworddialog.ui \
+    $${SRCDIR}/printtopdfdialog.ui \
+    $${SRCDIR}/proxy.ui \
+    $${SRCDIR}/savepagedialog.ui \
+    $${SRCDIR}/settings.ui
+
+RESOURCES += src/data.qrc src/htmls.qrc
 
 DISTFILES += \
     $${TOPDIR}/app.ini
